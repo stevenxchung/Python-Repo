@@ -36,10 +36,10 @@ def fix_machine(debris, product):
 
 
 ### TEST CASES ###
-print "Test case 1: ", fix_machine('UdaciousUdacitee', 'Udacity') == "Give me something that's not useless next time."
-print "Test case 2: ", fix_machine('buy me dat Unicorn', 'Udacity') == 'Udacity'
-print "Test case 3: ", fix_machine('AEIOU and sometimes y... c', 'Udacity') == 'Udacity'
-print "Test case 4: ", fix_machine('wsx0-=mttrhix', 't-shirt') == 't-shirt'
+print("Test case 1: ", fix_machine('UdaciousUdacitee', 'Udacity') == "Give me something that's not useless next time.")
+print("Test case 2: ", fix_machine('buy me dat Unicorn', 'Udacity') == 'Udacity')
+print("Test case 3: ", fix_machine('AEIOU and sometimes y... c', 'Udacity') == 'Udacity')
+print("Test case 4: ", fix_machine('wsx0-=mttrhix', 't-shirt') == 't-shirt')
 
 
 
@@ -124,9 +124,9 @@ def test():
     for (args, answer) in test_cases:
         result = daysBetweenDates(*args)
         if result != answer:
-            print "Test with data:", args, "failed"
+            print("Test with data:", args, "failed")
         else:
-            print "Test case passed!"
+            print("Test case passed!")
 
 test()
 
@@ -174,11 +174,11 @@ test()
 
 def print_abacus(value):
     for i in range(0, 10):
-        print "|00000*****|"[: - (int(('0' * (10 - len(str(value))) + str(value))[i]) + 1)] \
-        + '   ' + "|00000*****|"[ - (int(('0' * (10 - len(str(value))) + str(value))[i]) + 1):]
+        print("|00000*****|"[: - (int(('0' * (10 - len(str(value))) + str(value))[i]) + 1)] \
+        + '   ' + "|00000*****|"[ - (int(('0' * (10 - len(str(value))) + str(value))[i]) + 1):])
 
 ###  TEST CASES
-print "Abacus showing 0:"
+print("Abacus showing 0:")
 print_abacus(0)
 #>>>|00000*****   |
 #>>>|00000*****   |
@@ -190,7 +190,7 @@ print_abacus(0)
 #>>>|00000*****   |
 #>>>|00000*****   |
 #>>>|00000*****   |
-print "Abacus showing 12345678:"
+print("Abacus showing 12345678:")
 print_abacus(12345678)
 #>>>|00000*****   |
 #>>>|00000*****   |
@@ -202,7 +202,7 @@ print_abacus(12345678)
 #>>>|0000   0*****|
 #>>>|000   00*****|
 #>>>|00   000*****|
-print "Abacus showing 1337:"
+print("Abacus showing 1337:")
 print_abacus(1337)
 #>>>|00000*****   |
 #>>>|00000*****   |
@@ -236,14 +236,14 @@ print_abacus(1337)
 
 def jungle_animal(animal, my_speed):
     if animal == 'zebra':
-        print "Try to ride a zebra!"
+        print("Try to ride a zebra!")
     elif animal == 'cheetah':
         if my_speed > 115:
-            print "Run!"
+            print("Run!")
         else:
-            print "Stay calm and wait!"
+            print("Stay calm and wait!")
     else:
-        print "Introduce yourself!"
+        print("Introduce yourself!")
 
 #jungle_animal('cheetah', 30)
 #>>> "Stay calm and wait!"
@@ -277,9 +277,9 @@ def is_leap_baby(day,month,year):
 
 def output(status,name):
     if status:
-        print "%s is one of an extremely rare species. He is a leap year baby!" % name
+        print("%s is one of an extremely rare species. He is a leap year baby!" % name)
     else:
-        print "There's nothing special about %s's birthday. He is not a leap year baby!" % name
+        print("There's nothing special about %s's birthday. He is not a leap year baby!" % name)
 
 # Test Cases
 
