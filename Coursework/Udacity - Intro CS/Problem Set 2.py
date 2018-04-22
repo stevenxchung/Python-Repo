@@ -73,9 +73,9 @@ def median(a,b,c):
 
 def countdown(n):
     while n > 0:
-        print n
+        print(n)
         n=n-1
-    print "Blastoff!"
+    print(Blastoff!")
 
 countdown(3)
 #>>> 3

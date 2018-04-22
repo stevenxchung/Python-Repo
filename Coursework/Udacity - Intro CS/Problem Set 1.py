@@ -55,7 +55,7 @@ text = "first hoo"
 
 # ENTER CODE BELOW HERE
 
-print text.find("hoo")
+print(text.find("hoo"))
 
 
 
@@ -81,7 +81,7 @@ text = "all zip files are zipped"
 
 # ENTER CODE BELOW HERE
 
-print text.find('zip', text.find('zip') + 1)
+print(text.find('zip', text.find('zip') + 1))
 
 # IMPORTANT BEFORE SUBMITTING:
 # You should only have one print command in your function
@@ -118,4 +118,4 @@ x = 3.14159
 x = str(x + 0.5)
 y = x.find('.')
 z = x[:y]
-print z
+print(z)
