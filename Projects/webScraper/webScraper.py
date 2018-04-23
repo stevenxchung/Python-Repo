@@ -1,34 +1,45 @@
 # Import libraries
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
-# To export file as csv and record date
-import csv
-from datetime import datetime
+import bs4
+from urllib.request import urlopen as uReq
+from bs4 import BeautifulSoup as soup
 
-wait = input("This application will find the stock name, price, and time from the \nspecified quote page and write that information into a csv file. \n\nPress any key to continue")
+my_url = "https://www.newegg.com/Video-Cards-Video-Devices/Category/ID-38?Tpk=graphics%20card"
 
-# Specify the url
-quote_page = "https://www.bloomberg.com/quote/VOO:US"
+# Opens connections and grabs webpage
+uClient = uReq(my_url)
+page_html = uClient.read()
+uClient.close()
 
-# Query the website and return the html to the variable "page"
-page = urlopen(quote_page)
+# HTML parsing
+page_soup = soup(page_html, "html.parser")
 
-# Parse the html using BeautifulSoup and store in the variable "soup"
-soup = BeautifulSoup(page, "html.parser")
+# Grab each product
+containers = page_soup.findAll("div", {"class" : "item-container"})
 
-# Take out the <div> of the name and get it's value
-name_box = soup.find("h1", attrs={"class": "name"})
+# Write to file
+filename = "products.csv"
+f = open(filename, "w")
+headers = "Brand, Product Name, Shipping\n"
+f.write(headers)
 
-# Here strip() is used to remove starting and trailing
-name = name_box.text.strip()
-print(name)
+# Define first container
+container = containers[0]
 
-# Get the index price
-price_box = soup.find("div", attrs={"class": "price"})
-price = price_box.text
-print(price)
+for container in containers:
+  brand = container.div.div.a.img["title"]
 
-# Open a csv file with append, so old data will not be erased
-with open("index.csv", "w") as csv_file:
-  writer = csv.writer(csv_file)
-  writer.writerow([name, price, datetime.now()])
+  title_container = container.findAll("a", {"class" : "item-title"})
+  product_name = title_container[0].text
+
+  shipping_container = container.findAll("li", {"class" : "price-ship"})
+  shipping = shipping_container[0].text.strip()
+
+  print("Brand :" + brand)
+  print("Product Name: " + product_name)
+  print("Shipping: " + shipping)
+
+  f.write(brand + "," + product_name.replace(",", "|") + "," + shipping + "\n")
+
+f.close()
+
+wait = input("Press any key to continue")
