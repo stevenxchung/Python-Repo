@@ -19,52 +19,25 @@ containers = page_soup.findAll("div", {"class" : "s-item-container"})
 # Define first container
 container = containers[0]
 
-# Export file as html
-# filename = "test.html"
-# f = open(filename, "w")
-# f.write(str(container))
-# f.close()
-
-# DEBUG HERE
-
-# Look in the span
-# span_class = container.findAll("span", {"class" : "a-offscreen"})
-# Get the product price
-# if (span_class[0].text.find("$") != -1):
-#   product_price = span_class[0].text
-# else:
-#   product_price = span_class[1].text
-
-# print(len(containers))
-# print(container)
-# print(span_class)
-
-# # Write to file
-filename = "amazonHotSauces.csv"
-f = open(filename, "w")
-headers = "Product Name, Price, Reviews\n"
-f.write(headers)
-
-room = iter(containers)
-for container in room:
-
-  print("\n##########\n\nElements in container: " + str(len(container)))
-
-  ##### GET PRODUCT NAME #####
-
+# GET PRODUCT NAME
+def get_product_name(container):
   # Look in the image container
   image_container = container.findAll("img", {"class" : "s-access-image cfMarker"})
+
   # Opening quotations in alt=""
   indexFirstQ = str(image_container).find("alt") + 4
   firstChar = indexFirstQ + 1
   # Closing quotations in alt=""
   indexSecQ = str(image_container).find("\"", indexFirstQ + 1)
+
   # Get the product name
   product_name = str(image_container)[firstChar:indexSecQ]
+  print("Product Name: " + product_name)
 
-  ##### GET PRODUCT PRICE & PRODUCT REVIEWS #####
+  return product_name
 
-  # Look in the span containing the product price
+def get_price_and_reviews(container):
+    # Look in the span containing the product price
   span_class = container.findAll("span", {"class" : "a-offscreen"})
   print(span_class)
 
@@ -74,7 +47,7 @@ for container in room:
   print(reviews_a_tag)
 
   # If span_class is empty, skip a container
-  if not (span_class or reviews_a_tag):
+  if not (span_class and reviews_a_tag):
     next(room)
 
   # When span_class or reviews_a_tag is not empty
@@ -88,12 +61,31 @@ for container in room:
     # Get the number of product reviews
     product_reviews = reviews_a_tag[0].text.strip()
 
+    print("Price " + product_price)
+    print("Product Reviews: " + product_reviews)
 
-  print("Product Name: " + product_name)
-  print("Price " + product_price)
-  print("Product Reviews: " + product_reviews)
+  return product_price, product_reviews
 
-  f.write(product_name.replace(",", "-") + "," + product_price + "," + product_reviews + "\n")
+
+# # Write to file
+filename = "amazonHotSauces.csv"
+f = open(filename, "w")
+headers = "Product Name, Price, Reviews\n"
+f.write(headers)
+
+# Initialize iterator to use next()
+room = iter(containers)
+for container in room:
+
+  print("\n##########\n\nElements in container: " + str(len(container)))
+
+  # GET PRODUCT NAME
+  get_product_name(container)
+
+  ##### GET PRODUCT PRICE & PRODUCT REVIEWS #####
+  get_price_and_reviews(container)
+
+  #f.write(product_name.replace(",", "-") + "," + product_price + "," + product_reviews.replace(",", "") + "\n")
 
 f.close()
 
