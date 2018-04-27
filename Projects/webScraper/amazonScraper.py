@@ -62,17 +62,22 @@ for container in room:
   # Get the product name
   product_name = str(image_container)[firstChar:indexSecQ]
 
-  ##### GET PRODUCT PRICE #####
+  ##### GET PRODUCT PRICE & PRODUCT REVIEWS #####
 
-  # Look in the span
+  # Look in the span containing the product price
   span_class = container.findAll("span", {"class" : "a-offscreen"})
   print(span_class)
 
+  # Look in the a tag containing the number of reviews
+  reviews_a_tag = container.findAll("a", {"class" : "a-size-small a-link-normal a-text-normal"})
+  print("Elements in reviews tag: " + str(len(reviews_a_tag)))
+  print(reviews_a_tag)
+
   # If span_class is empty, skip a container
-  if not span_class:
+  if not (span_class or reviews_a_tag):
     next(room)
 
-  # When span_class is not empty
+  # When span_class or reviews_a_tag is not empty
   else:
     # Get the product price
     if (span_class[0].text.find("$") != -1):
@@ -80,19 +85,9 @@ for container in room:
     else:
       product_price = span_class[1].text
 
-  ##### GET PRODUCT REVIEWS #####
-
-  # Look in the a tag containing the number of reviews
-  reviews_a_tag = container.findAll("a", {"class" : "a-size-small a-link-normal a-text-normal"})
-  print("Elements in reviews tag: " + str(len(reviews_a_tag)))
-  print(reviews_a_tag)
-
-  if not reviews_a_tag:
-    next(room)
-
-  else:
     # Get the number of product reviews
     product_reviews = reviews_a_tag[0].text.strip()
+
 
   print("Product Name: " + product_name)
   print("Price " + product_price)
