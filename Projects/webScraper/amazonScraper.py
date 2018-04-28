@@ -72,14 +72,17 @@ def get_price_and_reviews(container):
 
   # When span_class or reviews_a_tag is not empty
   else:
-    # Get the product price
+    # Get the product price, select the correct index
     if (span_class[0].text.find("$") != -1):
       product_price = span_class[0].text
     else:
       product_price = span_class[1].text
 
-    # Get the number of product reviews
-    product_reviews = reviews_a_tag[0].text.strip()
+    # Get the number of product reviews, if promotion set to 0
+    if (reviews_a_tag[0].text.find("Save") != -1):
+      product_reviews = str(0)
+    else:
+      product_reviews = reviews_a_tag[0].text.strip()
 
     print("Price " + product_price)
     print("Product Reviews: " + product_reviews)
