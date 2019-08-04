@@ -22,7 +22,7 @@ node3.nextNode = node4  # node3 -> node4
 
 currentNode = node1
 while True:
-    print(currentNode.value, "->")
+    print(currentNode.value, "->", end=" ")
     if currentNode.nextNode is None:
         print("None")
         break
