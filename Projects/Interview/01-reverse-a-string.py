@@ -18,13 +18,25 @@ class Solution:
     #         newS = c + newS
     #     return newS
 
-    def reverseStringIterative(self, s):
-        newStr = ''
-        stack = list(s)
+    # def reverseStringIterative(self, s):
+    #     newStr = ''
+    #     stack = list(s)
+    #     while len(stack):
+    #         lastItem = stack.pop()
+    #         newStr += lastItem[-1]
+    #     return newStr
+
+    def reverseStringIterative(self, string):
+        answer = ''
+        stack = [string]
         while len(stack):
-            lastItem = stack.pop()
-            newStr += lastItem[-1]
-        return newStr
+            item = stack.pop()
+            answer += item[-1]
+
+            nextItem = item[:-1]
+            if len(nextItem):
+                stack.append(nextItem)
+        return answer
 
 
 input = 'Reverse'
