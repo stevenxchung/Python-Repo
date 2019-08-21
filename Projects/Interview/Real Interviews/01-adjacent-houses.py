@@ -1,6 +1,6 @@
 # Leet 957
 
-# If neighbors on both sides match then inactive(0)
+# If neighbors on both sides match then inactive (0)
 # Otherwise, active (1)
 # Assume neighbors on ends are inactive (0)
 
