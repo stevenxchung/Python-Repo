@@ -26,6 +26,19 @@ class LinkedList:
                 break
             # Traverse through linked list
             currentNode = currentNode.nextNode
+    # Merge two sorted lists together
+    def mergeTwoSorted(self, l1, l2):
+        currentNode = self.head
+        while l1.head and l2.head:
+            if l1.head.value <= l2.head.value:
+                self.addNode(l1.head.value)
+                l1.head = l1.head.nextNode
+            elif l2.head.value <= l1.head.value:
+                self.addNode(l2.head.value)
+                l2.head = l2.head.nextNode
+        # Need to account for the last node because either l1.head or l2.head is None at this point so while loop is broken
+        self.addNode(l1.head.value) if l1.head.value is not None else self.addNode(
+            l2.head.value)
 
     def printLinkedList(self):
         currentNode = self.head
@@ -48,6 +61,6 @@ l1.printLinkedList()
 l2.printLinkedList()
 
 # Solution
-# l3 = linkedList()
-# l3.mergeTwoSorted(l1, l2)
-# l3.printLinkedList()
+l3 = LinkedList()
+l3.mergeTwoSorted(l1, l2)
+l3.printLinkedList()
