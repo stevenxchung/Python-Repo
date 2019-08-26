@@ -27,15 +27,25 @@ class LRUCache:
 
     # Add to front
     def addNode(self, node):
+        node.prev, node.next = self.head, self.head.next
+        self.head.next.prev, self.head = node, node
 
     # Removes node from anywhere
     def removeNode(self, node):
+      prev, nextNode = node.prev, node.next
+      prev.next, nextNode.prev = nextNode, prev
 
     # Moves node to front
     def toFront(self, node):
+      self.removeNode(node)
+      self.addNode(node)
 
     # Removes last node
-    def removeLast(self, node):
+    def removeLast(self):
+      last = self.tail.prev
+      self.removeLast(last)
+      return last
+
 
     def get(self, key)
 
