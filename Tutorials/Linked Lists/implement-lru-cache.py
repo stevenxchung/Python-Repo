@@ -47,5 +47,29 @@ class LRUCache:
         return last
 
     def get(self, key):
+        node = self.cache.get(key)
+        if not node:
+            return -1
+        self.toFront(node)
+
+        return node.value
 
     def put(self, key, value):
+        node = self.cache.get(key)
+        if not node:
+            newNode = DLNode()
+            newNode.key = key
+            newNode.value = value
+            self.cache[key] = newNode
+            self.addNode(newNode)
+
+            self.size += 1
+
+            if self.size > self.capacity:
+                last = self.removeLast()
+                del self.cache[last.key]
+                self.size -= 1
+        else:
+            # Change value of existing node
+            node.value = value
+            self.toFront(node)
