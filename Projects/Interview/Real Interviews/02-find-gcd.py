@@ -6,9 +6,9 @@ class Solution:
         # Assume sorted
         gcd = arr[0]
         for i, num in enumerate(arr):
-          # If an element has remainder, return 1
-          if num % gcd != 0:
-            return 1
+            # If an element has remainder, return 1
+            if num % gcd != 0:
+                return 1
         # Otherwise, the first element is the GCD
         return gcd
 
