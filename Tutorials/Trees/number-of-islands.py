@@ -22,3 +22,17 @@ Input:
 
 Output: 3
 '''
+
+
+class Solution:
+    def countIslands(self, grid):
+
+
+input = [
+    [1, 0, 0, 0, 1],
+    [0, 1, 0, 1, 0],
+    [0, 0, 1, 0, 0],
+    [1, 1, 0, 1, 1],
+]
+sol = Solution()
+print(sol.countIslands(input))
