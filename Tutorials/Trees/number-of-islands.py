@@ -11,6 +11,7 @@ Input:
 00000
 
 Output: 1
+
 Example 2:
 
 Input:
