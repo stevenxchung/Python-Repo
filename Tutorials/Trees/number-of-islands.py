@@ -26,6 +26,29 @@ Output: 3
 
 class Solution:
     def countIslands(self, grid):
+        if len(grid) == 0:
+            return 0
+
+        islands = 0
+        for i in range(0, len(grid)):
+            for j in range(0, len(grid[i])):
+                if grid[i][j] == 1:
+                    # Run DFS and set all 1's adjacent to each other to 0
+                    # Then increment islands
+                    self.runDFS(grid, i, j)
+                    islands += 1
+
+        return islands
+
+    def runDFS(self, grid, i, j):
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]) or grid[i][j] != 1:
+            return
+
+        grid[i][j] = 0
+        self.runDFS(grid, i + 1, j)
+        self.runDFS(grid, i - 1, j)
+        self.runDFS(grid, i, j + 1)
+        self.runDFS(grid, i, j - 1)
 
 
 input = [
