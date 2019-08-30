@@ -20,6 +20,17 @@ class LinkedList:
             currentNode = currentNode.next
         currentNode.next = node
 
+    def reverse(self):
+        currentNode = self.head
+        prev = None
+        while currentNode:
+            temp = currentNode.next
+            currentNode.next = prev
+            prev = currentNode
+            currentNode = temp
+        self.head = prev
+        return prev
+
     def printLinkedList(self):
         currentNode = self.head
         while currentNode:
@@ -30,4 +41,6 @@ ll = LinkedList()
 ll.appendNode(1)
 ll.appendNode(2)
 ll.appendNode(3)
+print(ll.printLinkedList())
+ll.reverse()
 print(ll.printLinkedList())
