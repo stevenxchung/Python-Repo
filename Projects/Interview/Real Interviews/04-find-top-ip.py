@@ -5,6 +5,26 @@ Given a log with ip addresses and user info find the IP address(es) which access
 
 class Solution:
     def findMaxIPs(self, log):
+        ips = {}
+        maxAccesses = []
+        for line in log:
+            for i in range(0, len(line)):
+                # If there is whitespace we know we have found an IP
+                if line[i] == " ":
+                    # If key does not exist we need to check for that
+                    if line[0:i] not in ips:
+                        # First initial value
+                        ips[line[0:i]] = 1
+                    else:
+                        # IP is already there so add to dictionary
+                        ips[line[0:i]] += 1
+                    # Must break out of loop
+                    break
+
+        for ip in ips:
+            if ips[ip] == max(ips.values()):
+                maxAccesses.append(ip)
+        return maxAccesses
 
 
 samplelog = [
