@@ -9,8 +9,8 @@ Can you solve the problem recursively?
 class Solution:
     def __init__(self, colorStore):
         self.colorStore = {}
-        maxCount = 0
-        currentCount = 0
+        self.maxCount = 0
+        self.currentCount = 0
 
     def maxConnect(self, grid):
         currentColor = ''
@@ -22,11 +22,11 @@ class Solution:
                 if grid[i][j] != "#":
                     currentColor = grid[i][j]
                     self.runDFS(grid, i, j, currentColor)
-                    if currentCount > maxCount:
-                        maxCount = currentCount
+                    if self.currentCount > self.maxCount:
+                        self.maxCount = self.currentCount
 
     def runDFS(self, grid, i, j, currentColor):
-        currentCount = 0
+        self.currentCount = 0
 
         isOutOfBounds = (i < 0 or i >= len(
             grid) or j < 0 or j <= len(grid[i]))
@@ -38,7 +38,7 @@ class Solution:
             # else:
             #   self.colorStore[currentColor] += 1
 
-            currentCount += 1
+            self.currentCount += 1
 
             grid[i][j] = "#"
             runDFS(grid, i + 1, j, currentColor)
