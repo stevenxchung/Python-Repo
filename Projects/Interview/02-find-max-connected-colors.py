@@ -14,8 +14,10 @@ class Solution:
 
     def maxConnect(self, grid):
         currentColor = ''
+        #  Check for initial edge case
         if grid == []:
             return None
+
         for i in range(0, len(grid)):
             for j in range(0, len(grid[i])):
                 # If cell has not been visited
