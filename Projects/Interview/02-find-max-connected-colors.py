@@ -7,10 +7,8 @@ Can you solve the problem recursively?
 
 
 class Solution:
-    def __init__(self, colorStore):
+    def __init__(self):
         self.colorStore = {}
-        self.maxCount = 0
-        self.currentCount = 0
 
     def maxConnect(self, grid):
         currentColor = ''
@@ -22,29 +20,26 @@ class Solution:
                 if grid[i][j] != "#":
                     currentColor = grid[i][j]
                     self.runDFS(grid, i, j, currentColor)
-                    if self.currentCount > self.maxCount:
-                        self.maxCount = self.currentCount
+
+        return max(self.colorStore.values())
 
     def runDFS(self, grid, i, j, currentColor):
-        self.currentCount = 0
 
-        isOutOfBounds = (i < 0 or i >= len(
-            grid) or j < 0 or j <= len(grid[i]))
-        if isOutOfBounds or grid[i][j] != currentColor:
+        if i < 0 or i >= len(
+                grid) or j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
             return
 
-            # if currentColor in self.colorStore:
-            #   self.colorStore[currentColor] = 1
-            # else:
-            #   self.colorStore[currentColor] += 1
+        if currentColor not in self.colorStore:
+          self.colorStore[currentColor] = 1
+        else:
+          self.colorStore[currentColor] += 1
 
-            self.currentCount += 1
+        grid[i][j] = "#"
 
-            grid[i][j] = "#"
-            runDFS(grid, i + 1, j, currentColor)
-            runDFS(grid, i - 1, j, currentColor)
-            runDFS(grid, i, j + 1, currentColor)
-            runDFS(grid, i, j - 1, currentColor)
+        self.runDFS(grid, i + 1, j, currentColor)
+        self.runDFS(grid, i - 1, j, currentColor)
+        self.runDFS(grid, i, j + 1, currentColor)
+        self.runDFS(grid, i, j - 1, currentColor)
 
 
 inputGrid = [
@@ -53,4 +48,4 @@ inputGrid = [
     ['g', 'g', 'r']
 ]
 sol = Solution()
-# print(sol.maxConnect(inputGrid))
+print(sol.maxConnect(inputGrid))
