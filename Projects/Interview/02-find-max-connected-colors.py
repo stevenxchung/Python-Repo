@@ -9,6 +9,8 @@ Can you solve the problem recursively?
 class Solution:
     def __init__(self):
         self.colorStore = {}
+        # For comparing last max connected colors
+        self.maxStore = {}
 
     def maxConnect(self, grid):
         currentColor = ''
@@ -21,7 +23,16 @@ class Solution:
                     currentColor = grid[i][j]
                     self.runDFS(grid, i, j, currentColor)
 
-        return max(self.colorStore.values())
+                    if currentColor not in self.maxStore:
+                        self.maxStore[currentColor] = self.colorStore[currentColor]
+                    else:
+                        self.maxStore[currentColor] = max(
+                            self.maxStore[currentColor], self.colorStore[currentColor])
+
+                    self.colorStore = {}
+
+        # print(self.maxStore)
+        return max(self.maxStore.values())
 
     def runDFS(self, grid, i, j, currentColor):
 
@@ -30,9 +41,9 @@ class Solution:
             return
 
         if currentColor not in self.colorStore:
-          self.colorStore[currentColor] = 1
+            self.colorStore[currentColor] = 1
         else:
-          self.colorStore[currentColor] += 1
+            self.colorStore[currentColor] += 1
 
         grid[i][j] = "#"
 
@@ -43,9 +54,9 @@ class Solution:
 
 
 inputGrid = [
-    ['r', 'g', 'b'],
+    ['g', 'g', 'b'],
     ['r', 'r', 'r'],
-    ['g', 'g', 'r']
+    ['r', 'g', 'b']
 ]
 sol = Solution()
 print(sol.maxConnect(inputGrid))
