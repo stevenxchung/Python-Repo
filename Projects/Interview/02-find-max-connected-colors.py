@@ -20,6 +20,7 @@ class Solution:
             for j in range(0, len(grid[i])):
                 # If cell has not been visited
                 if grid[i][j] != "#":
+                    # Pass current color along to DFS
                     currentColor = grid[i][j]
                     self.runDFS(grid, i, j, currentColor)
 
@@ -29,6 +30,7 @@ class Solution:
                         self.maxStore[currentColor] = max(
                             self.maxStore[currentColor], self.colorStore[currentColor])
 
+                    # Reset color store for next round of connected colors
                     self.colorStore = {}
 
         # print(self.maxStore)
@@ -45,8 +47,10 @@ class Solution:
         else:
             self.colorStore[currentColor] += 1
 
+        # Mark cell as visited
         grid[i][j] = "#"
 
+        # Check adjacent colors
         self.runDFS(grid, i + 1, j, currentColor)
         self.runDFS(grid, i - 1, j, currentColor)
         self.runDFS(grid, i, j + 1, currentColor)
