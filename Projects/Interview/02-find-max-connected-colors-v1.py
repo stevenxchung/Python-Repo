@@ -12,20 +12,43 @@ class Solution:
         self.trueMax = 0
 
     def maxConnect(self, grid):
+        currentColor = ''
         #  Check for initial edge case
         if grid == [] or grid == None:
             return None
 
-    def runDFS(self, grid, i, j):
+        for i in range(0, len(grid)):
+            for j in range(0, len(grid[0])):
+                # Check if grid has been visited
+                if grid[i][j] != '#':
+                    currentColor = grid[i][j]
+                    self.runDFS(grid, i, j, currentColor)
 
-        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]) or grid[i][j] == '#':
+                self.trueMax = max(self.trueMax, self.currentMax)
+                self.currentMax = 0
+
+        return self.trueMax
+
+    def runDFS(self, grid, i, j, currentColor):
+
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
             return
+
+        # Increment max
+        self.currentMax += 1
+        # Mark cell as visited
+        grid[i][j] = '#'
+
+        self.runDFS(grid, i + 1, j, currentColor)
+        self.runDFS(grid, i - 1, j, currentColor)
+        self.runDFS(grid, i, j + 1, currentColor)
+        self.runDFS(grid, i, j - 1, currentColor)
 
 
 inputGrid = [
-    ['r', 'g', 'b'],
-    ['r', 'r', 'r'],
-    ['b', 'g', 'r']
+    ['g', 'g', 'b'],
+    ['r', 'g', 'r'],
+    ['b', 'g', 'g']
 ]
 sol = Solution()
 print(sol.maxConnect(inputGrid))
