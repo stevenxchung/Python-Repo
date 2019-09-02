@@ -15,7 +15,7 @@ class Solution:
     def maxConnect(self, grid):
         currentColor = ''
         #  Check for initial edge case
-        if grid == []:
+        if grid == [] or grid == None:
             return None
 
         for i in range(0, len(grid)):
