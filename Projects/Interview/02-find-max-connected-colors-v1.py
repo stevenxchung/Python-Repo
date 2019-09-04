@@ -45,15 +45,42 @@ class Solution:
         self.runDFS(grid, i, j - 1, currentColor)
 
     def recursiveDFS(self, grid, i, j, currentColor):
-        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
-            return
+        outOfBounds = (i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]))
 
-        # Increment max
-        self.currentMax += 1
-        # Mark cell as visited
-        grid[i][j] = '#'
+        while True:
+            if outOfBounds or grid[i][j] != currentColor:
+                return
 
-        
+            self.currentMax += 1
+            grid[i][j] = '#'
+
+            i += 1
+            while grid[i][j] == currentColor:
+                self.currentMax += 1
+                grid[i][j] = '#'
+                i += 1
+                if outOfBounds or grid[i][j] != currentColor:
+                    break
+            while grid[i][j] == currentColor:
+                self.currentMax += 1
+                grid[i][j] = '#'
+                i -= 1
+                if outOfBounds or grid[i][j] != currentColor:
+                    break
+            while grid[i][j] == currentColor:
+                self.currentMax += 1
+                grid[i][j] = '#'
+                j += 1
+                if outOfBounds or grid[i][j] != currentColor:
+                    break
+            while grid[i][j] == currentColor:
+                self.currentMax += 1
+                grid[i][j] = '#'
+                j -= 1
+                if outOfBounds or grid[i][j] != currentColor:
+                    break
+
+
 
 
 inputGrid = [
