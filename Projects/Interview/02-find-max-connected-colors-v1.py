@@ -22,7 +22,7 @@ class Solution:
                 # Check if grid has been visited
                 if grid[i][j] != '#':
                     currentColor = grid[i][j]
-                    self.runDFS(grid, i, j, currentColor)
+                    self.recursiveDFS(grid, i, j, currentColor)
 
                 self.trueMax = max(self.trueMax, self.currentMax)
                 self.currentMax = 0
@@ -46,41 +46,24 @@ class Solution:
 
     def recursiveDFS(self, grid, i, j, currentColor):
         outOfBounds = (i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]))
+        iStack = []
+        jStack = []
+        iStack.append(i)
+        jStack.append(j)
 
-        while True:
+        while len(iStack) > 0 and len(jStack) > 0:
             if outOfBounds or grid[i][j] != currentColor:
                 return
 
-            self.currentMax += 1
-            grid[i][j] = '#'
-
-            i += 1
-            while grid[i][j] == currentColor:
+            while True:
+                if outOfBounds or grid[i][j] != currentColor:
+                    iStack.pop()
+                    i = iStack.pop()
+                    break
                 self.currentMax += 1
                 grid[i][j] = '#'
                 i += 1
-                if outOfBounds or grid[i][j] != currentColor:
-                    break
-            while grid[i][j] == currentColor:
-                self.currentMax += 1
-                grid[i][j] = '#'
-                i -= 1
-                if outOfBounds or grid[i][j] != currentColor:
-                    break
-            while grid[i][j] == currentColor:
-                self.currentMax += 1
-                grid[i][j] = '#'
-                j += 1
-                if outOfBounds or grid[i][j] != currentColor:
-                    break
-            while grid[i][j] == currentColor:
-                self.currentMax += 1
-                grid[i][j] = '#'
-                j -= 1
-                if outOfBounds or grid[i][j] != currentColor:
-                    break
-
-
+                iStack.append(i)
 
 
 inputGrid = [
