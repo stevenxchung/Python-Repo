@@ -53,15 +53,21 @@ class Solution:
 
         while len(iStack) > 0 and len(jStack) > 0:
 
+            if outOfBounds or grid[i][j] != currentColor:
+                return
+
+            self.currentMax += 1
+            grid[i][j] = '#'
+
             while True:
+                i += 1
+                iStack.append(i)
                 if outOfBounds or grid[i][j] != currentColor:
                     iStack.pop()
                     i = iStack[len(iStack) - 1]
                     break
                 self.currentMax += 1
                 grid[i][j] = '#'
-                i += 1
-                iStack.append(i)
             while True:
                 i -= 1
                 iStack.append(i)
@@ -81,7 +87,7 @@ class Solution:
                 self.currentMax += 1
                 grid[i][j] = '#'
             while True:
-                j += 1
+                j -= 1
                 jStack.append(j)
                 if outOfBounds or grid[i][j] != currentColor:
                     jStack.pop()
@@ -89,8 +95,6 @@ class Solution:
                     break
                 self.currentMax += 1
                 grid[i][j] = '#'
-
-        return
 
 
 inputGrid = [
