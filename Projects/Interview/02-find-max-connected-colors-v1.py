@@ -44,6 +44,17 @@ class Solution:
         self.runDFS(grid, i, j + 1, currentColor)
         self.runDFS(grid, i, j - 1, currentColor)
 
+    def recursiveDFS(self, grid, i, j, currentColor):
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
+            return
+
+        # Increment max
+        self.currentMax += 1
+        # Mark cell as visited
+        grid[i][j] = '#'
+
+        
+
 
 inputGrid = [
     ['g', 'g', 'b'],
