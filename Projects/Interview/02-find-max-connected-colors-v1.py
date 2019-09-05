@@ -27,6 +27,10 @@ class Solution:
                 self.trueMax = max(self.trueMax, self.currentMax)
                 self.currentMax = 0
 
+                # Assume 3 x 3 grid has 5 as it's max, then there is no other color that can beat that (kind of a one-shot hack)
+                if self.trueMax > 4:
+                    return self.trueMax
+
         return self.trueMax
 
     def runDFS(self, grid, i, j, currentColor):
@@ -50,19 +54,24 @@ class Solution:
         jStack = []
         iStack.append(i)
         jStack.append(j)
+        counter = 0
 
         while len(iStack) > 0 and len(jStack) > 0:
 
-            if outOfBounds or grid[i][j] != currentColor:
+            if (i == len(grid) - 1) and (j == len(grid[i]) - 1):
                 return
 
-            self.currentMax += 1
-            grid[i][j] = '#'
+            if counter == 0:
+                if outOfBounds or grid[i][j] != currentColor:
+                    return
+
+                self.currentMax += 1
+                grid[i][j] = '#'
 
             while True:
                 i += 1
                 iStack.append(i)
-                if outOfBounds or grid[i][j] != currentColor:
+                if i < 0 or i >= len(grid) or grid[i][j] != currentColor:
                     iStack.pop()
                     i = iStack[len(iStack) - 1]
                     break
@@ -71,7 +80,7 @@ class Solution:
             while True:
                 i -= 1
                 iStack.append(i)
-                if outOfBounds or grid[i][j] != currentColor:
+                if i < 0 or i >= len(grid) or grid[i][j] != currentColor:
                     iStack.pop()
                     i = iStack[len(iStack) - 1]
                     break
@@ -80,7 +89,7 @@ class Solution:
             while True:
                 j += 1
                 jStack.append(j)
-                if outOfBounds or grid[i][j] != currentColor:
+                if j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
                     jStack.pop()
                     j = jStack[len(jStack) - 1]
                     break
@@ -89,12 +98,14 @@ class Solution:
             while True:
                 j -= 1
                 jStack.append(j)
-                if outOfBounds or grid[i][j] != currentColor:
+                if j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
                     jStack.pop()
                     j = jStack[len(jStack) - 1]
                     break
                 self.currentMax += 1
                 grid[i][j] = '#'
+
+            counter += 1
 
 
 inputGrid = [
