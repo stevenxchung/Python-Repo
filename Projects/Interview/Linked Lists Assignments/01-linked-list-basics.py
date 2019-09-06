@@ -28,6 +28,28 @@ class LinkedList:
             currentNode = currentNode.next
         currentNode.next = node
 
+    def removeElements(self, value):
+        # If head is null
+        if self.head == None:
+            return None
+
+        currentNode = self.head
+        while currentNode:
+            nextNode = currentNode.next
+            # Break if next node is None
+            if currentNode.next == None:
+                break
+            # If first node is value, point to none and adjust head
+            if currentNode.value == value:
+                currentNode.next = None
+                self.head = nextNode
+                currentNode = self.head
+            elif currentNode.next.value == value:
+                temp = currentNode.next.next
+                currentNode.next.next = None
+                currentNode.next = temp
+            currentNode = currentNode.next
+
     def reverse(self):
         currentNode = self.head
         prev = None
@@ -55,4 +77,6 @@ ll.appendNode(2)
 ll.appendNode(3)
 # print(ll.printLinkedList())
 ll.reverse()
+print(ll.printLinkedList())
+print(ll.removeElements(1))
 print(ll.printLinkedList())
