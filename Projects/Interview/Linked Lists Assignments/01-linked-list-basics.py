@@ -51,7 +51,6 @@ class LinkedList:
             currentNode = currentNode.next
 
     def oddEvenList(self):
-
         listOne = self.head
         listTwo = listOne.next
         listTwoHead = listTwo
