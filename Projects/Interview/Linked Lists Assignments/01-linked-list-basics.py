@@ -50,6 +50,19 @@ class LinkedList:
                 currentNode.next = temp
             currentNode = currentNode.next
 
+    def oddEvenList(self):
+
+        listOne = self.head
+        listTwo = listOne.next
+        listTwoHead = listTwo
+        while listOne and listTwo.next:
+            listOne.next = listOne.next.next
+            listTwo.next = listTwo.next.next
+            # Increment
+            listOne = listOne.next
+            listTwo = listTwo.next
+        listOne.next = listTwoHead
+
     def reverse(self):
         currentNode = self.head
         prev = None
@@ -72,11 +85,12 @@ ll = LinkedList()
 ll.appendNode(1)
 ll.appendNode(2)
 ll.appendNode(3)
-ll.appendNode(1)
-ll.appendNode(2)
-ll.appendNode(3)
+ll.appendNode(4)
+ll.appendNode(5)
+ll.appendNode(6)
 # print(ll.printLinkedList())
 ll.reverse()
 print(ll.printLinkedList())
-print(ll.removeElements(1))
+# print(ll.removeElements(1))
+print(ll.oddEvenList())
 print(ll.printLinkedList())
