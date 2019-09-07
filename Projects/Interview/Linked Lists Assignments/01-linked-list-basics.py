@@ -50,6 +50,20 @@ class LinkedList:
                 currentNode.next = temp
             currentNode = currentNode.next
 
+    def isPalindrome(self):
+        stack = []
+        currentNode = self.head
+        while currentNode:
+            stack.append(currentNode.value)
+            currentNode = currentNode.next
+
+        currentNode = self.head
+        while currentNode:
+            if currentNode.value != stack.pop():
+                return False
+            currentNode = currentNode.next
+        return True
+
     def oddEvenList(self):
         listOne = self.head
         listTwo = listOne.next
@@ -84,12 +98,12 @@ ll = LinkedList()
 ll.appendNode(1)
 ll.appendNode(2)
 ll.appendNode(3)
-ll.appendNode(4)
-ll.appendNode(5)
-ll.appendNode(6)
+ll.appendNode(3)
+ll.appendNode(2)
+ll.appendNode(1)
 # print(ll.printLinkedList())
 ll.reverse()
 print(ll.printLinkedList())
 # print(ll.removeElements(1))
-print(ll.oddEvenList())
-print(ll.printLinkedList())
+# print(ll.oddEvenList())
+print(ll.isPalindrome())
