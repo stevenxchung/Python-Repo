@@ -23,7 +23,7 @@ class LRUCache:
         self.capacity = capacity
         self.head, self.tail = DLNode(), DLNode()
 
-        self.head.next, self.next.tail = self.tail, self.head
+        self.head.next, self.tail.next = self.tail, self.head
 
     # Add to front
     def addNode(self, node):
