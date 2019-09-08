@@ -22,6 +22,7 @@ class DoublyLinkedList:
             if count == index:
                 return currentNode.value
             currentNode = currentNode.next
+            count += 1
         return -1
 
     def addAtHead(self, value):
