@@ -35,6 +35,21 @@ class DoublyLinkedList:
             self.tail = currentNode
             currentNode = currentNode.next
 
+    def addAtTail(self, value):
+        node = DLNode(value)
+        if self.head == None:
+            self.head = DLNode(value)
+            return
+
+        currentNode = self.head
+        while currentNode:
+            if currentNode.next == None:
+                currentNode.next = node
+                node.prev = currentNode
+                self.tail = node
+                currentNode = currentNode.next
+            currentNode = currentNode.next
+
     def printLinkedListFromHead(self):
         currentNode = self.head
         while currentNode:
@@ -54,5 +69,9 @@ dll = DoublyLinkedList()
 dll.addAtHead(3)
 dll.addAtHead(2)
 dll.addAtHead(1)
+# dll.printLinkedListFromTail()
+dll.addAtTail(5)
+dll.addAtTail(6)
+dll.addAtTail(7)
 dll.printLinkedListFromHead()
-dll.printLinkedListFromTail()
+# print(dll.get(3))
