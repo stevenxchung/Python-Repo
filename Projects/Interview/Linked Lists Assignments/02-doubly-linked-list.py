@@ -29,6 +29,7 @@ class DoublyLinkedList:
         currentNode = self.head
         self.head = DLNode(value)
         self.head.next = currentNode
+        # Check edge case
         if currentNode != None:
             currentNode.prev = self.head
 
@@ -38,6 +39,7 @@ class DoublyLinkedList:
 
     def addAtTail(self, value):
         node = DLNode(value)
+        # Check edge case
         if self.head == None:
             self.head = DLNode(value)
             return
@@ -48,6 +50,7 @@ class DoublyLinkedList:
                 currentNode.next = node
                 node.prev = currentNode
                 self.tail = node
+                # Otherwise would continue in a loop
                 currentNode = currentNode.next
             currentNode = currentNode.next
 
