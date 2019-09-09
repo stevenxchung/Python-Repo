@@ -16,6 +16,7 @@ class DoublyLinkedList:
         self.tail = tail
 
     def linkedListSize(self):
+        # We can add a size property for each linked list and increase the size each time a node is added to the list or create a size function. In this case a size function is sufficient
         size = 0
         currentNode = self.head
         while currentNode:
