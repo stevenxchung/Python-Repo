@@ -15,6 +15,14 @@ class DoublyLinkedList:
         self.head = head
         self.tail = tail
 
+    def linkedListSize(self):
+        size = 0
+        currentNode = self.head
+        while currentNode:
+            size += 1
+            currentNode = currentNode.next
+        return size
+
     def get(self, index):
         count = 0
         currentNode = self.head
@@ -54,6 +62,30 @@ class DoublyLinkedList:
                 currentNode = currentNode.next
             currentNode = currentNode.next
 
+    def addAtIndex(self, value, index):
+        size = self.linkedListSize()
+        count = 1
+        node = DLNode(value)
+
+        if index < 0 or index > size:
+            print('Index is out of bounds!')
+            return -1
+
+        if index == 0:
+            self.addAtHead(value)
+        elif index == size:
+            self.addAtTail(value)
+        else:
+            currentNode = self.head
+            while currentNode:
+                if count == index:
+                    temp = currentNode.next
+                    currentNode.next = node
+                    node.prev = currentNode
+                    node.next = temp
+                currentNode = currentNode.next
+                count += 1
+
     def printLinkedListFromHead(self):
         currentNode = self.head
         while currentNode:
@@ -77,5 +109,7 @@ dll.addAtHead(1)
 dll.addAtTail(5)
 dll.addAtTail(6)
 dll.addAtTail(7)
+dll.printLinkedListFromHead()
+dll.addAtIndex(9000, 0)
 dll.printLinkedListFromHead()
 # print(dll.get(3))
