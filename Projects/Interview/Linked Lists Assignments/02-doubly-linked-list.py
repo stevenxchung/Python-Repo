@@ -68,15 +68,18 @@ class DoublyLinkedList:
         count = 1
         node = DLNode(value)
 
+        # Check for edge cases
         if index < 0 or index > size:
             print('Index is out of bounds!')
             return -1
 
+        # We can utilize the addAtHead() or addAtTail() helper functions when index is at the edge
         if index == 0:
             self.addAtHead(value)
         elif index == size:
             self.addAtTail(value)
         else:
+            # OTherwise, we just add a new node at the index between the lower and upper size limits
             currentNode = self.head
             while currentNode:
                 if count == index:
