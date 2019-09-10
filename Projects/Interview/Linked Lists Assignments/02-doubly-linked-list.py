@@ -90,6 +90,41 @@ class DoublyLinkedList:
                 currentNode = currentNode.next
                 count += 1
 
+    def deleteAtIndex(self, index):
+        size = self.linkedListSize()
+        count = 0
+        currentNode = self.head
+
+        if index < 0 or index > size:
+            print('Index is out of bounds!')
+            return -1
+
+        if index == 0:
+            temp = currentNode.next
+            currentNode.next = None
+            temp.prev = None
+            self.head = temp
+        elif index == size - 1:
+            while currentNode:
+                if count == index:
+                    temp = currentNode.prev
+                    currentNode.prev = None
+                    temp.next = None
+                    self.tail = temp
+                currentNode = currentNode.next
+                count += 1
+        else:
+            while currentNode:
+                if count == index:
+                    right = currentNode.next
+                    left = currentNode.prev
+                    currentNode.next = None
+                    currentNode.prev = None
+                    right.prev = left
+                    left.next = right
+                currentNode = currentNode.next
+                count += 1
+
     def printLinkedListFromHead(self):
         currentNode = self.head
         while currentNode:
@@ -114,10 +149,15 @@ dll.addAtTail(5)
 dll.addAtTail(6)
 dll.addAtTail(7)
 dll.printLinkedListFromHead()
-dll.addAtIndex(9000, 0)
+dll.addAtIndex(10, 0)
 dll.printLinkedListFromHead()
-dll.addAtIndex(9000, 1)
+dll.addAtIndex(100, 1)
 dll.printLinkedListFromHead()
-dll.addAtIndex(9000, 2)
+dll.addAtIndex(1000, 2)
 dll.printLinkedListFromHead()
+dll.deleteAtIndex(0)
+dll.deleteAtIndex(0)
+dll.deleteAtIndex(0)
+dll.printLinkedListFromHead()
+print('head:', dll.head.value, 'tail:', dll.tail.value)
 # print(dll.get(3))
