@@ -92,13 +92,16 @@ class DoublyLinkedList:
 
     def deleteAtIndex(self, index):
         size = self.linkedListSize()
+        # A little different than addAtIndex(), we are deleting so count should start at 0
         count = 0
         currentNode = self.head
 
+        # Check for edge cases
         if index < 0 or index > size:
             print('Index is out of bounds!')
             return -1
 
+        # We have no helper functions as addAtIndex() but it's ok we can make our own sub-routines
         if index == 0:
             temp = currentNode.next
             currentNode.next = None
@@ -114,6 +117,7 @@ class DoublyLinkedList:
                 currentNode = currentNode.next
                 count += 1
         else:
+            # Otherwise, if input index is not at the head or tail then search for index and delete element
             while currentNode:
                 if count == index:
                     right = currentNode.next
