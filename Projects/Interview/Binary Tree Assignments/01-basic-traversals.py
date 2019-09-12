@@ -15,6 +15,40 @@ class Node(object):
         self.left = left
         self.right = right
 
+    def dfs(self, traversalType):
+        print('DFS Recursive ', end='')
+        if traversalType == 'preorder':
+            print('Preorder: ', end='')
+            self._dfsHelperPreorder(self)
+        elif traversalType == 'inorder':
+            print('Inorder: ', end='')
+            self._dfsHelperInorder(self)
+        else:
+            print('Postorder: ', end='')
+            self._dfsHelperPostorder(self)
+        print()
+
+    def _dfsHelperPreorder(self, node):
+        print(node.data, end=' ')
+        if node.left != None:
+            self._dfsHelperPreorder(node.left)
+        elif node.right != None:
+            self._dfsHelperPreorder(node.right)
+
+    def _dfsHelperInorder(self, node):
+        if node.left != None:
+            self._dfsHelperInorder(node.left)
+        print(node.data, end=' ')
+        if node.right != None:
+            self._dfsHelperInorder(node.right)
+
+    def _dfsHelperPostorder(self, node):
+        if node.left != None:
+            self._dfsHelperPostorder(node.left)
+        elif node.right != None:
+            self._dfsHelperPostorder(node.right)
+        print(node.data, end=' ')
+
 
 # Initialize nodes
 node1 = Node(1)
