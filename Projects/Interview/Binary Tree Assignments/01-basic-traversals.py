@@ -32,6 +32,7 @@ class Node(object):
         stack = []
         stack.append(self)
         print('DFS Iterative Preorder: ', end='')
+        # Go through entire object and print tree for nodes that exist by first checking left then right
         while len(stack) > 0:
             node = stack.pop()
             print(node.data, end=' ')
@@ -47,6 +48,7 @@ class Node(object):
         # For debugging stack
         valueStack = []
         print('DFS Iterative Inorder: ', end='')
+        # A little tricky but will always look for left nodes first before the right and will pop them off the stack before the right nodes
         while True:
             if node != None:
                 stack.append(node)
@@ -67,6 +69,7 @@ class Node(object):
         # For debugging stack
         valueStack = []
         print('DFS Iterative Inorder: ', end='')
+        # Will traverse the entire tree then start from the node at the top of the stack and print nodes until stack is empty
         while True:
             if node != None:
                 stack.append(node)
