@@ -44,13 +44,17 @@ class Node(object):
     def iterativeInorder(self):
         node = self
         stack = []
+        # For debugging stack
+        valueStack = []
         print('DFS Iterative Inorder: ', end='')
         while True:
             if node != None:
                 stack.append(node)
+                valueStack.append(node.data)
                 node = node.left
             elif stack:
                 node = stack.pop()
+                valueStack.pop()
                 print(node.data, end=' ')
                 node = node.right
             else:
@@ -60,6 +64,7 @@ class Node(object):
     def iterativePostorder(self):
         node = self
         stack = []
+        # For debugging stack
         valueStack = []
         print('DFS Iterative Inorder: ', end='')
         while True:
