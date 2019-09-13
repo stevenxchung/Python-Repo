@@ -41,6 +41,22 @@ class Node(object):
                 stack.append(node.right)
         print()
 
+    def iterativeInorder(self):
+        node = self
+        stack = []
+        print('DFS Iterative Inorder: ', end='')
+        while True:
+            if node != None:
+                stack.append(node)
+                node = node.left
+            elif stack:
+                node = stack.pop()
+                print(node.data, end=' ')
+                node = node.right
+            else:
+                break
+        print()
+
     def _dfsHelperPreorder(self, node):
         print(node.data, end=' ')
         if node.left != None:
