@@ -77,19 +77,25 @@ class Node(object):
         print('DFS Iterative Postorder: ', end='')
         # Will traverse the entire tree then start from the node at the top of the stack and print nodes until stack is empty
         while True:
-            if node != None:
+            while node:
+                if node.right != None:
+                    stack.append(node.right)
+                    valueStack.append(node.right.data)
                 stack.append(node)
                 valueStack.append(node.data)
-                if node.right != None:
-                    node = node.right
-                else:
-                    node = node.left
-            elif stack:
-                node = stack.pop()
+                node = node.left
+            node = stack.pop()
+            valueStack.pop()
+            if node.right != None and self._peekStack(stack) == node.right:
+                stack.pop()
                 valueStack.pop()
+                stack.append(node)
+                valueStack.append(node.data)
+                node = node.right
+            else:
                 print(node.data, end=' ')
                 node = None
-            else:
+            if len(stack) <= 0:
                 break
         print()
 
@@ -97,6 +103,11 @@ class Node(object):
         print('----- Binary Level Order Called! -----')
         print('----- Using Preorder DFS -----')
         self.iterativePreorder()
+
+    def _peekStack(self, stack):
+        if stack:
+            return stack[-1]
+        return None
 
     def _dfsHelperPreorder(self, node):
         print(node.data, end=' ')
@@ -133,7 +144,7 @@ node3.right = node5
 # node1.dfs('preorder')
 # node1.dfs('inorder')
 # node1.dfs('postorder')
-node1.iterativePreorder() # 1, 2, 3, 4, 5
-node1.iterativeInorder() # 2, 1, 4, 3, 5
-node1.iterativePostorder() # 2, 4, 5, 3, 1
-node1.binaryLevelOrder() # 1, 2, 3, 4, 5
+node1.iterativePreorder()  # 1, 2, 3, 4, 5
+node1.iterativeInorder()  # 2, 1, 4, 3, 5
+node1.iterativePostorder()  # 2, 4, 5, 3, 1
+node1.binaryLevelOrder()  # 1, 2, 3, 4, 5
