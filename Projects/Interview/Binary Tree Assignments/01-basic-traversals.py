@@ -68,7 +68,7 @@ class Node(object):
         stack = []
         # For debugging stack
         valueStack = []
-        print('DFS Iterative Inorder: ', end='')
+        print('DFS Iterative Postorder: ', end='')
         # Will traverse the entire tree then start from the node at the top of the stack and print nodes until stack is empty
         while True:
             if node != None:
@@ -83,6 +83,25 @@ class Node(object):
                 valueStack.pop()
                 print(node.data, end=' ')
                 node = None
+            else:
+                break
+        print()
+
+    def binaryLevelOrder(self):
+        node = self
+        stack = []
+        valueStack = []
+        print('Binary Level Order: ', end='')
+        while True:
+            if node != None:
+                stack.append(node)
+                valueStack.append(node.data)
+                node = node.left
+            elif stack:
+                node = stack.pop(0)
+                valueStack.pop(0)
+                print(node.data, end=' ')
+                node = node.right
             else:
                 break
         print()
@@ -113,11 +132,16 @@ class Node(object):
 node1 = Node(1)
 node2 = Node(2)
 node3 = Node(3)
-node1.right = node2
-node2.left = node3
+node4 = Node(4)
+node5 = Node(5)
+node1.left = node2
+node1.right = node3
+node3.left = node4
+node3.right = node5
 # node1.dfs('preorder')
 # node1.dfs('inorder')
 # node1.dfs('postorder')
-node1.iterativePreorder()
-node1.iterativeInorder()
-node1.iterativePostorder()
+node1.iterativePreorder() # 1, 2, 3, 4, 5
+node1.iterativeInorder() # 2, 1, 4, 3, 5
+node1.iterativePostorder() # 2, 4, 5, 3, 1
+node1.binaryLevelOrder() # 1, 2, 3, 4, 5
