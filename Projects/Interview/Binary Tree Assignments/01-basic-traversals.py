@@ -29,17 +29,23 @@ class Node(object):
         print()
 
     def iterativePreorder(self):
+        node = self
         stack = []
-        stack.append(self)
+        valueStack = []
         print('DFS Iterative Preorder: ', end='')
         # Go through entire object and print tree for nodes that exist by first checking left then right
-        while len(stack) > 0:
-            node = stack.pop()
-            print(node.data, end=' ')
-            if node.left != None:
-                stack.append(node.left)
-            elif node.right != None:
-                stack.append(node.right)
+        while True:
+            if node != None:
+                stack.append(node)
+                valueStack.append(node.data)
+                node = node.left
+            elif stack:
+                node = stack.pop(0)
+                valueStack.pop(0)
+                print(node.data, end=' ')
+                node = node.right
+            else:
+                break
         print()
 
     def iterativeInorder(self):
@@ -88,23 +94,7 @@ class Node(object):
         print()
 
     def binaryLevelOrder(self):
-        node = self
-        stack = []
-        valueStack = []
-        print('Binary Level Order: ', end='')
-        while True:
-            if node != None:
-                stack.append(node)
-                valueStack.append(node.data)
-                node = node.left
-            elif stack:
-                node = stack.pop(0)
-                valueStack.pop(0)
-                print(node.data, end=' ')
-                node = node.right
-            else:
-                break
-        print()
+        self.iterativePreorder()
 
     def _dfsHelperPreorder(self, node):
         print(node.data, end=' ')
