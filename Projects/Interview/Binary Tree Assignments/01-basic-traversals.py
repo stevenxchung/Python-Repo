@@ -94,6 +94,8 @@ class Node(object):
         print()
 
     def binaryLevelOrder(self):
+        print('----- Binary Level Order Called! -----')
+        print('----- Using Preorder DFS -----')
         self.iterativePreorder()
 
     def _dfsHelperPreorder(self, node):
