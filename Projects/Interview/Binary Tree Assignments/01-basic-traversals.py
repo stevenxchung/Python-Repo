@@ -77,6 +77,7 @@ class Node(object):
         print('DFS Iterative Postorder: ', end='')
         # Will traverse the entire tree then start from the node at the top of the stack and print nodes until stack is empty
         while True:
+            # Check for right nodes until node is null
             while node:
                 if node.right != None:
                     stack.append(node.right)
@@ -86,6 +87,7 @@ class Node(object):
                 node = node.left
             node = stack.pop()
             valueStack.pop()
+            # If right node is not null and the top of the stack matches, pop the top stack and append current node
             if node.right != None and self._peekStack(stack) == node.right:
                 stack.pop()
                 valueStack.pop()
@@ -93,6 +95,7 @@ class Node(object):
                 valueStack.append(node.data)
                 node = node.right
             else:
+                # Otherwise, print current node and set node to null
                 print(node.data, end=' ')
                 node = None
             if len(stack) <= 0:
