@@ -35,7 +35,7 @@ class Node(object):
         print('DFS Iterative Preorder: ', end='')
         # Go through entire object and print tree for nodes that exist by first checking left then right
         while True:
-            if node != None:
+            if node:
                 stack.append(node)
                 valueStack.append(node.data)
                 node = node.left
@@ -56,7 +56,7 @@ class Node(object):
         print('DFS Iterative Inorder: ', end='')
         # A little tricky but will always look for left nodes first before the right and will pop them off the stack before the right nodes
         while True:
-            if node != None:
+            if node:
                 stack.append(node)
                 valueStack.append(node.data)
                 node = node.left
@@ -79,7 +79,7 @@ class Node(object):
         while True:
             # Check for right nodes until node is null
             while node:
-                if node.right != None:
+                if node.right:
                     stack.append(node.right)
                     valueStack.append(node.right.data)
                 stack.append(node)
@@ -88,7 +88,7 @@ class Node(object):
             node = stack.pop()
             valueStack.pop()
             # If right node is not null and the top of the stack matches, pop the top stack and append current node
-            if node.right != None and self._peekStack(stack) == node.right:
+            if node.right and self._peekStack(stack) == node.right:
                 stack.pop()
                 valueStack.pop()
                 stack.append(node)
@@ -114,22 +114,22 @@ class Node(object):
 
     def _dfsHelperPreorder(self, node):
         print(node.data, end=' ')
-        if node.left != None:
+        if node.left:
             self._dfsHelperPreorder(node.left)
-        elif node.right != None:
+        elif node.right:
             self._dfsHelperPreorder(node.right)
 
     def _dfsHelperInorder(self, node):
-        if node.left != None:
+        if node.left:
             self._dfsHelperInorder(node.left)
         print(node.data, end=' ')
-        if node.right != None:
+        if node.right:
             self._dfsHelperInorder(node.right)
 
     def _dfsHelperPostorder(self, node):
-        if node.left != None:
+        if node.left:
             self._dfsHelperPostorder(node.left)
-        elif node.right != None:
+        elif node.right:
             self._dfsHelperPostorder(node.right)
         print(node.data, end=' ')
 
