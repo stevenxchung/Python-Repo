@@ -105,6 +105,7 @@ class Node(object):
     def binaryLevelOrder(self):
         print('----- Binary Level Order Called! -----')
         print('----- Using Preorder DFS -----')
+        # Since binary level order is the same as preorder DFS
         self.iterativePreorder()
 
     def _peekStack(self, stack):
