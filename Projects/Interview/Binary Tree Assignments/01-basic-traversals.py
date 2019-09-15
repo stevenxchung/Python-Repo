@@ -113,25 +113,22 @@ class Node(object):
         return None
 
     def _dfsHelperPreorder(self, node):
-        print(node.data, end=' ')
-        if node.left:
+        if node:
+            print(node.data, end=' ')
             self._dfsHelperPreorder(node.left)
-        elif node.right:
             self._dfsHelperPreorder(node.right)
 
     def _dfsHelperInorder(self, node):
-        if node.left:
+        if node:
             self._dfsHelperInorder(node.left)
-        print(node.data, end=' ')
-        if node.right:
+            print(node.data, end=' ')
             self._dfsHelperInorder(node.right)
 
     def _dfsHelperPostorder(self, node):
-        if node.left:
+        if node:
             self._dfsHelperPostorder(node.left)
-        elif node.right:
             self._dfsHelperPostorder(node.right)
-        print(node.data, end=' ')
+            print(node.data, end=' ')
 
 
 # Initialize nodes
@@ -144,9 +141,9 @@ node1.left = node2
 node1.right = node3
 node3.left = node4
 node3.right = node5
-# node1.dfs('preorder')
-# node1.dfs('inorder')
-# node1.dfs('postorder')
+node1.dfs('preorder')
+node1.dfs('inorder')
+node1.dfs('postorder')
 node1.iterativePreorder()  # 1, 2, 3, 4, 5
 node1.iterativeInorder()  # 2, 1, 4, 3, 5
 node1.iterativePostorder()  # 2, 4, 5, 3, 1
