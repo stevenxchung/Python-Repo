@@ -11,6 +11,21 @@ class Node(object):
         self.left = left
         self.right = right
 
+    def printTree(self):
+        node = self
+        stack = []
+        while True:
+            if node:
+                stack.append(node)
+                node = node.left
+            elif stack:
+                node = stack.pop(0)
+                print(node.data, end=' ')
+                node = node.right
+            else:
+                break
+        print()
+
 
 node1 = Node(1)
 node2 = Node(2)
@@ -21,3 +36,4 @@ node1.left = node2
 node2.right = node3
 node3.left = node4
 node3.right = node5
+node1.printTree()
