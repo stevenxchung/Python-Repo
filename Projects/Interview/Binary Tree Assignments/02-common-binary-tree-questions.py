@@ -11,9 +11,11 @@ class Node(object):
         self.left = left
         self.right = right
 
-    def printTree(self):
+    # Same as iterative preorder DFS
+    def printBinaryTree(self):
         node = self
         stack = []
+        print('Printing Binary Tree: ', end='')
         while True:
             if node:
                 stack.append(node)
@@ -36,4 +38,4 @@ node1.left = node2
 node2.right = node3
 node3.left = node4
 node3.right = node5
-node1.printTree()
+node1.printBinaryTree()
