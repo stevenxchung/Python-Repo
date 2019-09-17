@@ -11,20 +11,9 @@ class Node(object):
         self.left = left
         self.right = right
 
-    def maxDepth(self, node):
-        if not node:
-            return 0
-        else:
-            leftDepth = self.maxDepth(node.left)
-            rightDepth = self.maxDepth(node.right)
-
-            if leftDepth > rightDepth:
-                return leftDepth + 1
-            else:
-                return rightDepth + 1
-
     def printMaxDepth(self):
-        print('The maximum depth of given binary tree is:', self.maxDepth(self) - 1)
+        print('The maximum depth of given binary tree is:',
+              self._maxDepth(self) - 1)
 
     # Same as iterative preorder DFS
     def printBinaryTree(self):
@@ -42,6 +31,18 @@ class Node(object):
             else:
                 break
         print()
+
+    def _maxDepth(self, node):
+        if not node:
+            return 0
+        else:
+            leftDepth = self._maxDepth(node.left)
+            rightDepth = self._maxDepth(node.right)
+
+            if leftDepth > rightDepth:
+                return leftDepth + 1
+            else:
+                return rightDepth + 1
 
 
 node1 = Node(1)
