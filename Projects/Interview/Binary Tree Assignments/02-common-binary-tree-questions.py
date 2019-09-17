@@ -32,13 +32,16 @@ class Node(object):
                 break
         print()
 
+    # Helper function for finding max depth of tree
     def _maxDepth(self, node):
         if not node:
             return 0
         else:
+            # Max depth traverses tree recursively when node is not null
             leftDepth = self._maxDepth(node.left)
             rightDepth = self._maxDepth(node.right)
 
+            # Compare after left and right traversal
             if leftDepth > rightDepth:
                 return leftDepth + 1
             else:
