@@ -21,6 +21,18 @@ class Node(object):
         self._preorderDFS(self)
         print()
 
+    def isSymmetric(self):
+        print('Is this tree symmetric?', end=' ')
+        print(self is None or self._isMirror(self.left, self.right))
+
+    def _isMirror(self, left, right):
+        if left is None and right is None:
+            return True
+        elif left is not None and right is not None:
+            return left.data == right.data and self._isMirror(left.left, right.right) and self._isMirror(left.right, right.left)
+        else:
+            return False
+
     def _preorderDFS(self, node):
         if node:
             print(node.data, end=' ')
@@ -72,3 +84,4 @@ node1.left = leftTree
 node1.right = rightTree
 node1.printBinaryTree()
 node1.printMaxDepth()
+node1.isSymmetric()
