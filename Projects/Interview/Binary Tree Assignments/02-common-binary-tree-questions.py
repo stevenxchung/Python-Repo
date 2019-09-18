@@ -28,17 +28,20 @@ class Node(object):
 
     def _isMirrorIterative(self):
         node = self
-
         if node.left is None and node.right is None:
             return True
 
         queue = []
+
+        # We append two copies of node since we want to compare left and right
         queue.append(node)
         queue.append(node)
         left = 0
         right = 0
 
+        # Run until queue is empty
         while len(queue) > 0:
+            # Compare first two through each test
             left = queue[0]
             queue.pop(0)
             right = queue[0]
@@ -56,6 +59,7 @@ class Node(object):
                 queue.append(right.left)
             elif left.right or right.left:
                 return False
+                
         # Only when all tests have passed can a tree be symmetric
         return True
 
