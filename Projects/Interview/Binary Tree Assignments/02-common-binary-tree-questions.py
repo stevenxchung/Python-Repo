@@ -56,3 +56,19 @@ class Node(object):
 # node5.left = node6
 # node1.printBinaryTree()
 # node1.printMaxDepth()
+
+
+# Setup for symmetric tree problem
+node1 = Node(1)
+node3 = Node(3)
+node4 = Node(4)
+leftTree = Node(2)
+leftTree.left = node3
+leftTree.right = node4
+rightTree = Node(2)
+rightTree.left = node4
+rightTree.right = node3
+node1.left = leftTree
+node1.right = rightTree
+node1.printBinaryTree()
+node1.printMaxDepth()
