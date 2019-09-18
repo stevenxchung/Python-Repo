@@ -41,7 +41,7 @@ class Node(object):
 
         # Run until queue is empty
         while len(queue) > 0:
-            # Compare first two through each test
+            # Compare first two nodes in queue through each test
             left = queue[0]
             queue.pop(0)
             right = queue[0]
@@ -59,7 +59,7 @@ class Node(object):
                 queue.append(right.left)
             elif left.right or right.left:
                 return False
-                
+
         # Only when all tests have passed can a tree be symmetric
         return True
 
