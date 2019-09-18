@@ -23,7 +23,42 @@ class Node(object):
 
     def isSymmetric(self):
         print('Is this tree symmetric?', end=' ')
-        print(self is None or self._isMirror(self.left, self.right))
+        # print(self is None or self._isMirror(self.left, self.right))
+        print(self is None or self._isMirrorIterative())
+
+    def _isMirrorIterative(self):
+        node = self
+
+        if node.left is None and node.right is None:
+            return True
+
+        queue = []
+        queue.append(node)
+        queue.append(node)
+        left = 0
+        right = 0
+
+        while len(queue) > 0:
+            left = queue[0]
+            queue.pop(0)
+            right = queue[0]
+            queue.pop(0)
+
+            if left.data != right.data:
+                return False
+            if left.left and right.right:
+                queue.append(left.left)
+                queue.append(right.right)
+            elif left.left or right.right:
+                return False
+            if left.right and right.left:
+                queue.append(left.right)
+                queue.append(right.left)
+            elif left.right or right.left:
+                return False
+        # Only when all tests have passed can a tree be symmetric
+        return True
+
 
     def _isMirror(self, left, right):
         if left is None and right is None:
