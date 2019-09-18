@@ -15,22 +15,17 @@ class Node(object):
         print('The maximum depth of given binary tree is:',
               self._maxDepth(self) - 1)
 
-    # Same as iterative preorder DFS
+    # Preorder DFS
     def printBinaryTree(self):
-        node = self
-        stack = []
         print('Printing Binary Tree: ', end='')
-        while True:
-            if node:
-                stack.append(node)
-                node = node.left
-            elif stack:
-                node = stack.pop(0)
-                print(node.data, end=' ')
-                node = node.right
-            else:
-                break
+        self._preorderDFS(self)
         print()
+
+    def _preorderDFS(self, node):
+        if node:
+            print(node.data, end=' ')
+            self._preorderDFS(node.left)
+            self._preorderDFS(node.right)
 
     # Helper function for finding max depth of tree
     def _maxDepth(self, node):
@@ -47,17 +42,17 @@ class Node(object):
             else:
                 return rightDepth + 1
 
-
-node1 = Node(1)
-node2 = Node(2)
-node3 = Node(3)
-node4 = Node(4)
-node5 = Node(5)
-node6 = Node(6)
-node1.left = node2
-node2.right = node3
-node3.left = node4
-node3.right = node5
-node5.left = node6
-node1.printBinaryTree()
-node1.printMaxDepth()
+# Setup for maximum depth problem
+# node1 = Node(1)
+# node2 = Node(2)
+# node3 = Node(3)
+# node4 = Node(4)
+# node5 = Node(5)
+# node6 = Node(6)
+# node1.left = node2
+# node2.right = node3
+# node3.left = node4
+# node3.right = node5
+# node5.left = node6
+# node1.printBinaryTree()
+# node1.printMaxDepth()
