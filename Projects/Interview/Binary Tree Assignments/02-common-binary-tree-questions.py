@@ -63,7 +63,6 @@ class Node(object):
         # Only when all tests have passed can a tree be symmetric
         return True
 
-
     def _isMirror(self, left, right):
         if left is None and right is None:
             return True
