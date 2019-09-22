@@ -11,9 +11,15 @@ class Node(object):
         self.left = left
         self.right = right
 
+    # Depth of the tree is based on head node starting at 1 to the furthest leaf node
     def printMaxDepth(self):
         print('The maximum depth of given binary tree is:',
               self._maxDepth(self) - 1)
+
+    # Height of the tree is based on head node starting at 0 to the furthest leaf node
+    def printMaxHeight(self):
+        print('The maximum height of given binary tree is:',
+              self._maxDepth(self))
 
     # Preorder DFS
     def printBinaryTree(self):
@@ -122,4 +128,5 @@ node1.left = leftTree
 node1.right = rightTree
 node1.printBinaryTree()
 node1.printMaxDepth()
+node1.printMaxHeight()
 node1.isSymmetric()
