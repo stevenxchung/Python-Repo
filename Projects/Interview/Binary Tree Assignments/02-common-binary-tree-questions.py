@@ -13,11 +13,13 @@ class Node(object):
 
     # Depth of the tree is based on head node starting at 1 to the furthest leaf node
     def printMaxDepth(self):
+        # Since max depth has head node starting at 1, subtract 1
         print('The maximum depth of given binary tree is:',
               self._maxDepth(self) - 1)
 
     # Height of the tree is based on head node starting at 0 to the furthest leaf node
     def printMaxHeight(self):
+        # We can still use max depth formula to get max height
         print('The maximum height of given binary tree is:',
               self._maxDepth(self))
 
