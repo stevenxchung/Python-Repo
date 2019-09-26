@@ -4,7 +4,7 @@ class Node(object):
         self.left = left
         self.right = right
 
-    def printTreeBFS(self):
+    def printTreeBFSNoQueue(self):
         head = self
         level = [head]
         # visited = {}
