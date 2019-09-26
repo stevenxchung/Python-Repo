@@ -4,6 +4,23 @@ class Node(object):
         self.left = left
         self.right = right
 
+    def printTreeBFS(self):
+        head = self
+        level = [head]
+        # visited = {}
+        # visited[node] = True
+        print('BFS: ', end='')
+        while head and level:
+            nextLevel = []
+            for node in level:
+                print(node.data, end=' ')
+                if node.left:
+                    nextLevel.append(node.left)
+                if node.right:
+                    nextLevel.append(node.right)
+            level = nextLevel
+        print()
+
     # Using preorder DFS
     def printTreePreorder(self):
         node = self
@@ -51,3 +68,4 @@ node3 = Node(3, node6, node7)
 head = Node(1, node2, node3)
 head.printTreeInorder()  # 4, 2, 5, 1, 3, 6, 7
 head.printTreePreorder()  # 1, 2, 4, 5, 3, 6, 7
+head.printTreeBFS()  # 1, 2, 3, 4, 5, 6, 7
