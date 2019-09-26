@@ -4,6 +4,23 @@ class Node(object):
         self.left = left
         self.right = right
 
+    def printTreeBFS(self):
+        node = self
+        queue = []
+        queue.append(node)
+
+        print('BFS: ', end='')
+        while len(queue) > 0:
+            print(queue[0].data, end=' ')
+            node = queue.pop(0)
+
+            if node.left is not None:
+                queue.append(node.left)
+
+            if node.right is not None:
+                queue.append(node.right)
+        print()
+
     def printTreeBFSNoQueue(self):
         head = self
         level = [head]
