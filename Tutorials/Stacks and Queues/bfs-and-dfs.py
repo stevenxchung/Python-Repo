@@ -25,8 +25,6 @@ class Node(object):
     def printTreeBFSNoQueue(self):
         head = self
         level = [head]
-        # visited = {}
-        # visited[node] = True
         print('BFS: ', end='')
         while head and level:
             nextLevel = []
