@@ -21,6 +21,7 @@ class Node(object):
                 queue.append(node.right)
         print()
 
+    # Alternative BFS without a queue
     def printTreeBFSNoQueue(self):
         head = self
         level = [head]
