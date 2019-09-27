@@ -50,6 +50,7 @@ class Node(object):
                 print(node.data, end=' ')
                 node = node.left
             elif stack:
+                # We pick off the top of the stack to reset to previous node
                 node = stack.pop()
                 valueStack.pop()
                 node = node.right
