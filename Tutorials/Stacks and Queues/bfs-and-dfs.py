@@ -11,6 +11,7 @@ class Node(object):
 
         print('BFS: ', end='')
         while len(queue) > 0:
+            # Since we are using a queue pop off the first element in the queue and set to node
             print(queue[0].data, end=' ')
             node = queue.pop(0)
 
