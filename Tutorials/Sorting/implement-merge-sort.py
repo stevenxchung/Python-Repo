@@ -5,6 +5,7 @@ Given an array of random numbers use merge sort to sort array from least to grea
 
 class Solution:
     def mergeSort(self, arr):
+        print('Splitting', arr)
         if len(arr) > 1:
             mid = len(arr) // 2
             L = arr[:mid]
@@ -35,9 +36,10 @@ class Solution:
                 k += 1
 
         print('Merging:', arr)
+        return arr
 
 
 # Test merge sort
 test = [5, 9, 0, 7, 3]
 sol = Solution()
-sol.mergeSort(test)
+print('Final:', sol.mergeSort(test))
