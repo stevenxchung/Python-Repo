@@ -14,8 +14,10 @@ class Solution:
             self.mergeSort(L)
             self.mergeSort(R)
 
+            # Initialize indices
             i = j = k = 0
 
+            # Check left and right arrays
             while i < len(L) and j < len(R):
                 if L[i] < R[j]:
                     arr[k] = L[i]
@@ -25,6 +27,7 @@ class Solution:
                     j += 1
                 k += 1
 
+            # Check for leftover variables
             while i < len(L):
                 arr[k] = L[i]
                 i += 1
