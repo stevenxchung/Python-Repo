@@ -9,7 +9,7 @@ class Node:
         self.next = next
 
 
-class linkedList:
+class LinkedList:
     def __init__(self, head=None):
         self.head = head
 
@@ -32,11 +32,20 @@ class linkedList:
         print('None')
 
 
-ll = linkedList()
-ll.printLinkedList()
-ll.insert(5)
-ll.printLinkedList()
-ll.insert(10)
-ll.printLinkedList()
-ll.insert(15)
-ll.printLinkedList()
+# Build lists
+l1 = LinkedList()
+l2 = LinkedList()
+l1.insert(1)
+l1.insert(5)
+l1.insert(7)
+l2.insert(2)
+l2.insert(4)
+l2.insert(6)
+l1.printLinkedList()
+l2.printLinkedList()
+
+# Solution
+# l3 = LinkedList()
+# l3.mergeTwoSorted(l1, l2)
+# l3.printLinkedList()
+
