@@ -26,6 +26,7 @@ class LinkedList:
                 break
             # Traverse through linked list
             currentNode = currentNode.nextNode
+    
     # Merge two sorted lists together
     def mergeTwoSorted(self, l1, l2):
         currentNode = self.head
