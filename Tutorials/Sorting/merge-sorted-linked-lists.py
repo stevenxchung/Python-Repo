@@ -24,6 +24,22 @@ class LinkedList:
             current = current.next
         current.next = node
 
+    def mergeTwoSorted(self, ll1, ll2):
+        if ll1.head is None and ll2.head is None:
+            return
+        
+        current = self.head
+        while ll1.head and ll2.head:
+            if ll1.head.data <= ll2.head.data:
+                self.insert(ll1.head.data)
+                ll1.head = ll1.head.next
+            elif ll1.head.data >= ll2.head.data:
+                self.insert(ll2.head.data)
+                ll2.head = ll2.head.next
+
+        self.insert(ll1.head.data) if ll1.head.data is not None else self.insert(ll2.head.data)
+
+
     def printLinkedList(self):
         current = self.head
         while current:
@@ -45,7 +61,7 @@ l1.printLinkedList()
 l2.printLinkedList()
 
 # Solution
-# l3 = LinkedList()
-# l3.mergeTwoSorted(l1, l2)
-# l3.printLinkedList()
+l3 = LinkedList()
+l3.mergeTwoSorted(l1, l2)
+l3.printLinkedList()
 
