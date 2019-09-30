@@ -13,7 +13,14 @@ class LinkedList:
     def __init__(self, head=None):
         self.head = head
 
-    def insert(self, data):
+    # Adds to the beginning of the list
+    def unshift(self, data):
+        node = Node(data)
+        node.next = self.head
+        self.head = node
+
+    # Adds to the end of the list
+    def append(self, data):
         node = Node(data)
         if self.head is None:
             self.head = node
@@ -30,17 +37,17 @@ class LinkedList:
         if ll1.head is None and ll2.head is None:
             return
         
-        # Use the insert function to insert into new list
+        # Reuse append method
         current = self.head
         while ll1.head and ll2.head:
             if ll1.head.data <= ll2.head.data:
-                self.insert(ll1.head.data)
+                self.append(ll1.head.data)
                 ll1.head = ll1.head.next
             elif ll1.head.data >= ll2.head.data:
-                self.insert(ll2.head.data)
+                self.append(ll2.head.data)
                 ll2.head = ll2.head.next
 
-        self.insert(ll1.head.data) if ll1.head.data is not None else self.insert(ll2.head.data)
+        self.append(ll1.head.data) if ll1.head.data is not None else self.append(ll2.head.data)
 
 
     def printLinkedList(self):
@@ -54,20 +61,17 @@ class LinkedList:
 # Build lists
 l1 = LinkedList()
 l2 = LinkedList()
-l1.insert(1)
-l1.insert(5)
-l1.insert(7)
-l2.insert(2)
-l2.insert(4)
-l2.insert(6)
+l1.append(1)
+l1.append(5)
+l1.append(7)
+l2.append(2)
+l2.append(4)
+l2.append(6)
 l1.printLinkedList()
 l2.printLinkedList()
 
 # Solution
 l3 = LinkedList()
-l3.insert(8)
-l3.insert(9)
-l3.insert(10)
 l3.mergeTwoSorted(l1, l2)
 l3.printLinkedList()
 
