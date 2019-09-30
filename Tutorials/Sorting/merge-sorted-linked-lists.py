@@ -24,10 +24,13 @@ class LinkedList:
             current = current.next
         current.next = node
 
+    # Merge two list which are already sorted
     def mergeTwoSorted(self, ll1, ll2):
+        # Cover edge case
         if ll1.head is None and ll2.head is None:
             return
         
+        # Use the insert function to insert into new list
         current = self.head
         while ll1.head and ll2.head:
             if ll1.head.data <= ll2.head.data:
@@ -62,6 +65,9 @@ l2.printLinkedList()
 
 # Solution
 l3 = LinkedList()
+l3.insert(8)
+l3.insert(9)
+l3.insert(10)
 l3.mergeTwoSorted(l1, l2)
 l3.printLinkedList()
 
