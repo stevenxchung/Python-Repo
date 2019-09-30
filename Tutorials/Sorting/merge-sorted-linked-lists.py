@@ -36,7 +36,7 @@ class LinkedList:
         # Cover edge case
         if ll1.head is None and ll2.head is None:
             return
-        
+
         # Reuse append method
         current = self.head
         while ll1.head and ll2.head:
@@ -47,8 +47,18 @@ class LinkedList:
                 self.append(ll2.head.data)
                 ll2.head = ll2.head.next
 
-        self.append(ll1.head.data) if ll1.head.data is not None else self.append(ll2.head.data)
+        self.append(ll1.head.data) if ll1.head else self.append(
+            ll2.head.data)
 
+    def mergeKSorted(self, lists):
+        k = len(lists)
+        interval = 1
+        while k > interval:
+            for i in range(0, k - interval):
+                lists[i] = self.mergeTwoSorted(lists[i], lists[i + interval])
+            interval *= 2
+
+        return lists[0] if k > 0 else lists
 
     def printLinkedList(self):
         current = self.head
@@ -57,21 +67,52 @@ class LinkedList:
             current = current.next
         print('None')
 
+# # Build lists
+# l1 = LinkedList()
+# l2 = LinkedList()
+# l1.append(1)
+# l1.append(5)
+# l1.append(7)
+# l2.append(2)
+# l2.append(4)
+# l2.append(6)
+# l1.printLinkedList()
+# l2.printLinkedList()
 
-# Build lists
+# # Solution
+# l3 = LinkedList()
+# l3.mergeTwoSorted(l1, l2)
+# l3.printLinkedList()
+
+
+# Build lists for k sorted lists
 l1 = LinkedList()
 l2 = LinkedList()
+l3 = LinkedList()
+# First linked list
 l1.append(1)
+l1.append(3)
 l1.append(5)
 l1.append(7)
+# Second linked list
 l2.append(2)
 l2.append(4)
 l2.append(6)
+l2.append(8)
+# Third linked list
+l3.append(0)
+l3.append(9)
+l3.append(10)
+l3.append(11)
+# Display linked lists
 l1.printLinkedList()
 l2.printLinkedList()
+l3.printLinkedList()
+# Linked lists in array form
+arr = [l1, l2, l3]
 
 # Solution
-l3 = LinkedList()
-l3.mergeTwoSorted(l1, l2)
-l3.printLinkedList()
-
+l4 = LinkedList()
+l4.mergeTwoSorted(l1, l2)
+# l4.mergeKSorted(arr)
+l4.printLinkedList()
