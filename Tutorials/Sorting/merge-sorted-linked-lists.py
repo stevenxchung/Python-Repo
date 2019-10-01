@@ -33,10 +33,6 @@ class LinkedList:
 
     # Merge two list which are already sorted
     def mergeTwoSorted(self, ll1, ll2):
-        # Cover edge case
-        if ll1.head is None and ll2.head is None:
-            return
-
         # Reuse append method
         current = self.head
         while ll1.head and ll2.head:
@@ -47,8 +43,12 @@ class LinkedList:
                 self.append(ll2.head.data)
                 ll2.head = ll2.head.next
 
-        self.append(ll1.head.data) if ll1.head else self.append(
-            ll2.head.data)
+        if ll1.head:
+            self.append(ll1.head.data)
+            ll1.head = ll1.head.next
+        else:
+            self.append(ll2.head.data)
+            ll2.head = ll2.head.next
 
     def mergeKSorted(self, lists):
         k = len(lists)
@@ -113,6 +113,6 @@ arr = [l1, l2, l3]
 
 # Solution
 l4 = LinkedList()
-l4.mergeTwoSorted(l1, l2)
-# l4.mergeKSorted(arr)
+# l4.mergeTwoSorted(l1, l2)
+l4.mergeKSorted(arr)
 l4.printLinkedList()
