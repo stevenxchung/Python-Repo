@@ -8,6 +8,12 @@ class Node:
         self.data = data
         self.next = next
 
+    def printNodeList(self):
+        current = self
+        while current:
+            print(current.data, '->', end=' ')
+            current = current.next
+        print('None')
 
 class LinkedList:
     def __init__(self, head=None):
@@ -86,28 +92,29 @@ class LinkedList:
 
 
 # Build lists for k sorted lists
-l1 = LinkedList()
-l2 = LinkedList()
-l3 = LinkedList()
+# Instead of using the LinkedList() class with self.head we will use the Node() class for merge sort recursion
 # First linked list
-l1.append(1)
-l1.append(3)
-l1.append(5)
-l1.append(7)
+l1 = Node(1)
+l1.next = Node(3)
+l1.next.next = Node(5)
+l1.next.next.next = Node(7)
+
 # Second linked list
-l2.append(2)
-l2.append(4)
-l2.append(6)
-l2.append(8)
+l2 = Node(2)
+l2.next = Node(4)
+l2.next.next = Node(6)
+l2.next.next.next = Node(8)
+
 # Third linked list
-l3.append(0)
-l3.append(9)
-l3.append(10)
-l3.append(11)
+l3 = Node(0)
+l3.next = Node(9)
+l3.next.next = Node(10)
+l3.next.next.next = Node(11)
+
 # Display linked lists
-l1.printLinkedList()
-l2.printLinkedList()
-l3.printLinkedList()
+l1.printNodeList()
+l2.printNodeList()
+l3.printNodeList()
 # Linked lists in array form
 arr = [l1, l2, l3]
 
