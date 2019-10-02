@@ -8,12 +8,25 @@ class Node:
         self.data = data
         self.next = next
 
+    # def mergeSorted(self, first, second):
+
+    def mergeKSorted(self, lists):
+        k = len(lists)
+        interval = 1
+        while k > interval:
+            for i in range(0, k - interval):
+                lists[i] = self.mergeTwoSorted(lists[i], lists[i + interval])
+            interval *= 2
+
+        return lists[0] if k > 0 else lists
+
     def printNodeList(self):
         current = self
         while current:
             print(current.data, '->', end=' ')
             current = current.next
         print('None')
+
 
 class LinkedList:
     def __init__(self, head=None):
@@ -55,16 +68,6 @@ class LinkedList:
         else:
             self.append(ll2.head.data)
             ll2.head = ll2.head.next
-
-    def mergeKSorted(self, lists):
-        k = len(lists)
-        interval = 1
-        while k > interval:
-            for i in range(0, k - interval):
-                lists[i] = self.mergeTwoSorted(lists[i], lists[i + interval])
-            interval *= 2
-
-        return lists[0] if k > 0 else lists
 
     def printLinkedList(self):
         current = self.head
@@ -119,7 +122,6 @@ l3.printNodeList()
 arr = [l1, l2, l3]
 
 # Solution
-l4 = LinkedList()
+l4 = Node()
 # l4.mergeTwoSorted(l1, l2)
 l4.mergeKSorted(arr)
-l4.printLinkedList()
