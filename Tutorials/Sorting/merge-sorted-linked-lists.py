@@ -9,30 +9,35 @@ class Node:
         self.next = next
 
     def mergeSorted(self, first, second):
-        result = Node()
+        result = None
         if first is None:
             return second
         elif second is None:
             return first
-        
+
         if first.data <= second.data:
             result = first
             result.next = self.mergeSorted(first.next, second)
         else:
             result = second
-            result.next = self.mergeSorted(first, second.data)
+            result.next = self.mergeSorted(first, second.next)
 
         return result
 
     def mergeKSorted(self, lists):
-        k = len(lists)
-        interval = 1
-        while k > interval:
-            for i in range(0, k - interval):
-                lists[i] = self.mergeSorted(lists[i], lists[i + interval])
-            interval *= 2
+        lastIndex = len(lists) - 1
+        while lastIndex > 0:
+            i = 0
+            j = lastIndex
+            while (i < j):
+                lists[i] = self.mergeSorted(lists[i], lists[j])
+                i += 1
+                j -= 1
 
-        return lists[0] if k > 0 else lists
+                if i >= j:
+                    lastIndex = j
+
+            return lists[0]
 
     def printNodeList(self):
         current = self
@@ -136,7 +141,5 @@ l3.printNodeList()
 arr = [l1, l2, l3]
 
 # Solution
-l4 = Node()
-# l4.mergeTwoSorted(l1, l2)
-l4.mergeKSorted(arr)
+l4 = Node().mergeKSorted(arr)
 l4.printNodeList()
