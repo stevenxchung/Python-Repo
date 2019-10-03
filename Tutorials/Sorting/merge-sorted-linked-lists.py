@@ -36,7 +36,8 @@ class Node:
                 lists[i] = self.mergeSorted(lists[i], lists[j])
                 i += 1
                 j -= 1
-
+                
+                # Set j to lastIndex if i >= j, this prevents missing arrays which should be merged
                 if i >= j:
                     j = lastIndex
 
