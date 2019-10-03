@@ -26,7 +26,7 @@ class Node:
 
     def mergeKSorted(self, lists):
         lastIndex = len(lists) - 1
-        while lastIndex > 0:
+        while lastIndex != 0:
             i = 0
             j = lastIndex
             while (i < j):
@@ -35,7 +35,7 @@ class Node:
                 j -= 1
 
                 if i >= j:
-                    lastIndex = j
+                    j = lastIndex
 
             return lists[0]
 
