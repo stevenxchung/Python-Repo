@@ -8,13 +8,16 @@ class Node:
         self.data = data
         self.next = next
 
+    # Recursive helper function
     def mergeSorted(self, first, second):
         result = None
+        # Base case if first or second node is None
         if first is None:
             return second
         elif second is None:
             return first
 
+        # Current result is one of the nodes and the next node will be the return value of the recursive function
         if first.data <= second.data:
             result = first
             result.next = self.mergeSorted(first.next, second)
