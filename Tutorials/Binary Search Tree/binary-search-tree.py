@@ -21,6 +21,8 @@ class BinarySearchTree:
 
     def binarySearch(self, arr, l, r, x):
         # Code here
+        return
 
-        # Test binary search
+
+# Test binary search
 bst = BinarySearchTree()
