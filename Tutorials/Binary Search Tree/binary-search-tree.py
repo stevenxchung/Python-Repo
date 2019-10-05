@@ -36,8 +36,16 @@ class Node:
             return search(root.left, key)
 
     def binarySearch(self, arr, l, r, x):
-        # Code here
-        return
+        if r >= 1:
+            mid = 1 + (r - l)/2
+            if arr[mid] == x:
+                return mid
+            elif arr[mid] > x:
+                return binarySearch(arr, l, mid - 1, x)
+            else:
+                return binarySearch(arr, mid + 1, r, x)
+        else:
+            return -1
 
 
 # Test binary search
