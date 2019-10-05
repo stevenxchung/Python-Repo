@@ -9,8 +9,24 @@ class Node:
         self.left = left
         self.right = right
 
+    def printTreeBFS(self):
+        node = self
+        queue = []
+        queue.append(node)
 
-class BinarySearchTree:
+        print('BFS: ', end='')
+        while len(queue) > 0:
+            # Since we are using a queue pop off the first element in the queue and set to node
+            print(queue[0].val, end=' ')
+            node = queue.pop(0)
+
+            if node.left is not None:
+                queue.append(node.left)
+
+            if node.right is not None:
+                queue.append(node.right)
+        print()
+
     def search(self, root, key):
         if root is None or root.val == key:
             return root
@@ -25,4 +41,11 @@ class BinarySearchTree:
 
 
 # Test binary search
-bst = BinarySearchTree()
+node4 = Node(4)
+node5 = Node(5)
+node6 = Node(6)
+node7 = Node(7)
+node2 = Node(2, node4, node5)
+node3 = Node(3, node6, node7)
+head = Node(1, node2, node3)
+head.printTreeBFS()  # 1, 2, 3, 4, 5, 6, 7
