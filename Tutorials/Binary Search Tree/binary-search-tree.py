@@ -27,6 +27,7 @@ class Node:
                 queue.append(node.right)
         print()
 
+    # Traversing a binary search tree using linked lists
     def search(self, root, key):
         if root is None or root.val == key:
             return root
@@ -35,6 +36,7 @@ class Node:
         else:
             return search(root.left, key)
 
+    #  Traversing a binary search tree using arrays
     def binarySearch(self, arr, l, r, x):
         if r >= 1:
             mid = 1 + (r - l)/2
