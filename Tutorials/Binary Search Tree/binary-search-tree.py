@@ -62,5 +62,6 @@ node2 = Node(2, node4, node5)
 node3 = Node(3, node6, node7)
 head = Node(1, node2, node3)
 head.printTreeBFS()  # 1, 2, 3, 4, 5, 6, 7
-print('Searching node...', head.search(head, 10).val if head.search(
-    head, 10) else head.search(head, 10))
+searchKey = 2
+print('Searching node...', head.search(head, searchKey).val if head.search(
+    head, searchKey) else head.search(head, searchKey))
