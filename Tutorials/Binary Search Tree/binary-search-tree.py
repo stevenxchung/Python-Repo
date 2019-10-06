@@ -29,12 +29,15 @@ class Node:
 
     # Traversing a binary search tree using linked lists
     def search(self, root, key):
+        # Base case reached, return the root node
         if root is None or root.val == key:
             return root
-        if root.val < key:
-            return search(root.right, key)
+        # If value is less than key, we have to go right
+        if root.val > key:
+            return self.search(root.right, key)
+        # Otherwise go left
         else:
-            return search(root.left, key)
+            return self.search(root.left, key)
 
     #  Traversing a binary search tree using arrays
     def binarySearch(self, arr, l, r, x):
@@ -43,9 +46,9 @@ class Node:
             if arr[mid] == x:
                 return mid
             elif arr[mid] > x:
-                return binarySearch(arr, l, mid - 1, x)
+                return self.binarySearch(arr, l, mid - 1, x)
             else:
-                return binarySearch(arr, mid + 1, r, x)
+                return self.binarySearch(arr, mid + 1, r, x)
         else:
             return -1
 
@@ -59,3 +62,4 @@ node2 = Node(2, node4, node5)
 node3 = Node(3, node6, node7)
 head = Node(1, node2, node3)
 head.printTreeBFS()  # 1, 2, 3, 4, 5, 6, 7
+print(head.search(head, 2))
