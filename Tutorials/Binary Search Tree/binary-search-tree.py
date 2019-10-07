@@ -32,8 +32,12 @@ class Node:
         # Base case reached, return the root node
         if root is None or root.val == key:
             return root
-        # If value is less than key, we have to go right
-        if root.val > key:
+
+        if root.left is None or root.right is None:
+            return None
+
+        # If value is less than than key, we have to go right
+        if root.right.val < key:
             return self.search(root.right, key)
         # Otherwise go left
         else:
