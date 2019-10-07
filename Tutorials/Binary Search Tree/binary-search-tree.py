@@ -47,14 +47,20 @@ class Node:
 class ArraySolution:
     #  Traversing a binary search tree using arrays
     def binarySearch(self, arr, low, high, x):
+        if x > arr[high] or x < arr[low]:
+            return -1
+
+        mid = 1 + (high - low) // 2
+
         if high >= 1:
-            mid = 1 + (high - low) // 2
             if arr[mid] == x:
                 return mid
             elif arr[mid] > x:
                 return self.binarySearch(arr, low, mid - 1, x)
             else:
                 return self.binarySearch(arr, mid + 1, high, x)
+        elif arr[low] == 0 and arr[high] == 0:
+            return 0
         else:
             return -1
 
@@ -74,4 +80,5 @@ print('Searching node...', head.search(head, searchKey).val if head.search(
 
 # Test binary search for arrays
 arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-print(ArraySolution().binarySearch(arr, 0, len(arr) - 1, 4))
+print('Searching target...', ArraySolution(
+).binarySearch(arr, 0, len(arr) - 1, 0))
