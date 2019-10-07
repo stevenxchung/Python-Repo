@@ -43,21 +43,23 @@ class Node:
         else:
             return self.search(root.left, key)
 
+
+class ArraySolution:
     #  Traversing a binary search tree using arrays
-    def binarySearch(self, arr, l, r, x):
-        if r >= 1:
-            mid = 1 + (r - l)/2
+    def binarySearch(self, arr, low, high, x):
+        if high >= 1:
+            mid = 1 + (high - low) // 2
             if arr[mid] == x:
                 return mid
             elif arr[mid] > x:
-                return self.binarySearch(arr, l, mid - 1, x)
+                return self.binarySearch(arr, low, mid - 1, x)
             else:
-                return self.binarySearch(arr, mid + 1, r, x)
+                return self.binarySearch(arr, mid + 1, high, x)
         else:
             return -1
 
 
-# Test binary search
+# Test binary search for linked lists
 node4 = Node(4)
 node5 = Node(5)
 node6 = Node(6)
@@ -69,3 +71,7 @@ head.printTreeBFS()  # 1, 2, 3, 4, 5, 6, 7
 searchKey = 2
 print('Searching node...', head.search(head, searchKey).val if head.search(
     head, searchKey) else head.search(head, searchKey))
+
+# Test binary search for arrays
+arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+print(ArraySolution().binarySearch(arr, 0, len(arr) - 1, 4))
