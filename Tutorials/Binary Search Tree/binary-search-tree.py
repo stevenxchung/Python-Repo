@@ -47,20 +47,21 @@ class Node:
 class ArraySolution:
     #  Traversing a binary search tree using arrays
     def binarySearch(self, arr, low, high, x):
+        # Add edge case
         if x > arr[high] or x < arr[low]:
             return -1
+        if x == arr[high] or x == arr[low]:
+            return x
 
-        mid = 1 + (high - low) // 2
 
         if high >= 1:
+            mid = 1 + (high - low) // 2
             if arr[mid] == x:
                 return mid
             elif arr[mid] > x:
                 return self.binarySearch(arr, low, mid - 1, x)
             else:
-                return self.binarySearch(arr, mid + 1, high, x)
-        elif arr[low] == 0 and arr[high] == 0:
-            return 0
+                return self.binarySearch(arr, mid + 1, high - 1, x)
         else:
             return -1
 
