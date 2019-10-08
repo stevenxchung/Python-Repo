@@ -45,17 +45,18 @@ class Node:
 
 
 class ArraySolution:
-    #  Traversing a binary search tree using arrays
+    # Traversing a binary search tree using arrays
     def binarySearch(self, arr, low, high, x):
-        # Add edge case
+        # Add edge cases
         if x > arr[high] or x < arr[low]:
             return -1
         if x == arr[high] or x == arr[low]:
             return x
 
-
+        # Once the upper limit is less than 1 we have reduced the array to a single element: arr[0]
         if high >= 1:
             mid = (high - low) // 2
+            # Base case
             if arr[mid] == x:
                 return mid
             elif arr[mid] > x:
