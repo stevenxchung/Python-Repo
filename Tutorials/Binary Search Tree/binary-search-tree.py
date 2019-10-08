@@ -55,7 +55,7 @@ class ArraySolution:
 
 
         if high >= 1:
-            mid = 1 + (high - low) // 2
+            mid = (high - low) // 2
             if arr[mid] == x:
                 return mid
             elif arr[mid] > x:
@@ -82,4 +82,4 @@ print('Searching node...', head.search(head, searchKey).val if head.search(
 # Test binary search for arrays
 arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 print('Searching target...', ArraySolution(
-).binarySearch(arr, 0, len(arr) - 1, 0))
+).binarySearch(arr, 0, len(arr) - 1, 10))
