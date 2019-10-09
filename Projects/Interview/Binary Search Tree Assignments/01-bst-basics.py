@@ -40,4 +40,4 @@ class Node:
 # Test
 node2 = Node(2, Node(1), Node(3))
 head = Node(4, node2, Node(6))
-head.printTree()
+head.printTree()  # 4, 2, 6, 1, 3
