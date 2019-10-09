@@ -11,4 +11,11 @@ Implement the following:
 3. Delete Node in a BST
 '''
 
+
+class Node:
+    def __init__(self, val=None, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
 # Test
