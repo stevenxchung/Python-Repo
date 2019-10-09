@@ -18,4 +18,26 @@ class Node:
         self.left = left
         self.right = right
 
+    def printTree(self):
+        node = self
+        queue = []
+        queue.append(node)
+
+        print('Printing BST in Level Order:', end=' ')
+        while len(queue) > 0:
+
+            print(queue[0].val, end=' ')
+            node = queue.pop(0)
+
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+
+        print()
+
+
 # Test
+node2 = Node(2, Node(1), Node(3))
+head = Node(4, node2, Node(6))
+head.printTree()
