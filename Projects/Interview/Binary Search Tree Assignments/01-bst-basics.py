@@ -19,7 +19,7 @@ class Node:
         self.right = right
 
     def returnSubtree(self, node, key):
-        currentNode = self
+        currentNode = node
         # Base case
         if currentNode.val == key:
             return currentNode
@@ -51,4 +51,4 @@ class Node:
 node2 = Node(2, Node(1), Node(3))
 head = Node(4, node2, Node(6))
 head.printTree()  # 4, 2, 6, 1, 3
-head.returnSubtree(head, 2)
+head.returnSubtree(head, 2).printTree()
