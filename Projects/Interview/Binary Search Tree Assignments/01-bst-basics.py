@@ -18,6 +18,16 @@ class Node:
         self.left = left
         self.right = right
 
+    def returnSubtree(self, node, key):
+        currentNode = self
+        # Base case
+        if currentNode.val == key:
+            return currentNode
+        elif currentNode.val < key:
+            return self.returnSubtree(currentNode.right, key)
+        elif currentNode.val > key:
+            return self.returnSubtree(currentNode.left, key)
+
     def printTree(self):
         node = self
         queue = []
@@ -41,3 +51,4 @@ class Node:
 node2 = Node(2, Node(1), Node(3))
 head = Node(4, node2, Node(6))
 head.printTree()  # 4, 2, 6, 1, 3
+head.returnSubtree(head, 2)
