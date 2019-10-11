@@ -18,13 +18,16 @@ class Node:
         self.left = left
         self.right = right
 
+    # Return the subtree where the key is found
     def returnSubtree(self, node, key):
         currentNode = node
         # Base case
         if currentNode.val == key:
             return currentNode
+        # If less than key we know that we have to go right
         elif currentNode.val < key:
             return self.returnSubtree(currentNode.right, key)
+        # If greater than key we have to go left
         elif currentNode.val > key:
             return self.returnSubtree(currentNode.left, key)
 
