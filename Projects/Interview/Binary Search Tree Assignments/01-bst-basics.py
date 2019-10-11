@@ -35,6 +35,16 @@ class Node:
         elif currentNode.val > key:
             return self.returnSubtree(currentNode.left, key)
 
+    def insertIntoBST(self, node, val):
+        currentNode = node
+        # Base case
+        if currentNode.val is None:
+            currentNode = Node(val)
+        elif currentNode.val < val:
+            return self.insertIntoBST(currentNode.right, val)
+        elif currentNode.val > val:
+            return self.insertIntoBST(currentNode.left, val)
+
     def printTree(self):
         node = self
         queue = []
@@ -60,3 +70,4 @@ head = Node(4, node2, Node(6))
 head.printTree()  # 4, 2, 6, 1, 3
 head.returnSubtree(head, 2).printTree()
 head.returnSubtree(head, 5)
+head.insertIntoBST(head, 5)
