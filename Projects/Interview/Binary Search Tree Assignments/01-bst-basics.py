@@ -23,6 +23,7 @@ class Node:
         currentNode = node
         # Edge case
         if currentNode is None:
+            print('Value does not exist in this BST')
             return None
         # Base case
         if currentNode.val == key:
