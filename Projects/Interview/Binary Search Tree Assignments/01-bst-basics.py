@@ -21,6 +21,9 @@ class Node:
     # Return the subtree where the key is found
     def returnSubtree(self, node, key):
         currentNode = node
+        # Edge case
+        if currentNode is None:
+            return None
         # Base case
         if currentNode.val == key:
             return currentNode
@@ -55,3 +58,4 @@ node2 = Node(2, Node(1), Node(3))
 head = Node(4, node2, Node(6))
 head.printTree()  # 4, 2, 6, 1, 3
 head.returnSubtree(head, 2).printTree()
+head.returnSubtree(head, 5)
