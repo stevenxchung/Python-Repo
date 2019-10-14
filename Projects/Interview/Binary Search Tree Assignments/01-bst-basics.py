@@ -58,6 +58,31 @@ class Node:
                 node.left = Node(val)
                 return
 
+    def deleteInBST(self, val):
+        node = self
+        queue = []
+        queue.append(node)
+
+        while len(queue) > 0:
+
+            node = queue.pop(0)
+
+            if node.val < val:
+                queue.append(node.right)
+            elif node.val > val:
+                queue.append(node.left)
+
+            if node.val == val:
+                if node.left is None and node.right is None:
+                    node = None
+                    return
+                elif self.left.val == val:
+                    self.left = Node(node.right.val, node.left, None)
+                    return
+                else:
+                    self.right = Node(node.right.val, node.left, None)
+                    return
+
     def printTree(self):
         node = self
         queue = []
@@ -78,10 +103,19 @@ class Node:
 
 
 # Test
-node2 = Node(2, Node(1), Node(3))
-head = Node(4, node2, Node(6))
-head.printTree()  # 4, 2, 6, 1, 3
-head.returnSubtree(head, 2).printTree()
-head.returnSubtree(head, 5)
-head.insertIntoBST(5)
-head.printTree()
+# node2 = Node(2, Node(1), Node(3))
+# head = Node(4, node2, Node(6))
+# head.printTree()  # 4, 2, 6, 1, 3
+# head.returnSubtree(head, 2).printTree()
+# head.returnSubtree(head, 5)
+# head.insertIntoBST(5)
+# head.printTree()
+
+# Test deleting a node
+node3 = Node(3, Node(2), Node(4))
+node6 = Node(6, None, Node(7))
+head = Node(5, node3, node6)
+head.printTree()  # 5, 3, 6, 2, 4, 7
+# head.deleteInBST(3)
+head.deleteInBST(6)
+head.printTree()  # 5, 3, 7, 2, 4
