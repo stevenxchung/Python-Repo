@@ -40,6 +40,7 @@ class Node:
         queue = []
         queue.append(node)
 
+        # Queue based iterative solution
         while len(queue) > 0:
 
             node = queue.pop(0)
@@ -49,6 +50,7 @@ class Node:
             elif node.val > val:
                 queue.append(node.left)
 
+            # If one of these conditions is true, the right or left node should point to the new node
             if node.val < val and node.right is None:
                 node.right = Node(val)
                 return
