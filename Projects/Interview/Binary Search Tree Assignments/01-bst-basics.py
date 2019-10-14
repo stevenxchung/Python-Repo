@@ -58,6 +58,7 @@ class Node:
                 node.left = Node(val)
                 return
 
+    # A little buggy, only works at level after self, need way to reference back to previous node pointer
     def deleteInBST(self, val):
         node = self
         queue = []
