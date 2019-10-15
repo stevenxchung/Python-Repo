@@ -60,19 +60,23 @@ class Node:
 
     # A little buggy, only works at level after self, need way to reference back to previous node pointer
     def deleteInBST(self, node, val):
+        # Edge case
         if node is None:
             return None
 
+        # Use recursive flow to reference back to original node
         if node.val < val:
             node.right = self.deleteInBST(node.right, val)
         elif node.val > val:
             node.left = self.deleteInBST(node.left, val)
         else:
+            # If either is none we only want the other node
             if node.right is None:
                 return node.left
             if node.left is None:
                 return node.right
 
+            # Rearrange node pointers and return
             miniNode = node.right
             while miniNode.left is not None:
                 miniNode = miniNode.left
