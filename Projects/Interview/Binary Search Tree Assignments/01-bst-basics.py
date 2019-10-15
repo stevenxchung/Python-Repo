@@ -119,5 +119,7 @@ node3 = Node(3, Node(2), Node(4))
 node6 = Node(6, None, Node(7))
 head = Node(5, node3, node6)
 head.printTree()  # 5, 3, 6, 2, 4, 7
-head.deleteInBST(head, 3)
-head.printTree()  # 5, 4, 6, 2, 7
+# head.deleteInBST(head, 3)
+# head.printTree()  # 5, 4, 6, 2, 7
+head.deleteInBST(head, 4)
+head.printTree()  # 5, 3, 6, 2, 7
