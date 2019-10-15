@@ -59,30 +59,28 @@ class Node:
                 return
 
     # A little buggy, only works at level after self, need way to reference back to previous node pointer
-    def deleteInBST(self, val):
-        node = self
-        queue = []
-        queue.append(node)
+    def deleteInBST(self, node, val):
+        if node is None:
+            return None
 
-        while len(queue) > 0:
+        if node.val < val:
+            node.right = self.deleteInBST(node.right, val)
+        elif node.val > val:
+            node.left = self.deleteInBST(node.left, val)
+        else:
+            if node.right is None:
+                return node.left
+            if node.left is None:
+                return node.right
 
-            node = queue.pop(0)
+            miniNode = node.right
+            while miniNode.left is not None:
+                miniNode = miniNode.left
+            
+            miniNode.left = node.left
+            return node.right
 
-            if node.val < val:
-                queue.append(node.right)
-            elif node.val > val:
-                queue.append(node.left)
-
-            if node.val == val:
-                if node.left is None and node.right is None:
-                    node = None
-                    return
-                elif self.left.val == val:
-                    self.left = Node(node.right.val, node.left, None)
-                    return
-                else:
-                    self.right = Node(node.right.val, node.left, None)
-                    return
+        return node
 
     def printTree(self):
         node = self
@@ -117,6 +115,5 @@ node3 = Node(3, Node(2), Node(4))
 node6 = Node(6, None, Node(7))
 head = Node(5, node3, node6)
 head.printTree()  # 5, 3, 6, 2, 4, 7
-# head.deleteInBST(3)
-head.deleteInBST(6)
-head.printTree()  # 5, 3, 7, 2, 4
+head.deleteInBST(head, 3)
+head.printTree()  # 5, 4, 6, 2, 7
