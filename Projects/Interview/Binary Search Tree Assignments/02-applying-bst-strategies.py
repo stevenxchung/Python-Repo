@@ -16,7 +16,9 @@ class Node:
             return node.right
         elif node.right is None:
             return node.left
+
         node = self.findMin(node.left)
+        return node.val
 
     # def minHeapify(self, node):
 
@@ -42,4 +44,4 @@ class Node:
 # Test
 head = Node(4, Node(5, Node(2), None), Node(8))
 head.printTree()  # 4, 5, 8, 2
-head.findMin(head)
+print('Minimum value in BST:', head.findMin(head))
