@@ -11,14 +11,11 @@ class Node:
 
     def findMin(self, node):
         if node.left is None and node.right is None:
-            return node
+            return node.val
         elif node.left is None:
-            return node.right
-        elif node.right is None:
-            return node.left
-
-        node = self.findMin(node.left)
-        return node.val
+            return self.findMin(node.right)
+        else:
+            return self.findMin(node.left)
 
     # def minHeapify(self, node):
 
