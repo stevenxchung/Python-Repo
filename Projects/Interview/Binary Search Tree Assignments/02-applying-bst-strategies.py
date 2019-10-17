@@ -11,13 +11,30 @@ class Node:
 
     def findMin(self, node):
         if node.left is None and node.right is None:
-            return node.val
+            return node
         elif node.left is None:
             return self.findMin(node.right)
         else:
             return self.findMin(node.left)
 
-    # def minHeapify(self, node):
+    def minHeapify(self):
+        node = self
+        arr = []
+        queue = []
+        queue.append(node)
+
+        while len(queue) > 0:
+
+            node = queue.pop(0)
+            arr.append(node.val)
+
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+        
+        arr.sort()
+        return arr
 
     def printTree(self):
         node = self
@@ -41,4 +58,5 @@ class Node:
 # Test
 head = Node(4, Node(5, Node(2), None), Node(8))
 head.printTree()  # 4, 5, 8, 2
-print('Minimum value in BST:', head.findMin(head))
+print('Minimum value in BST:', head.findMin(head).val)
+print(head.minHeapify())
