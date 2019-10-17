@@ -32,9 +32,13 @@ class Node:
                 queue.append(node.left)
             if node.right is not None:
                 queue.append(node.right)
-        
+
         arr.sort()
         return arr
+
+    def kthLargest(self, k):
+        treeAsArr = self.minHeapify()
+        return treeAsArr[len(treeAsArr) - k]
 
     def printTree(self):
         node = self
@@ -60,3 +64,5 @@ head = Node(4, Node(5, Node(2), None), Node(8))
 head.printTree()  # 4, 5, 8, 2
 print('Minimum value in BST:', head.findMin(head).val)
 print(head.minHeapify())
+print('The largest element in the BST is:', head.kthLargest(1))
+print('The 2nd largest element in the BST is:', head.kthLargest(2))
