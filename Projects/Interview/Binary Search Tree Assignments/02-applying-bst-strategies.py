@@ -17,12 +17,14 @@ class Node:
         else:
             return self.findMin(node.left)
 
+    # Return BST as an array from smallest to largest
     def minHeapify(self):
         node = self
         arr = []
         queue = []
         queue.append(node)
 
+        # Traverse BST and add to queue and array
         while len(queue) > 0:
 
             node = queue.pop(0)
@@ -32,7 +34,8 @@ class Node:
                 queue.append(node.left)
             if node.right is not None:
                 queue.append(node.right)
-
+        
+        # Sort array from smallest to largest
         arr.sort()
         return arr
 
