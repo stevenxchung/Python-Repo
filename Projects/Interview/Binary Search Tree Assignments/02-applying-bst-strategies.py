@@ -9,6 +9,7 @@ class Node:
         self.left = left
         self.right = right
 
+    # Probably do not need this, good exercise to go through however
     def findMin(self, node):
         if node.left is None and node.right is None:
             return node
@@ -39,8 +40,10 @@ class Node:
         arr.sort()
         return arr
 
+    # Since we based array from smallest to largest the 2nd largest would be based on the length of the tree minus the k value for example
     def kthLargest(self, k):
         treeAsArr = self.minHeapify()
+        # Finding the value is O(1), but the entire process to get the kth largest value is O(n * log(n)) due to the sort() method
         return treeAsArr[len(treeAsArr) - k]
 
     def printTree(self):
