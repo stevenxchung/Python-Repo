@@ -48,3 +48,10 @@ class DLList:
             print(currentNode.val, '<->', end=' ')
             currentNode = currentNode.next
         print("None")
+
+# Test
+dll = DLList()
+dll.addToFront(3)
+dll.addToFront(2)
+dll.addToFront(1)
+dll.printList()
