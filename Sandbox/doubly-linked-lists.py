@@ -42,12 +42,23 @@ class DLList:
             self.tail = currentNode
             currentNode = currentNode.next
 
+    def removeAtEnd(self):
+        self.tail = self.tail.prev
+        self.tail.next = None
+
+        currentNode = self.tail
+        while currentNode:
+            if currentNode.prev is None:
+                self.head = currentNode
+            currentNode = currentNode.prev
+
     def printList(self):
         currentNode = self.head
         while currentNode:
             print(currentNode.val, '<->', end=' ')
             currentNode = currentNode.next
         print("None")
+
 
 # Test
 dll = DLList()
