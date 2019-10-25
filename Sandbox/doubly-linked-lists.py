@@ -1,6 +1,6 @@
 '''
 First, implement a doubly linked list with add(), remove(), and print() methods
-Second, implement LRU Cache problem (very popular leet code problem)
+Second, implement LRU Cache problem (very popular leet code problem) which utilizes the get(key) and put(key, value) methods
 '''
 
 # Test (LRU Cache Problem)
@@ -17,8 +17,9 @@ Second, implement LRU Cache problem (very popular leet code problem)
 
 
 class DNode:
-    def __init__(self, val=0, prev=None, next=None):
+    def __init__(self, val=0, key=0, prev=None, next=None):
         self.val = val
+        self.key = key
         self.prev = prev
         self.next = next
 
@@ -27,31 +28,49 @@ class DLList:
     def __init__(self, head=None, tail=None):
         self.head = head
         self.tail = tail
+        self.cache = {}
 
-    def addToFront(self, val):
+    def addToFront(self, val, key):
+        node = DNode(val, key)
         currentNode = self.head
-        node = DNode(val)
-        node.next = currentNode
 
-        if currentNode is not None:
-            currentNode.prev = node
+        if currentNode is None:
+            self.cache[key] = val
+            self.head, self.tail = node, node
+            return
 
+        node.next, currentNode.prev = currentNode, node
         self.head = node
+
+        self.cache[key] = val
 
         while currentNode:
             self.tail = currentNode
             currentNode = currentNode.next
 
-    # Actually need to remove at a specific index for LRU Cache
-    def removeAtEnd(self):
-        self.tail = self.tail.prev
-        self.tail.next = None
+    # Actually need to remove at a specific key for LRU Cache
+    def removeAtIndex(self, key):
+        if key not in self.cache:
+            print('Key does not exist!')
+            return -1
 
-        currentNode = self.tail
+        print("Removing node with key = " + str(self.cache[key]) + "...")
+        currentNode = self.head
         while currentNode:
-            if currentNode.prev is None:
-                self.head = currentNode
-            currentNode = currentNode.prev
+            if currentNode.key == key:
+                del self.cache[key]
+                # At the front of the linked list
+                if currentNode.prev is None and currentNode.next is not None:
+                    currentNode.next.prev = None
+                    self.head = currentNode.next
+                # At the end of the linked list
+                elif currentNode.next is None:
+                    currentNode.prev.next = None
+                    self.tail = currentNode.prev
+                # Somewhere in the middle
+                else:
+                    currentNode.prev.next, currentNode.next.prev = currentNode.next, currentNode.prev
+            currentNode = currentNode.next
 
     def printList(self):
         currentNode = self.head
@@ -63,9 +82,13 @@ class DLList:
 
 # Test
 dll = DLList()
-dll.addToFront(3)
-dll.addToFront(2)
-dll.addToFront(1)
+dll.addToFront(3, 3)
+print(dll.cache)
+dll.addToFront(2, 2)
+print(dll.cache)
+dll.addToFront(1, 1)
+print(dll.cache)
 dll.printList()
-dll.removeAtEnd()
+dll.removeAtIndex(2)
+print(dll.cache)
 dll.printList()
