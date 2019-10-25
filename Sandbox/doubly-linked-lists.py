@@ -72,6 +72,18 @@ class DLList:
                     currentNode.prev.next, currentNode.next.prev = currentNode.next, currentNode.prev
             currentNode = currentNode.next
 
+    def get(self, key):
+        if key not in self.cache:
+            print('Key does not exist!')
+            return -1
+
+        val = self.cache[key]
+        self.removeAtIndex(key)
+        self.addToFront(val, key)
+        print("Node key:", key, ", Node value:", self.cache[key])
+
+        return key
+
     def printList(self):
         currentNode = self.head
         while currentNode:
@@ -91,4 +103,6 @@ print(dll.cache)
 dll.printList()
 dll.removeAtIndex(2)
 print(dll.cache)
+dll.printList()
+dll.get(3)
 dll.printList()
