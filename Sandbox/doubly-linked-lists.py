@@ -25,10 +25,11 @@ class DNode:
 
 
 class DLList:
-    def __init__(self, head=None, tail=None):
+    def __init__(self, size=None, head=None, tail=None):
         self.head = head
         self.tail = tail
         self.cache = {}
+        self.size = size
 
     def addToFront(self, val, key):
         node = DNode(val, key)
@@ -84,6 +85,17 @@ class DLList:
 
         return key
 
+    def put(self, key, val):
+        if key not in self.cache:
+            print('Key does not exist!')
+            return -1
+
+        if len(self.cache) == self.size:
+            self.removeAtIndex(self.tail.key)
+            self.addToFront(val, key)
+        else:
+            self.addToFront(val, key)
+
     def printList(self):
         currentNode = self.head
         while currentNode:
@@ -93,16 +105,16 @@ class DLList:
 
 
 # Test
-dll = DLList()
-dll.addToFront(3, 3)
-print(dll.cache)
-dll.addToFront(2, 2)
-print(dll.cache)
-dll.addToFront(1, 1)
-print(dll.cache)
-dll.printList()
-dll.removeAtIndex(2)
-print(dll.cache)
-dll.printList()
-dll.get(3)
-dll.printList()
+# dll = DLList()
+# dll.addToFront(3, 3)
+# print(dll.cache)
+# dll.addToFront(2, 2)
+# print(dll.cache)
+# dll.addToFront(1, 1)
+# print(dll.cache)
+# dll.printList()
+# dll.removeAtIndex(2)
+# print(dll.cache)
+# dll.printList()
+# dll.get(3)
+# dll.printList()
