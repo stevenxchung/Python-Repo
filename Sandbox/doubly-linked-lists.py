@@ -55,7 +55,7 @@ class DLList:
             print('Key does not exist!')
             return -1
 
-        print("Removing node with key = " + str(self.cache[key]) + "...")
+        # print("Removing node with key = " + str(self.cache[key]) + "...")
         currentNode = self.head
         while currentNode:
             if currentNode.key == key:
@@ -79,6 +79,7 @@ class DLList:
             return -1
 
         val = self.cache[key]
+        print("Node found! Moving node to the top of the list...")
         self.removeAtIndex(key)
         self.addToFront(val, key)
         print("Node key:", key, ", Node value:", self.cache[key])
@@ -86,10 +87,6 @@ class DLList:
         return key
 
     def put(self, key, val):
-        if key not in self.cache:
-            print('Key does not exist!')
-            return -1
-
         if len(self.cache) == self.size:
             self.removeAtIndex(self.tail.key)
             self.addToFront(val, key)
@@ -117,4 +114,17 @@ class DLList:
 # print(dll.cache)
 # dll.printList()
 # dll.get(3)
+# dll.printList()
+
+# Test LRU Cache
+dll = DLList(2)
+dll.put(1, 1)
+dll.put(2, 2)
+dll.get(1)       # returns 1
+dll.put(3, 3)    # evicts key 2
+dll.get(2)       # returns -1 (not found)
+dll.put(4, 4)    # evicts key 1
+dll.get(1)       # returns -1 (not found)
+dll.get(3)       # returns 3
+dll.get(4)       # returns 4
 # dll.printList()
