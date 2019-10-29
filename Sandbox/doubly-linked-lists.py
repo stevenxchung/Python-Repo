@@ -59,6 +59,7 @@ class DLList:
         currentNode = self.head
         while currentNode:
             if currentNode.key == key:
+                # We also have to remove the key-value pair from the dictionary
                 del self.cache[key]
                 # At the front of the linked list
                 if currentNode.prev is None and currentNode.next is not None:
@@ -79,7 +80,7 @@ class DLList:
             return -1
 
         val = self.cache[key]
-        print("Node found! Moving node to the top of the list...")
+        print("Node found! Moving node to the front of the list...")
         self.removeAtIndex(key)
         self.addToFront(val, key)
         print("Node key:", key, ", Node value:", self.cache[key])
