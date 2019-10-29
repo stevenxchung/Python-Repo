@@ -35,6 +35,7 @@ class DLList:
         node = DNode(val, key)
         currentNode = self.head
 
+        # If there is no node
         if currentNode is None:
             self.cache[key] = val
             self.head, self.tail = node, node
@@ -45,6 +46,7 @@ class DLList:
 
         self.cache[key] = val
 
+        # The tail will have to be reset since the linked list has changed
         while currentNode:
             self.tail = currentNode
             currentNode = currentNode.next
