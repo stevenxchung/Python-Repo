@@ -32,22 +32,22 @@ class Node:
 
 
 class Solution:
-    def test(self, edges: List[List[int]]) -> List[int]:
-        parent = [i for i in range(len(edges) + 1)]
-        rank = [1] * (len(edges) + 1)
+    def test(self, n: int, edges: List[List[int]]) -> int:
+        parent = [i for i in range(n)]
+        rank = [1] * n
 
         def find(n):
-            p = parent[n]
-            while p != parent[n]:
-                parent[n] = parent[parent[n]]
-                p = parent[n]
+            p = n
+            while p != parent[p]:
+                parent[p] = parent[parent[p]]
+                p = parent[p]
             return p
 
         def union(n1, n2):
             p1, p2 = find(n1), find(n2)
 
             if p1 == p2:
-                return False
+                return 0
             if rank[p1] > rank[p2]:
                 parent[p2] = p1
                 rank[p1] += rank[p2]
@@ -55,11 +55,14 @@ class Solution:
                 parent[p1] = p2
                 rank[p2] += rank[p1]
 
-            return True
+            return 1
 
+        # Connected = n_nodes - n_connections
+        connected = n
         for n1, n2 in edges:
-            if not union(n1, n2):
-                return [n1, n2]
+            connected -= union(n1, n2)
+
+        return connected
 
     def reference():
         return
@@ -69,9 +72,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -86,10 +89,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        [[1, 2], [1, 3], [2, 3]],
-        [[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]],
-        # Additional
-        [[1, 4], [3, 4], [1, 3], [1, 2], [4, 5]],  # [1, 3]
-    ]
+    test_cases = [(5, [[0, 1], [1, 2], [3, 4]])]
     test.quantify(test_cases)
