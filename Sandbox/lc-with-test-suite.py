@@ -32,37 +32,31 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int, edges: List[List[int]]) -> int:
-        parent = [i for i in range(n)]
-        rank = [1] * n
+    def test(self, n: int, edges: List[List[int]]) -> bool:
+        if len(edges) == 0:
+            return True
 
-        def find(n):
-            p = n
-            while p != parent[p]:
-                parent[p] = parent[parent[p]]
-                p = parent[p]
-            return p
+        seen = set()
+        adj = {k : [] for k in range(n)}
+        for a, b, in edges:
+            adj[a].append(b)
+        
+        def dfs(node, prev):
+            if node in seen:
+                return False
+            
+            seen.add(node)
+            for nei in adj[node]:
+                if nei == prev:
+                    # Skip false positive loop for neighbor
+                    continue
+                if not dfs(nei, node):
+                    # Cycle detected
+                    return False
 
-        def union(n1, n2):
-            p1, p2 = find(n1), find(n2)
+            return True
 
-            if p1 == p2:
-                return 0
-            if rank[p1] > rank[p2]:
-                parent[p2] = p1
-                rank[p1] += rank[p2]
-            else:
-                parent[p1] = p2
-                rank[p2] += rank[p1]
-
-            return 1
-
-        # Connected = n_nodes - n_connections
-        connected = n
-        for n1, n2 in edges:
-            connected -= union(n1, n2)
-
-        return connected
+        return dfs(0, -1) and len(seen) == n
 
     def reference():
         return
@@ -89,5 +83,9 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [(5, [[0, 1], [1, 2], [3, 4]])]
+    test_cases = [
+        (5, [[0, 1], [0, 2], [0, 3], [1, 4]]),
+        # Additional
+        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4]]),
+    ]
     test.quantify(test_cases)
