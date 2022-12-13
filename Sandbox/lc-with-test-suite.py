@@ -32,31 +32,21 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int, edges: List[List[int]]) -> bool:
-        if len(edges) == 0:
-            return True
+    def test(self, s: str) -> bool:
+        s_map = {
+            ')' : '(',
+            ']' : '[',
+            '}' : '{'
+        }
+        stack = []
 
-        seen = set()
-        adj = {k : [] for k in range(n)}
-        for a, b, in edges:
-            adj[a].append(b)
-        
-        def dfs(node, prev):
-            if node in seen:
-                return False
-            
-            seen.add(node)
-            for nei in adj[node]:
-                if nei == prev:
-                    # Skip false positive loop for neighbor
-                    continue
-                if not dfs(nei, node):
-                    # Cycle detected
-                    return False
+        for c in s:
+            if c in s_map and stack[-1] == s_map[c]:
+                stack.pop()
+            else:
+                stack.append(c)
 
-            return True
-
-        return dfs(0, -1) and len(seen) == n
+        return len(stack) == 0
 
     def reference():
         return
@@ -66,9 +56,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -84,8 +74,11 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        (5, [[0, 1], [0, 2], [0, 3], [1, 4]]),
+        '()',
+        '()[]{}',
+        '(]',
         # Additional
-        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4]]),
+        '(()',
+        '[()',
     ]
     test.quantify(test_cases)
