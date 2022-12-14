@@ -32,24 +32,29 @@ class Node:
 
 
 class Solution:
-    def test(self, tokens: List[str]) -> int:
-        stack = []
-        ops = set(['+', '-', '*', '/'])
-        for i in range(len(tokens)):
-            if tokens[i] in ops:
-                a, b = stack.pop(), stack.pop()
-                if tokens[i] == '+':
-                    stack.append(int(a) + int(b))
-                elif tokens[i] == '-':
-                    stack.append(int(b) - int(a))
-                elif tokens[i] == '*':
-                    stack.append(int(a) * int(b))
-                else:
-                    stack.append(int(b) / int(a))
-            else:
-                stack.append(tokens[i])
+    def test(self, n: int) -> List[str]:
+        res = []
 
-        return stack.pop()
+        def dfs(l, r, substr):
+            if r == 0:
+                # Closed parenthesis all used up
+                res.append(substr)
+                return
+            elif l == 0:
+                # Add a closed parentheses
+                dfs(l, r - 1, substr + ')')
+            elif l == r:
+                # Add an open parentheses
+                dfs(l - 1, r, substr + '(')
+            else:
+                # Otherwise add both parentheses
+                dfs(l - 1, r, substr + '(')
+                dfs(l, r - 1, substr + ')')
+
+            return
+
+        dfs(n, n, '')
+        return res
 
     def reference():
         return
@@ -76,9 +81,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        ['2', '1', '+', '3', '*'],
-        ['4', '13', '5', '/', '+'],
-        ['10', '6', '9', '3', '+', '-11', '*', '/', '*', '17', '+', '5', '+']
-    ]
+    test_cases = [3, 1]
     test.quantify(test_cases)
