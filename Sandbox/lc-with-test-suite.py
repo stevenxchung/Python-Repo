@@ -32,28 +32,16 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int) -> List[str]:
-        res = []
-
-        def dfs(l, r, substr):
-            if r == 0:
-                # Closed parenthesis all used up
-                res.append(substr)
-                return
-            elif l == 0:
-                # Add a closed parentheses
-                dfs(l, r - 1, substr + ')')
-            elif l == r:
-                # Add an open parentheses
-                dfs(l - 1, r, substr + '(')
-            else:
-                # Otherwise add both parentheses
-                dfs(l - 1, r, substr + '(')
-                dfs(l, r - 1, substr + ')')
-
-            return
-
-        dfs(n, n, '')
+    def test(self, temperatures: List[int]) -> List[int]:
+        n_temps = len(temperatures)
+        res, idx_stack = [0] * n_temps, []
+        for i in range(n_temps):
+            # Top of stack less than current temperature
+            while idx_stack and temperatures[idx_stack[-1]] < temperatures[i]:
+                idx = idx_stack.pop()
+                # Days since temp > current temp
+                res[idx] = i - idx
+            idx_stack.append(i)
         return res
 
     def reference():
@@ -81,5 +69,11 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [3, 1]
+    test_cases = [
+        [73, 74, 75, 71, 69, 72, 76, 73],
+        [30, 40, 50, 60],
+        [30, 60, 90],
+        # Additional
+        [89, 62, 70, 58, 47, 47, 46, 76, 100, 70],
+    ]
     test.quantify(test_cases)
