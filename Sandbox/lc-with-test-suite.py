@@ -32,21 +32,24 @@ class Node:
 
 
 class Solution:
-    def test(self, s: str) -> bool:
-        s_map = {
-            ')' : '(',
-            ']' : '[',
-            '}' : '{'
-        }
+    def test(self, tokens: List[str]) -> int:
         stack = []
-
-        for c in s:
-            if c in s_map and stack[-1] == s_map[c]:
-                stack.pop()
+        ops = set(['+', '-', '*', '/'])
+        for i in range(len(tokens)):
+            if tokens[i] in ops:
+                a, b = stack.pop(), stack.pop()
+                if tokens[i] == '+':
+                    stack.append(int(a) + int(b))
+                elif tokens[i] == '-':
+                    stack.append(int(b) - int(a))
+                elif tokens[i] == '*':
+                    stack.append(int(a) * int(b))
+                else:
+                    stack.append(int(b) / int(a))
             else:
-                stack.append(c)
+                stack.append(tokens[i])
 
-        return len(stack) == 0
+        return stack.pop()
 
     def reference():
         return
@@ -74,11 +77,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        '()',
-        '()[]{}',
-        '(]',
-        # Additional
-        '(()',
-        '[()',
+        ['2', '1', '+', '3', '*'],
+        ['4', '13', '5', '/', '+'],
+        ['10', '6', '9', '3', '+', '-11', '*', '/', '*', '17', '+', '5', '+']
     ]
     test.quantify(test_cases)
