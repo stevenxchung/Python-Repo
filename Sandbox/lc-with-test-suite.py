@@ -32,17 +32,19 @@ class Node:
 
 
 class Solution:
-    def test(self, temperatures: List[int]) -> List[int]:
-        n_temps = len(temperatures)
-        res, idx_stack = [0] * n_temps, []
-        for i in range(n_temps):
-            # Top of stack less than current temperature
-            while idx_stack and temperatures[idx_stack[-1]] < temperatures[i]:
-                idx = idx_stack.pop()
-                # Days since temp > current temp
-                res[idx] = i - idx
-            idx_stack.append(i)
-        return res
+    def test(self, target: int, position: List[int], speed: List[int]) -> int:
+        arr = [(position[i], speed[i]) for i in range(len(position))]
+        arr.sort(reverse=True)
+
+        stack = []
+        for x, v in arr:
+            # Time it takes to get to target given position and speed
+            t = (target - x) / v
+            if len(stack) == 0 or t > stack[-1]:
+                # When stack is empty or car at back is slower than car at front then it will become a new fleet
+                stack.append(t)
+
+        return len(stack)
 
     def reference():
         return
@@ -52,9 +54,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -70,10 +72,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        [73, 74, 75, 71, 69, 72, 76, 73],
-        [30, 40, 50, 60],
-        [30, 60, 90],
-        # Additional
-        [89, 62, 70, 58, 47, 47, 46, 76, 100, 70],
+        (12, [10, 8, 0, 5, 3], [2, 4, 1, 1, 3]),
+        (10, [3], [3]),
+        (100, [0, 2, 4], [4, 2, 1]),
     ]
     test.quantify(test_cases)
