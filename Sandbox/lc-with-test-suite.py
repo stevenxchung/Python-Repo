@@ -32,13 +32,10 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int) -> int:
-        output = ''
-        for _ in range(32):
-            output += '1' if n & 1 else '0'
-            n >>= 1
-
-        return int(output, 2)
+    def test(self, nums: List[int]) -> int:
+        sum1 = sum(nums)
+        sum2 = sum([i for i in range(len(nums) + 1)])
+        return sum2 - sum1
 
     def reference():
         return
@@ -65,8 +62,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        int('00000010100101000001111010011100', 2),
-        int('11111111111111111111111111111101', 2),
-    ]
+    test_cases = [[3, 0, 1], [0, 1], [9, 6, 4, 2, 3, 5, 7, 0, 1]]
     test.quantify(test_cases)
