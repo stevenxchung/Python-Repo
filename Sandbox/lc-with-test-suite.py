@@ -32,16 +32,13 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int) -> List[int]:
-        cache = [0] * (n + 1)
-        offset = 1
-        for i in range(1, n + 1):
-            if offset * 2 == i:
-                #  Set offset whenever we hit the double of current index
-                offset = i
-            cache[i] = cache[offset] + 1
+    def test(self, n: int) -> int:
+        output = ''
+        for _ in range(32):
+            output += '1' if n & 1 else '0'
+            n >>= 1
 
-        return cache
+        return int(output, 2)
 
     def reference():
         return
@@ -69,7 +66,7 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        2,
-        5,
+        int('00000010100101000001111010011100', 2),
+        int('11111111111111111111111111111101', 2),
     ]
     test.quantify(test_cases)
