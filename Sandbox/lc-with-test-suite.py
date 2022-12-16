@@ -32,19 +32,14 @@ class Node:
 
 
 class Solution:
-    def test(self, target: int, position: List[int], speed: List[int]) -> int:
-        arr = [(position[i], speed[i]) for i in range(len(position))]
-        arr.sort(reverse=True)
+    def test(self, n: int) -> int:
+        count = 0
+        while n:
+            # Add if bit in ones place == 1
+            count += n & 1
+            n = n >> 1
 
-        stack = []
-        for x, v in arr:
-            # Time it takes to get to target given position and speed
-            t = (target - x) / v
-            if len(stack) == 0 or t > stack[-1]:
-                # When stack is empty or car at back is slower than car at front then it will become a new fleet
-                stack.append(t)
-
-        return len(stack)
+        return count
 
     def reference():
         return
@@ -54,9 +49,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -72,8 +67,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        (12, [10, 8, 0, 5, 3], [2, 4, 1, 1, 3]),
-        (10, [3], [3]),
-        (100, [0, 2, 4], [4, 2, 1]),
+        int('00000000000000000000000000001011', 2),
+        int('00000000000000000000000010000000', 2),
+        int('11111111111111111111111111111101', 2),
     ]
     test.quantify(test_cases)
