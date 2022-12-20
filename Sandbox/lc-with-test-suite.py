@@ -32,11 +32,17 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int]) -> int:
+    def test(self, stones: List[int]) -> int:
+        heap = [-stone for stone in stones]
+        heapq.heapify(heap)
         res = 0
-        for n in nums:
-            res ^= n
-        return res
+        while len(heap) > 1:
+            x, y = heapq.heappop(heap), heapq.heappop(heap)
+            res = abs(x) - abs(y)
+            if res > 0:
+                heapq.heappush(heap, -res)
+
+        return -(heap[0] if heap[0] else res)
 
     def reference():
         return
@@ -63,5 +69,10 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [[2, 2, 1], [4, 1, 2, 1, 2], [1]]
+    test_cases = [
+        [2, 7, 4, 1, 8, 1],
+        [1],
+        # Additional
+        [3, 7, 2],
+    ]
     test.quantify(test_cases)
