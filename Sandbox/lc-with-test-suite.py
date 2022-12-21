@@ -32,16 +32,13 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int], k: int) -> int:
-        nums = [-n for n in nums]
-        heapq.heapify(nums)
-
-        n, res = 0, 0
-        while n < k:
-            res = -heapq.heappop(nums)
-            n += 1
-
-        return res
+    def test(self, tasks: List[str], n: int) -> int:
+        counts = list(Counter(tasks).values())
+        max_freq = max(counts)
+        # Number of times max frequency occurs
+        n_max_freq = counts.count(max_freq)
+        # Unit of time cannot be less than number of tasks
+        return max(len(tasks), (max_freq - 1) * (n + 1) + n_max_freq)
 
     def reference():
         return
@@ -69,9 +66,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ([3, 2, 1, 5, 6, 4], 2),
-        ([3, 2, 3, 1, 2, 4, 5, 5, 6], 4),
-        # Additional
-        ([-1, -1], 2),
+        (['A', 'A', 'A', 'B', 'B', 'B'], 2),
+        (['A', 'A', 'A', 'B', 'B', 'B'], 0),
+        (['A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G'], 2),
     ]
     test.quantify(test_cases)
