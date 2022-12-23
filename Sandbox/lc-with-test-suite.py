@@ -32,16 +32,28 @@ class Node:
 
 
 class Solution:
-    def test(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        prev, curr = None, head
+    def test(
+        self, list1: Optional[ListNode], list2: Optional[ListNode]
+    ) -> Optional[ListNode]:
 
-        while curr:
-            temp = curr.next
-            curr.next = prev
-            prev = curr
-            curr = temp
+        l1, l2 = list1, list2
+        temp = ListNode()
+        head = temp
+        while l1 and l2:
+            if l1.val < l2.val:
+                temp.next = l1
+                l1 = l1.next
+            else:
+                temp.next = l2
+                l2 = l2.next
+            temp = temp.next
 
-        return prev
+        if l1:
+            temp.next = l1
+        else:
+            temp.next = l2
+
+        return head
 
     def reference():
         return
@@ -51,9 +63,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -69,8 +81,11 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))),
-        ListNode(1, ListNode(2)),
-        None,
+        (
+            ListNode(1, ListNode(2, ListNode(4))),
+            ListNode(1, ListNode(3, ListNode(4))),
+        ),
+        (None, None),
+        (None, ListNode(0)),
     ]
     test.quantify(test_cases)
