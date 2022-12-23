@@ -18,27 +18,57 @@ class Node:
 
 
 class Solution:
-    def __init__(self, k: int, nums: List[int], debug=False):
-        self.index = k - 1
-        self.heap = [-n for n in nums]
-        heapq.heapify(self.heap)
+    def __init__(self, debug=False):
+        self.global_feed = []  # (id, user_id)
+        heapq.heapify(self.global_feed)
+        self.following_map = defaultdict(set)  # { user_id: set(ids) }
         self.debug = debug
 
-    def add(self, val: int) -> int:
-        heapq.heappush(self.heap, -val)
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        heapq.heappush(self.global_feed, (-tweetId, userId))
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        feed = []
+        i = 0
+        while i < len(self.global_feed):
+            curr_post = self.global_feed[i]
+            if len(feed) == 10:
+                if self.debug:
+                    print(feed)
+                return feed
+            if (
+                curr_post[-1] == userId
+                or curr_post[-1] in self.following_map[userId]
+            ):
+                feed.append(-curr_post[0])
+            i += 1
+
         if self.debug:
-            print(
-                f'No.{self.index + 1} largest element: {-self.heap[self.index]}'
-            )
-        return -self.heap[self.index]
+            print(feed)
+        return feed
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        self.following_map[followerId].add(followeeId)
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        self.following_map[followerId].remove(followeeId)
 
 
 if __name__ == '__main__':
-    test = Solution(3, [4, 5, 8, 2], debug=True)
+    test = Solution(debug=True)
     sol_start = time()
-    test.add(3)  # return 4
-    test.add(5)  # return 5
-    test.add(10)  # return 5
-    test.add(9)  # return 8
-    test.add(4)  # return 8
-    print(f'Runtime for our solution: {time() - sol_start}')
+    # User 1 posts a new tweet(id = 5)
+    test.postTweet(1, 5)
+    # User 1's news feed should return a list with 1 tweet id -> [5]. return [5]
+    test.getNewsFeed(1)
+    # User 1 follows user 2
+    test.follow(1, 2)
+    # User 2 posts a new tweet(id=6)
+    test.postTweet(2, 6)
+    # User 1's news feed should return a list with 2 tweet ids -> [6, 5]. Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5
+    test.getNewsFeed(1)
+    # User 1 unfollows user 2
+    test.unfollow(1, 2)
+    # User 1's news feed should return a list with 1 tweet id -> [5], since user 1 is no longer following user 2
+    test.getNewsFeed(1)
+print(f'Runtime for our solution: {time() - sol_start}')
