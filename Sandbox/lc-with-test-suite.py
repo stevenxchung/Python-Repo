@@ -32,13 +32,16 @@ class Node:
 
 
 class Solution:
-    def test(self, tasks: List[str], n: int) -> int:
-        counts = list(Counter(tasks).values())
-        max_freq = max(counts)
-        # Number of times max frequency occurs
-        n_max_freq = counts.count(max_freq)
-        # Unit of time cannot be less than number of tasks
-        return max(len(tasks), (max_freq - 1) * (n + 1) + n_max_freq)
+    def test(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev, curr = None, head
+
+        while curr:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+
+        return prev
 
     def reference():
         return
@@ -48,9 +51,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -66,8 +69,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        (['A', 'A', 'A', 'B', 'B', 'B'], 2),
-        (['A', 'A', 'A', 'B', 'B', 'B'], 0),
-        (['A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G'], 2),
+        ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))),
+        ListNode(1, ListNode(2)),
+        None,
     ]
     test.quantify(test_cases)
