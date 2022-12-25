@@ -32,29 +32,19 @@ class Node:
 
 
 class Solution:
-    def test(self, head: Optional[ListNode]):
-        # Find halfway point
-        slow, fast = head, head
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
+    def test(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        node = ListNode(0, head)
+        p1, p2 = node, head
 
-        # Reverse second half
-        prev, curr = None, slow
-        while curr:
-            temp = curr.next
-            curr.next = prev
-            prev = curr
-            curr = temp
+        for _ in range(n):
+            p2 = p2.next
 
-        l1, l2 = head, prev
-        while l2:
-            temp1, temp2 = l1.next, l2.next
-            l1.next = l2
-            l2.next = temp1
-            l1, l2 = temp1, temp2
+        while p2:
+            p2 = p2.next
+            p1 = p1.next
+        p1.next = p1.next.next
 
-        return head
+        return node.next
 
     def reference():
         return
@@ -64,9 +54,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -82,7 +72,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ListNode(1, ListNode(2, ListNode(3, ListNode(4)))),
-        ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))),
+        (ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2),
+        (ListNode(1), 1),
+        (ListNode(1, ListNode(2)), 1),
     ]
     test.quantify(test_cases)
