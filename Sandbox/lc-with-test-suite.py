@@ -25,26 +25,40 @@ class TrieNode:
         self.is_end = False
 
 
+# class Node:
+#     def __init__(self, val=0, neighbors=None):
+#         '''Graph Node'''
+#         self.val = val
+#         self.neighbors = neighbors if neighbors != None else []
+
+
 class Node:
-    def __init__(self, val=0, neighbors=None):
-        self.val = val
-        self.neighbors = neighbors if neighbors != None else []
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        '''Linked-list Node'''
+        self.val = int(x)
+        self.next = next
+        self.random = random
 
 
 class Solution:
-    def test(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        node = ListNode(0, head)
-        p1, p2 = node, head
+    def test(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        # Use hashmap to store mapping
+        node_map = {None: None}
 
-        for _ in range(n):
-            p2 = p2.next
+        curr = head
+        while curr:
+            copy = Node(curr.val)
+            node_map[curr] = copy
+            curr = curr.next
 
-        while p2:
-            p2 = p2.next
-            p1 = p1.next
-        p1.next = p1.next.next
+        curr = head
+        while curr:
+            copy = node_map[curr]
+            copy.next = node_map[curr.next]
+            copy.random = node_map[curr.random]
+            curr = curr.next
 
-        return node.next
+        return node_map[head]
 
     def reference():
         return
@@ -54,9 +68,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -71,9 +85,35 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        (ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2),
-        (ListNode(1), 1),
-        (ListNode(1, ListNode(2)), 1),
-    ]
+    input1_1 = Node(7)
+    input1_2 = Node(13)
+    input1_3 = Node(11)
+    input1_4 = Node(10)
+    input1_5 = Node(1, None)
+    input1_1.next = input1_2
+    input1_2.next = input1_3
+    input1_3.next = input1_4
+    input1_4.next = input1_5
+    input1_1.random = None
+    input1_2.random = input1_1
+    input1_3.random = input1_5
+    input1_4.random = input1_3
+    input1_5.random = input1_1
+
+    input2_1 = Node(1)
+    input2_2 = Node(2, None)
+    input2_1.next = input2_2
+    input2_1.random = input2_2
+    input2_2.random = input2_2
+
+    input3_1 = Node(3)
+    input3_2 = Node(3)
+    input3_3 = Node(3, None)
+    input3_1.next = input3_2
+    input3_2.next = input3_3
+    input3_1.random = None
+    input3_2.random = input3_1
+    input3_3.random = None
+
+    test_cases = [input1_1, input2_1, input3_1]
     test.quantify(test_cases)
