@@ -41,27 +41,18 @@ class Node:
 
 
 class Solution:
-    def test(
-        self, l1: Optional[ListNode], l2: Optional[ListNode]
-    ) -> Optional[ListNode]:
-        p1, p2 = l1, l2
-        res1, res2 = '', ''
-        while p1:
-            res1 += f'{p1.val}'
-            p1 = p1.next
-        while p2:
-            res2 += f'{p2.val}'
-            p2 = p2.next
+    def test(self, head: Optional[ListNode]) -> bool:
+        if not head:
+            return False
 
-        sum_res = [int(n) for n in f'{int(res1) + int(res2)}'][::-1]
+        slow, fast = head, head.next
+        while slow and fast:
+            if slow.val == fast.val:
+                return True
+            slow = slow.next
+            fast = fast.next.next
 
-        p = ListNode()
-        res = p
-        for n in sum_res:
-            p.next = ListNode(n)
-            p = p.next
-
-        return res.next
+        return False
 
     def reference():
         return
@@ -71,9 +62,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -88,23 +79,15 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
+    t1 = ListNode(3, ListNode(2, ListNode(0)))
+    temp = ListNode(-4, t1.next)
+    t1.next.next.next = temp
+
+    t2 = ListNode(1, ListNode(2))
+    t2.next.next = t2
     test_cases = [
-        (
-            ListNode(2, ListNode(4, ListNode(3))),
-            ListNode(5, ListNode(6, ListNode(4))),
-        ),
-        (ListNode(0), ListNode(0)),
-        (
-            ListNode(
-                9,
-                ListNode(
-                    9,
-                    ListNode(
-                        9, ListNode(9, ListNode(9, ListNode(9, ListNode(9))))
-                    ),
-                ),
-            ),
-            ListNode(9, ListNode(9, ListNode(9, ListNode(9)))),
-        ),
+        t1,
+        t2,
+        ListNode(1),
     ]
     test.quantify(test_cases)
