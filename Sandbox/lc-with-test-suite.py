@@ -41,18 +41,10 @@ class Node:
 
 
 class Solution:
-    def test(self, head: Optional[ListNode]) -> bool:
-        if not head:
-            return False
-
-        slow, fast = head, head.next
-        while slow and fast:
-            if slow.val == fast.val:
-                return True
-            slow = slow.next
-            fast = fast.next.next
-
-        return False
+    def test(self, nums: List[int]) -> int:
+        while nums[0] != nums[nums[0]]:
+            nums[nums[0]], nums[0] = nums[0], nums[nums[0]]
+        return nums[0]
 
     def reference():
         return
@@ -79,15 +71,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    t1 = ListNode(3, ListNode(2, ListNode(0)))
-    temp = ListNode(-4, t1.next)
-    t1.next.next.next = temp
-
-    t2 = ListNode(1, ListNode(2))
-    t2.next.next = t2
-    test_cases = [
-        t1,
-        t2,
-        ListNode(1),
-    ]
+    test_cases = [[1, 3, 4, 2, 2], [3, 1, 3, 4, 2]]
     test.quantify(test_cases)
