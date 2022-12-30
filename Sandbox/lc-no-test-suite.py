@@ -12,63 +12,73 @@ class TrieNode:
 
 
 class Node:
-    def __init__(self, key, val):
+    def __init__(self, key=0, val=0):
+        '''Doubly Linked-list Node'''
         self.key, self.val = key, val
         self.prev = self.next = None
 
 
 class Solution:
-    def __init__(self, debug=False):
-        self.global_feed = []  # (id, user_id)
-        heapq.heapify(self.global_feed)
-        self.following_map = defaultdict(set)  # { user_id: set(ids) }
+    def __init__(self, capacity: int, debug=False):
         self.debug = debug
+        self.capacity = capacity
+        self.cache = {}  # {key: Node()}
+        # LRU is head and MRU is tail
+        self.lru, self.mru = Node(), Node()
+        self.lru.next, self.mru.prev = self.mru, self.lru
 
-    def postTweet(self, userId: int, tweetId: int) -> None:
-        heapq.heappush(self.global_feed, (-tweetId, userId))
+    def delete(self, node: Node):
+        # Delete by linking neighbors
+        l, r = node.prev, node.next
+        l.next, r.prev = r, l
 
-    def getNewsFeed(self, userId: int) -> List[int]:
-        feed = []
-        i = 0
-        while i < len(self.global_feed):
-            curr_post = self.global_feed[i]
-            if len(feed) == 10:
-                if self.debug:
-                    print(feed)
-                return feed
-            if (
-                curr_post[-1] == userId
-                or curr_post[-1] in self.following_map[userId]
-            ):
-                feed.append(-curr_post[0])
-            i += 1
+    def insert(self, node: Node):
+        # Every element is added to tail (MRU)
+        l, r = self.mru.prev, self.mru
+        l.next = r.prev = node
+        node.prev, node.next = l, r
+
+    def get(self, key: int) -> int:
+        res = -1
+        if key in self.cache:
+            # Move to tail
+            self.delete(self.cache[key])
+            self.insert(self.cache[key])
+            res = key
 
         if self.debug:
-            print(feed)
-        return feed
+            print(res)
+        return res
 
-    def follow(self, followerId: int, followeeId: int) -> None:
-        self.following_map[followerId].add(followeeId)
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.delete(self.cache[key])
 
-    def unfollow(self, followerId: int, followeeId: int) -> None:
-        self.following_map[followerId].remove(followeeId)
+        self.cache[key] = Node(key, value)
+        self.insert(self.cache[key])
+
+        if len(self.cache) > self.capacity:
+            # Over capacity, remove LRU
+            lru = self.lru.next
+            self.delete(self.cache[lru.key])
+            if self.debug:
+                print(lru.key)
+            del self.cache[lru.key]
+
+        if self.debug:
+            print(self.cache.keys())
 
 
 if __name__ == '__main__':
-    test = Solution(debug=True)
+    test = Solution(2, debug=True)
     sol_start = time()
-    # User 1 posts a new tweet(id = 5)
-    test.postTweet(1, 5)
-    # User 1's news feed should return a list with 1 tweet id -> [5]. return [5]
-    test.getNewsFeed(1)
-    # User 1 follows user 2
-    test.follow(1, 2)
-    # User 2 posts a new tweet(id=6)
-    test.postTweet(2, 6)
-    # User 1's news feed should return a list with 2 tweet ids -> [6, 5]. Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5
-    test.getNewsFeed(1)
-    # User 1 unfollows user 2
-    test.unfollow(1, 2)
-    # User 1's news feed should return a list with 1 tweet id -> [5], since user 1 is no longer following user 2
-    test.getNewsFeed(1)
-print(f'Runtime for our solution: {time() - sol_start}')
+    test.put(1, 1)  # Cache is {1=1}
+    test.put(2, 2)  # Cache is {1=1, 2=2}
+    test.get(1)  # Return 1
+    test.put(3, 3)  # LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+    test.get(2)  # Returns -1 (not found)
+    test.put(4, 4)  # LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+    test.get(1)  # Return -1 (not found)
+    test.get(3)  # Return 3
+    test.get(4)  # Return 4
+    print(f'Runtime for our solution: {time() - sol_start}')
