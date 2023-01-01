@@ -1,6 +1,6 @@
 from collections import Counter, defaultdict, deque
 import heapq
-from math import inf, sqrt
+from math import ceil, inf, sqrt
 import queue
 from time import time
 from typing import List, Optional
@@ -41,35 +41,21 @@ class Node:
 
 
 class Solution:
-    def test(self, matrix: List[List[int]], target: int) -> bool:
-        row = None
-        l, r = 0, len(matrix[0]) - 1
-        top, bottom = 0, len(matrix) - 1
-        # Find row
-        while top <= bottom:
-            mid = (top + bottom) // 2
-            if target > matrix[mid][r]:
-                top = mid + 1
-            elif target < matrix[mid][l]:
-                bottom = mid - 1
-            else:
-                row = mid
-                break
-
-        if row == None:
-            return False
-
-        # Regular binary search
+    def test(self, piles: List[int], h: int) -> int:
+        l, r = 1, max(piles)
+        res = r
         while l <= r:
-            mid = (l + r) // 2
-            if target > matrix[row][mid]:
-                l = mid + 1
-            elif target < matrix[row][mid]:
-                r = mid - 1
+            k = (l + r) // 2
+            time_to_eat = 0
+            for bananas in piles:
+                time_to_eat += ceil(bananas / k)
+            if time_to_eat <= h:
+                res = k
+                r = k - 1
             else:
-                return True
+                l = k + 1
 
-        return False
+        return res
 
     def reference():
         return
@@ -97,10 +83,10 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 3),
-        ([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 13),
+        ([3, 6, 7, 11], 8),
+        ([30, 11, 23, 4, 20], 5),
+        ([30, 11, 23, 4, 20], 6),
         # Additional
-        ([[1], [3]], 1),
-        ([[1], [3], [5]], 3),
+        ([312884470], 312884469),
     ]
     test.quantify(test_cases)
