@@ -41,21 +41,16 @@ class Node:
 
 
 class Solution:
-    def test(self, piles: List[int], h: int) -> int:
-        l, r = 1, max(piles)
-        res = r
+    def test(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
         while l <= r:
-            k = (l + r) // 2
-            time_to_eat = 0
-            for bananas in piles:
-                time_to_eat += ceil(bananas / k)
-            if time_to_eat <= h:
-                res = k
-                r = k - 1
+            mid = (l + r) // 2
+            if nums[mid] > nums[r]:
+                l = mid + 1
             else:
-                l = k + 1
+                r = mid - 1
 
-        return res
+        return nums[l]
 
     def reference():
         return
@@ -65,9 +60,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -82,11 +77,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        ([3, 6, 7, 11], 8),
-        ([30, 11, 23, 4, 20], 5),
-        ([30, 11, 23, 4, 20], 6),
-        # Additional
-        ([312884470], 312884469),
-    ]
+    test_cases = [[3, 4, 5, 1, 2], [4, 5, 6, 7, 0, 1, 2], [11, 13, 15, 17]]
     test.quantify(test_cases)
