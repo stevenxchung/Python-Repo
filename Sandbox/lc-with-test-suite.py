@@ -41,16 +41,29 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int]) -> int:
+    def test(self, nums: List[int], target: int) -> int:
         l, r = 0, len(nums) - 1
         while l <= r:
             mid = (l + r) // 2
-            if nums[mid] > nums[r]:
-                l = mid + 1
-            else:
-                r = mid - 1
+            if nums[mid] == target:
+                return mid
 
-        return nums[l]
+            if nums[l] <= nums[mid]:
+                # Left sorted
+                if target > nums[mid] or target < nums[l]:
+                    # Out of bounds (left side)
+                    l = mid + 1
+                else:
+                    r = mid - 1
+            else:
+                # Right sorted
+                if target < nums[mid] or target > nums[r]:
+                    # Out of bounds (right side)
+                    r = mid - 1
+                else:
+                    l = mid + 1
+
+        return -1
 
     def reference():
         return
@@ -60,9 +73,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -77,5 +90,9 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [[3, 4, 5, 1, 2], [4, 5, 6, 7, 0, 1, 2], [11, 13, 15, 17]]
+    test_cases = [
+        ([4, 5, 6, 7, 0, 1, 2], 0),
+        ([4, 5, 6, 7, 0, 1, 2], 3),
+        ([1], 0),
+    ]
     test.quantify(test_cases)
