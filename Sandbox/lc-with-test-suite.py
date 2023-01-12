@@ -41,14 +41,19 @@ class Node:
 
 
 class Solution:
-    def test(self, nums) -> bool:
-        seen = set()
-        for n in nums:
-            if n in seen:
-                return True
-            seen.add(n)
+    def test(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
 
-        return False
+        s_table, t_table = {}, {}
+        for i in range(len(s)):
+            s_table[s[i]] = s_table.get(s[i], 0) + 1
+            t_table[t[i]] = t_table.get(t[i], 0) + 1
+
+        if s_table == t_table:
+            return True
+        else:
+            return False
 
     def reference():
         return
@@ -58,9 +63,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -75,5 +80,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [[1, 2, 3, 1], [1, 2, 3, 4], [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]]
+    test_cases = [('anagram', 'nagaram'), ('rat', 'car')]
     test.quantify(test_cases)
