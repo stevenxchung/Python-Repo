@@ -41,15 +41,18 @@ class Node:
 
 
 class Solution:
-    def test(self, strs: List[str]) -> List[List[str]]:
-        anagrams = defaultdict(list)
-        for s in strs:
-            key = [0] * 26
-            for c in s:
-                key[ord(c) - ord('a')] += 1
-            anagrams[tuple(key)].append(s)
+    def test(self, nums: List[int], k: int) -> List[int]:
+        res, freq = [], {}
+        for n in nums:
+            freq[n] = 1 + freq.get(n, 0)
 
-        return anagrams.values()
+        for _ in range(k):
+            # Get number corresponding to max count then delete
+            num = max(freq, key=freq.get)
+            res.append(num)
+            del freq[num]
+
+        return res
 
     def reference():
         return
@@ -59,9 +62,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -76,9 +79,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        ['eat', 'tea', 'tan', 'ate', 'nat', 'bat'],
-        [''],
-        ['a'],
-    ]
+    test_cases = [([1, 1, 1, 2, 2, 3], 2), ([1], 1)]
     test.quantify(test_cases)
