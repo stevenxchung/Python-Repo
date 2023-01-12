@@ -41,16 +41,17 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int], k: int) -> List[int]:
-        res, freq = [], {}
-        for n in nums:
-            freq[n] = 1 + freq.get(n, 0)
+    def test(self, nums: List[int]) -> List[int]:
+        res = [1] * len(nums)
+        pre, post = 1, 1
 
-        for _ in range(k):
-            # Get number corresponding to max count then delete
-            num = max(freq, key=freq.get)
-            res.append(num)
-            del freq[num]
+        for i in range(len(nums)):
+            res[i] = pre
+            pre *= nums[i]
+
+        for i in range(len(nums) - 1, -1, -1):
+            res[i] *= post
+            post *= nums[i]
 
         return res
 
@@ -62,9 +63,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -79,5 +80,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [([1, 1, 1, 2, 2, 3], 2), ([1], 1)]
+    test_cases = [[1, 2, 3, 4], [-1, 1, 0, -3, 3]]
     test.quantify(test_cases)
