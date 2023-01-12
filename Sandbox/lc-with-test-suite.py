@@ -41,19 +41,15 @@ class Node:
 
 
 class Solution:
-    def test(self, s: str, t: str) -> bool:
-        if len(s) != len(t):
-            return False
+    def test(self, strs: List[str]) -> List[List[str]]:
+        anagrams = defaultdict(list)
+        for s in strs:
+            key = [0] * 26
+            for c in s:
+                key[ord(c) - ord('a')] += 1
+            anagrams[tuple(key)].append(s)
 
-        s_table, t_table = {}, {}
-        for i in range(len(s)):
-            s_table[s[i]] = s_table.get(s[i], 0) + 1
-            t_table[t[i]] = t_table.get(t[i], 0) + 1
-
-        if s_table == t_table:
-            return True
-        else:
-            return False
+        return anagrams.values()
 
     def reference():
         return
@@ -63,9 +59,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -80,5 +76,9 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [('anagram', 'nagaram'), ('rat', 'car')]
+    test_cases = [
+        ['eat', 'tea', 'tan', 'ate', 'nat', 'bat'],
+        [''],
+        ['a'],
+    ]
     test.quantify(test_cases)
