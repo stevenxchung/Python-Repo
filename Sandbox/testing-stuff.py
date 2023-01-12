@@ -51,5 +51,3 @@ if __name__ == "__main__":
         f"Please head to https://ramp.com/careers and use this secret when "
         f"you apply: {generate_secret()}\n"
     )
-
-
