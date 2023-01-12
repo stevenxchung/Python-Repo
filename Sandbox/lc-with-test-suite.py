@@ -41,27 +41,22 @@ class Node:
 
 
 class Solution:
-    def test(self, board: List[List[str]]) -> bool:
-        seen_r = defaultdict(set)
-        seen_c = defaultdict(set)
-        seen_sq = defaultdict(set)
+    def test(self, nums: List[int]) -> int:
+        temp_set = set(nums)
+        count = 1
+        longest = 1
+        for e in nums:
+            # Only check for start of sequence
+            if e - 1 not in temp_set:
+                next_n = e + 1
+                while next_n in temp_set:
+                    count += 1
+                    next_n += 1
+                if count > longest:
+                    longest = count
+            count = 1
 
-        ROWS, COLS = len(board), len(board[0])
-        for r in range(ROWS):
-            for c in range(COLS):
-                if board[r][c] == '.':
-                    continue
-                if (
-                    board[r][c] in seen_r[r]
-                    or board[r][c] in seen_c[c]
-                    or board[r][c] in seen_sq[(r // 3, c // 3)]
-                ):
-                    return False
-                seen_r[r].add(board[r][c])
-                seen_c[c].add(board[r][c])
-                seen_sq[(r // 3, c // 3)].add(board[r][c])
-
-        return True
+        return longest
 
     def reference():
         return
@@ -88,40 +83,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        [
-            ['5', '3', '.', '.', '7', '.', '.', '.', '.'],
-            ['6', '.', '.', '1', '9', '5', '.', '.', '.'],
-            ['.', '9', '8', '.', '.', '.', '.', '6', '.'],
-            ['8', '.', '.', '.', '6', '.', '.', '.', '3'],
-            ['4', '.', '.', '8', '.', '3', '.', '.', '1'],
-            ['7', '.', '.', '.', '2', '.', '.', '.', '6'],
-            ['.', '6', '.', '.', '.', '.', '2', '8', '.'],
-            ['.', '.', '.', '4', '1', '9', '.', '.', '5'],
-            ['.', '.', '.', '.', '8', '.', '.', '7', '9'],
-        ],
-        [
-            ['8', '3', '.', '.', '7', '.', '.', '.', '.'],
-            ['6', '.', '.', '1', '9', '5', '.', '.', '.'],
-            ['.', '9', '8', '.', '.', '.', '.', '6', '.'],
-            ['8', '.', '.', '.', '6', '.', '.', '.', '3'],
-            ['4', '.', '.', '8', '.', '3', '.', '.', '1'],
-            ['7', '.', '.', '.', '2', '.', '.', '.', '6'],
-            ['.', '6', '.', '.', '.', '.', '2', '8', '.'],
-            ['.', '.', '.', '4', '1', '9', '.', '.', '5'],
-            ['.', '.', '.', '.', '8', '.', '.', '7', '9'],
-        ],
-        # Additional
-        [
-            ['.', '.', '.', '.', '5', '.', '.', '1', '.'],
-            ['.', '4', '.', '3', '.', '.', '.', '.', '.'],
-            ['.', '.', '.', '.', '.', '3', '.', '.', '1'],
-            ['8', '.', '.', '.', '.', '.', '.', '2', '.'],
-            ['.', '.', '2', '.', '7', '.', '.', '.', '.'],
-            ['.', '1', '5', '.', '.', '.', '.', '.', '.'],
-            ['.', '.', '.', '.', '.', '2', '.', '.', '.'],
-            ['.', '2', '.', '9', '.', '.', '.', '.', '.'],
-            ['.', '.', '4', '.', '.', '.', '.', '.', '.'],
-        ],
-    ]
+    test_cases = [[100, 4, 200, 1, 3, 2], [0, 3, 7, 2, 5, 8, 4, 6, 0, 1]]
     test.quantify(test_cases)
