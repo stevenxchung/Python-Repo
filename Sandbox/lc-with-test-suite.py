@@ -41,22 +41,16 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int]) -> int:
-        temp_set = set(nums)
-        count = 1
-        longest = 1
-        for e in nums:
-            # Only check for start of sequence
-            if e - 1 not in temp_set:
-                next_n = e + 1
-                while next_n in temp_set:
-                    count += 1
-                    next_n += 1
-                if count > longest:
-                    longest = count
-            count = 1
+    def test(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        def dfs(node):
+            if not node:
+                return None
 
-        return longest
+            node.left, node.right = dfs(node.right), dfs(node.left)
+
+            return node
+
+        return dfs(root)
 
     def reference():
         return
@@ -83,5 +77,13 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [[100, 4, 200, 1, 3, 2], [0, 3, 7, 2, 5, 8, 4, 6, 0, 1]]
+    test_cases = [
+        TreeNode(
+            4,
+            TreeNode(2, TreeNode(1), TreeNode(3)),
+            TreeNode(7, TreeNode(6), TreeNode(9)),
+        ),
+        TreeNode(2, TreeNode(1), TreeNode(3)),
+        None,
+    ]
     test.quantify(test_cases)
