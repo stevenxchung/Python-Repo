@@ -41,16 +41,17 @@ class Node:
 
 
 class Solution:
-    def test(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        def dfs(node):
+    def test(self, root: Optional[TreeNode]) -> int:
+        def dfs(node, level):
             if not node:
-                return None
+                return 0
 
-            node.left, node.right = dfs(node.right), dfs(node.left)
+            left = dfs(node.left, level + 1)
+            right = dfs(node.right, level + 1)
 
-            return node
+            return 1 + max(left, right)
 
-        return dfs(root)
+        return dfs(root, 0)
 
     def reference():
         return
@@ -78,12 +79,7 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        TreeNode(
-            4,
-            TreeNode(2, TreeNode(1), TreeNode(3)),
-            TreeNode(7, TreeNode(6), TreeNode(9)),
-        ),
-        TreeNode(2, TreeNode(1), TreeNode(3)),
-        None,
+        TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7))),
+        TreeNode(2, None, TreeNode(1)),
     ]
     test.quantify(test_cases)
