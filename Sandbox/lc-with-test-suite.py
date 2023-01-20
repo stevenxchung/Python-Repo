@@ -41,20 +41,16 @@ class Node:
 
 
 class Solution:
-    def test(self, root: Optional[TreeNode]) -> bool:
-        def dfs(node):
-            if not node:
-                return 0
+    def test(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        def dfs(node1, node2):
+            if not node1 and not node2:
+                return True
+            if not node1 or not node2 or node1.val != node2.val:
+                return False
 
-            left = dfs(node.left)
-            right = dfs(node.right)
+            return dfs(node1.left, node2.left) and dfs(node1.right, node2.right)
 
-            if left == -1 or right == -1 or abs(left - right) > 1:
-                return -1
-
-            return 1 + max(left, right)
-
-        return dfs(root) != -1
+        return dfs(p, q)
 
     def reference():
         return
@@ -64,9 +60,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -82,12 +78,14 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7))),
-        TreeNode(
-            1,
-            TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeNode(3)),
-            TreeNode(2),
+        (
+            TreeNode(1, TreeNode(2), TreeNode(3)),
+            TreeNode(1, TreeNode(2), TreeNode(3)),
         ),
-        None,
+        (TreeNode(1, TreeNode(2)), TreeNode(1, None, TreeNode(2))),
+        (
+            TreeNode(1, TreeNode(2), TreeNode(1)),
+            TreeNode(1, TreeNode(1), TreeNode(2)),
+        ),
     ]
     test.quantify(test_cases)
