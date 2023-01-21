@@ -41,16 +41,30 @@ class Node:
 
 
 class Solution:
-    def test(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-        def dfs(node1, node2):
+    def test(
+        self, root: Optional[TreeNode], subRoot: Optional[TreeNode]
+    ) -> bool:
+        def same_tree(node1, node2):
             if not node1 and not node2:
                 return True
             if not node1 or not node2 or node1.val != node2.val:
                 return False
 
-            return dfs(node1.left, node2.left) and dfs(node1.right, node2.right)
+            return same_tree(node1.left, node2.left) and same_tree(
+                node1.right, node2.right
+            )
 
-        return dfs(p, q)
+        def sub_tree(root, sub_root):
+            if not root:
+                return False
+            if not sub_root or same_tree(root, sub_root):
+                return True
+
+            return sub_tree(root.left, sub_root) or sub_tree(
+                root.right, sub_root
+            )
+
+        return sub_tree(root, subRoot)
 
     def reference():
         return
@@ -79,13 +93,16 @@ if __name__ == '__main__':
     test = Solution()
     test_cases = [
         (
-            TreeNode(1, TreeNode(2), TreeNode(3)),
-            TreeNode(1, TreeNode(2), TreeNode(3)),
+            TreeNode(3, TreeNode(4, TreeNode(1), TreeNode(2)), TreeNode(5)),
+            TreeNode(4, TreeNode(1), TreeNode(2)),
         ),
-        (TreeNode(1, TreeNode(2)), TreeNode(1, None, TreeNode(2))),
         (
-            TreeNode(1, TreeNode(2), TreeNode(1)),
-            TreeNode(1, TreeNode(1), TreeNode(2)),
+            TreeNode(
+                3,
+                TreeNode(4, TreeNode(1), TreeNode(2, TreeNode(0))),
+                TreeNode(5),
+            ),
+            TreeNode(4, TreeNode(1), TreeNode(2)),
         ),
     ]
     test.quantify(test_cases)
