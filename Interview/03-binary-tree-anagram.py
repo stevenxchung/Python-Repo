@@ -95,7 +95,9 @@ class Solution:
 
         return res
 
-    def test(self, tree1: Optional[TreeNode], tree2: Optional[TreeNode]) -> Optional[TreeNode]:
+    def test(
+        self, tree1: Optional[TreeNode], tree2: Optional[TreeNode]
+    ) -> Optional[TreeNode]:
         tree_map_1 = self.bfs(tree1)
         tree_map_2 = self.bfs(tree2)
         res = defaultdict(list)
@@ -109,10 +111,12 @@ class Solution:
 
         return res
 
-    def reference(self, tree1: Optional[TreeNode], tree2: Optional[TreeNode]) -> Optional[TreeNode]:
+    def reference(
+        self, tree1: Optional[TreeNode], tree2: Optional[TreeNode]
+    ) -> Optional[TreeNode]:
         return
 
-    def quantify(self, test_cases, runs=100000):
+    def quantify(self, test_cases, runs=50000):
         sol_start = time()
         for i in range(runs):
             for case in test_cases:
@@ -136,42 +140,42 @@ if __name__ == '__main__':
     test = Solution()
     test_cases = [
         (
-            TreeNode('b',
-                     TreeNode('a', TreeNode('c'), TreeNode('o')),
-                     TreeNode('c', TreeNode('d'), TreeNode('e'))
-                     ),
-            TreeNode('b',
-                     TreeNode('a', TreeNode('c'), TreeNode('d')),
-                     TreeNode('p', TreeNode('o'), TreeNode('e'))
-                     )
+            TreeNode(
+                'b',
+                TreeNode('a', TreeNode('c'), TreeNode('o')),
+                TreeNode('c', TreeNode('d'), TreeNode('e')),
+            ),
+            TreeNode(
+                'b',
+                TreeNode('a', TreeNode('c'), TreeNode('d')),
+                TreeNode('p', TreeNode('o'), TreeNode('e')),
+            ),
         ),
         (
-            TreeNode('a',
-                     TreeNode('a', None, TreeNode('o')),
-                     TreeNode('c', TreeNode('d'), TreeNode('e'))
-                     ),
-            TreeNode('b',
-                     TreeNode('a', TreeNode('c'), TreeNode('d')),
-                     TreeNode('p', TreeNode('o'), TreeNode('e'))
-                     )
+            TreeNode(
+                'a',
+                TreeNode('a', None, TreeNode('o')),
+                TreeNode('c', TreeNode('d'), TreeNode('e')),
+            ),
+            TreeNode(
+                'b',
+                TreeNode('a', TreeNode('c'), TreeNode('d')),
+                TreeNode('p', TreeNode('o'), TreeNode('e')),
+            ),
         ),
         (
-            TreeNode('a',
-                     TreeNode('a',
-                              None,
-                              TreeNode('o', TreeNode('a'))),
-                     TreeNode('c',
-                              TreeNode('d'),
-                              TreeNode('e'))
-                     ),
-            TreeNode('b',
-                     TreeNode('a',
-                              None,
-                              TreeNode('d')),
-                     TreeNode('p',
-                              TreeNode('o'),
-                              TreeNode('e', None,  TreeNode('a')))
-                     )
+            TreeNode(
+                'a',
+                TreeNode('a', None, TreeNode('o', TreeNode('a'))),
+                TreeNode('c', TreeNode('d'), TreeNode('e')),
+            ),
+            TreeNode(
+                'b',
+                TreeNode('a', None, TreeNode('d')),
+                TreeNode(
+                    'p', TreeNode('o'), TreeNode('e', None, TreeNode('a'))
+                ),
+            ),
         ),
     ]
     test.quantify(test_cases)
