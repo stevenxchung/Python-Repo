@@ -8,10 +8,17 @@ from typing import List
 
 
 class Solution:
-    def get_max_pay(self, start_time: int, end_time: int,
-                    d_starts: List[int], d_ends: List[int], earnings: List[int]) -> int:
-        d_tuple = [(d_starts[i], d_ends[i], earnings[i])
-                   for i in range(len(d_starts))]
+    def get_max_pay(
+        self,
+        start_time: int,
+        end_time: int,
+        d_starts: List[int],
+        d_ends: List[int],
+        earnings: List[int],
+    ) -> int:
+        d_tuple = [
+            (d_starts[i], d_ends[i], earnings[i]) for i in range(len(d_starts))
+        ]
         d_tuple.sort()
         last = -inf
         last_max = 0
@@ -33,7 +40,7 @@ class Solution:
 
         return -1
 
-    def quantify(self, test_cases, runs=100000):
+    def quantify(self, test_cases, runs=50000):
         sol_start = time()
         for i in range(runs):
             for case in test_cases:
@@ -51,7 +58,5 @@ if __name__ == '__main__':
     d_ends = [6, 4, 6, 10, 11]
     earnings = [5, 2, 4, 1, 3]
     test = Solution()
-    test_cases = [
-        (start_time, end_time, d_starts, d_ends, earnings)
-    ]
+    test_cases = [(start_time, end_time, d_starts, d_ends, earnings)]
     test.quantify(test_cases)
