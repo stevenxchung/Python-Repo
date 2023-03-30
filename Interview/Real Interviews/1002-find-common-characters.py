@@ -34,7 +34,7 @@ class Solution:
 
         return res
 
-    def quantify(self, test_cases, runs=100000):
+    def quantify(self, test_cases, runs=50000):
         sol_start = time()
         for i in range(runs):
             for case in test_cases:
@@ -56,8 +56,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        ['bella', 'label', 'roller'],
-        ['cool', 'lock', 'cook']
-    ]
+    test_cases = [['bella', 'label', 'roller'], ['cool', 'lock', 'cook']]
     test.quantify(test_cases)
