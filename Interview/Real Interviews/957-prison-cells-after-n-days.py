@@ -25,8 +25,18 @@ class Solution:
         :type N: int
         :rtype: List[int]
         """
+
         def next(state):
-            return tuple([1 if i > 0 and i < len(state)-1 and state[i-1] == state[i+1] else 0 for i in range(len(state))])
+            return tuple(
+                [
+                    1
+                    if i > 0
+                    and i < len(state) - 1
+                    and state[i - 1] == state[i + 1]
+                    else 0
+                    for i in range(len(state))
+                ]
+            )
 
         seen = {}
         state = tuple(cells)
@@ -35,7 +45,7 @@ class Solution:
         while i < n:
             if state in seen:
                 cycle = i - seen[state]
-                remaining = (n-i) % cycle
+                remaining = (n - i) % cycle
                 break
             seen[state] = i
             state = next(state)
@@ -46,7 +56,7 @@ class Solution:
             remaining -= 1
         return state
 
-    def quantify(self, test_cases, runs=100000):
+    def quantify(self, test_cases, runs=50000):
         sol_start = time()
         for i in range(runs):
             for case in test_cases:
@@ -70,6 +80,6 @@ if __name__ == '__main__':
     test = Solution()
     test_cases = [
         ([0, 1, 0, 1, 1, 0, 0, 1], 7),
-        ([1, 0, 0, 1, 0, 0, 1, 0], 1000000000)
+        ([1, 0, 0, 1, 0, 0, 1, 0], 1000000000),
     ]
     test.quantify(test_cases)
