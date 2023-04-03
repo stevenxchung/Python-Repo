@@ -79,7 +79,7 @@ class PrintTree:
         right_dfs(node, output_right, 1)
         return list(output_left.values()) + list(output_right.values())[2::-1]
 
-    def quantify(self, test_cases, runs=100000):
+    def quantify(self, test_cases, runs=50000):
         sol_start = time()
         for i in range(runs):
             for case in test_cases:
@@ -102,20 +102,15 @@ class PrintTree:
 if __name__ == '__main__':
     test = PrintTree()
     test_cases = [
-        TreeNode(1,
-                 TreeNode(2,
-                          TreeNode(4),
-                          TreeNode(5, TreeNode(9))),
-                 TreeNode(3,
-                          TreeNode(6),
-                          TreeNode(7, TreeNode(15)))
-                 ),
-        TreeNode(1,
-                 TreeNode(2,
-                          TreeNode(4, TreeNode(9))),
-                 TreeNode(3,
-                          TreeNode(6),
-                          TreeNode(7, None, TreeNode(15)))
-                 )
+        TreeNode(
+            1,
+            TreeNode(2, TreeNode(4), TreeNode(5, TreeNode(9))),
+            TreeNode(3, TreeNode(6), TreeNode(7, TreeNode(15))),
+        ),
+        TreeNode(
+            1,
+            TreeNode(2, TreeNode(4, TreeNode(9))),
+            TreeNode(3, TreeNode(6), TreeNode(7, None, TreeNode(15))),
+        ),
     ]
     test.quantify(test_cases)
