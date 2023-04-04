@@ -1,4 +1,6 @@
 import asyncio
+from decimal import Decimal
+import random
 import time
 
 
@@ -14,7 +16,7 @@ class Solution:
         if self.debug:
             print('Done fetching!')
 
-        return {f'data {n}': f'test {n}'}
+        return random.choice([{f'data {n}': f'test {n}'}, [], [Decimal('999')]])
 
     async def print_numbers(self, n: int):
         for i in range(n):
