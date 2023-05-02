@@ -3,18 +3,19 @@
 
 Given a log with ip addresses and user info find the IP address(es) which access the site most often.
 '''
-from collections import defaultdict
 from time import time
 from typing import List
 
 
 class Solution:
     def findMaxIPs(self, log: List[str]) -> List[str]:
-        ip_map = defaultdict(int)  # {IP: count}
+        ip_map = {}  # {IP: count}
+        # Assumes that IP is always first in each log-line
         ips = [line.split(' ')[0] for line in log]
         for ip in ips:
-            ip_map[ip] += 1
+            ip_map[ip] = ip_map.get(ip, 0) + 1
 
+        # Return the IP that occurs most often
         return max(ip_map, key=lambda k: ip_map[k])
 
     def reference(self, log: List[str]) -> List[str]:
