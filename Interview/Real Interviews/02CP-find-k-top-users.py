@@ -1,5 +1,6 @@
 '''
 *Custom problem
+
 Find the top K active users from AWS service log.
 
 Log sample:
