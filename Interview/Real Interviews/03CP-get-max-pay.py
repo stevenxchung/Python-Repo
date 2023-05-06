@@ -1,5 +1,4 @@
 '''
-*Custom problem
 Given a set of intervals, find the max possible earnings.
 '''
 from math import inf
