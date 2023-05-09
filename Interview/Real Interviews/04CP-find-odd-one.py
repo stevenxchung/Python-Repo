@@ -1,5 +1,4 @@
 '''
-*Custom problem
 Given a series of strings, find the string where the distances between each neighboring character in the string is different from the rest of the strings.
 '''
 from time import time
