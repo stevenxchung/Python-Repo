@@ -11,14 +11,18 @@ from time import time
 
 
 class Solution:
-
-    def minKnightMoves(self, n: int, start_x: int, start_y: int,
-                       end_x: int, end_y: int) -> int:
+    def minKnightMoves(
+        self, n: int, start_x: int, start_y: int, end_x: int, end_y: int
+    ) -> int:
         moves = [
-            [2, 1], [1, 2],
-            [-2, 1], [-1, 2],
-            [2, -1], [1, -2],
-            [-2, -1], [-1, -2]
+            [2, 1],
+            [1, 2],
+            [-2, 1],
+            [-1, 2],
+            [2, -1],
+            [1, -2],
+            [-2, -1],
+            [-1, -2],
         ]
 
         queue = [(start_x, start_y, 0)]
@@ -41,8 +45,9 @@ class Solution:
                     visited.add((r, c))
                     queue.append((r, c, dist + 1))
 
-    def reference(self, n: int, start_x: int, start_y: int,
-                  end_x: int, end_y: int) -> int:
+    def reference(
+        self, n: int, start_x: int, start_y: int, end_x: int, end_y: int
+    ) -> int:
         return
 
     def quantify(self, test_cases, runs=10000):
@@ -67,8 +72,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        (10, 0, 0, 2, 1),
-        (10, 0, 0, 5, 5)
-    ]
+    test_cases = [(10, 0, 0, 2, 1), (10, 0, 0, 5, 5)]
     test.quantify(test_cases)
