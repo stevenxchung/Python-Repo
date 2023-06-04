@@ -1,6 +1,8 @@
-def testing_stuff():
-    pass
+class Test:
+    def stuff(self):
+        print("Hello!")
 
 
 if __name__ == "__main__":
-    testing_stuff()
+    test = Test()
+    test.stuff()
