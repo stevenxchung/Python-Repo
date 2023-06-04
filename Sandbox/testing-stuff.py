@@ -1,6 +1,6 @@
 class Test:
     def stuff(self):
-        print("Hello!")
+        pass
 
 
 if __name__ == "__main__":
