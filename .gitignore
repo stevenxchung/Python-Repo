@@ -3,6 +3,7 @@
 
 # Extras
 *lc-cache.py
+*testing-stuff.py
 *.txt
 *.csv
 *.pyc
