@@ -20,11 +20,11 @@ class Solution:
         return
 
     def reference(self, cells: List[int], n: int) -> List[int]:
-        """
+        '''
         :type cells: List[int]
         :type N: int
         :rtype: List[int]
-        """
+        '''
 
         def next(state):
             return tuple(
