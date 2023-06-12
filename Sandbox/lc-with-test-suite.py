@@ -1,9 +1,10 @@
 from collections import Counter, defaultdict, deque
 import heapq
 from math import ceil, inf, sqrt
-import queue
+import math
+import re
 from time import time
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 
 class ListNode:
@@ -25,46 +26,51 @@ class TrieNode:
         self.is_end = False
 
 
-# class Node:
-#     def __init__(self, val=0, neighbors=None):
-#         '''Graph Node'''
-#         self.val = val
-#         self.neighbors = neighbors if neighbors != None else []
-
-
 class Node:
-    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
-        '''Linked-list Node'''
-        self.val = int(x)
-        self.next = next
-        self.random = random
+    def __init__(self, val=0, neighbors=None):
+        '''Graph node'''
+        self.val = val
+        self.neighbors = neighbors if neighbors != None else []
+
+
+# class Node:
+#     def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+#         '''Special linked-list node'''
+#         self.val = int(x)
+#         self.next = next
+#         self.random = random
 
 
 class Solution:
-    def test(
-        self, root: Optional[TreeNode], subRoot: Optional[TreeNode]
-    ) -> bool:
-        def same_tree(node1, node2):
-            if not node1 and not node2:
-                return True
-            if not node1 or not node2 or node1.val != node2.val:
-                return False
+    def test(self, grid: List[List[int]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        seen = set()
 
-            return same_tree(node1.left, node2.left) and same_tree(
-                node1.right, node2.right
-            )
+        def dfs(r, c):
+            if (
+                r < 0
+                or c < 0
+                or r >= ROWS
+                or c >= COLS
+                or (r, c) in seen
+                or grid[r][c] == '0'
+            ):
+                return
 
-        def sub_tree(root, sub_root):
-            if not root:
-                return False
-            if not sub_root or same_tree(root, sub_root):
-                return True
+            seen.add((r, c))
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+            dfs(r, c + 1)
+            dfs(r, c - 1)
 
-            return sub_tree(root.left, sub_root) or sub_tree(
-                root.right, sub_root
-            )
+        res = 0
+        for r in range(ROWS):
+            for c in range(COLS):
+                if (r, c) not in seen and grid[r][c] == '1':
+                    dfs(r, c)
+                    res += 1
 
-        return sub_tree(root, subRoot)
+        return res
 
     def reference():
         return
@@ -74,9 +80,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -92,17 +98,19 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        (
-            TreeNode(3, TreeNode(4, TreeNode(1), TreeNode(2)), TreeNode(5)),
-            TreeNode(4, TreeNode(1), TreeNode(2)),
-        ),
-        (
-            TreeNode(
-                3,
-                TreeNode(4, TreeNode(1), TreeNode(2, TreeNode(0))),
-                TreeNode(5),
-            ),
-            TreeNode(4, TreeNode(1), TreeNode(2)),
-        ),
+        [
+            ['1', '1', '1', '1', '0'],
+            ['1', '1', '0', '1', '0'],
+            ['1', '1', '0', '0', '0'],
+            ['0', '0', '0', '0', '0'],
+        ],
+        [
+            ['1', '1', '0', '0', '0'],
+            ['1', '1', '0', '0', '0'],
+            ['0', '0', '1', '0', '0'],
+            ['0', '0', '0', '1', '1'],
+        ],
+        # Additional
+        [['1']],
     ]
     test.quantify(test_cases)
