@@ -45,29 +45,33 @@ class Solution:
     def test(self, grid: List[List[int]]) -> int:
         ROWS, COLS = len(grid), len(grid[0])
         seen = set()
+        coord = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-        def dfs(r, c):
-            if (
-                r < 0
-                or c < 0
-                or r >= ROWS
-                or c >= COLS
-                or (r, c) in seen
-                or grid[r][c] == '0'
-            ):
-                return
+        def bfs(r, c):
+            q = [(r, c)]
+            while q:
+                r1, c1 = q.pop(0)
+                seen.add((r1, c1))
+                for dr, dc in coord:
+                    r2, c2 = r1 + dr, c1 + dc
+                    if (
+                        r2 < 0
+                        or c2 < 0
+                        or r2 >= ROWS
+                        or c2 >= COLS
+                        or (r2, c2) in seen
+                        or grid[r2][c2] == '0'
+                    ):
+                        continue
+                    q.append((r2, c2))
 
-            seen.add((r, c))
-            dfs(r + 1, c)
-            dfs(r - 1, c)
-            dfs(r, c + 1)
-            dfs(r, c - 1)
+            return
 
         res = 0
         for r in range(ROWS):
             for c in range(COLS):
                 if (r, c) not in seen and grid[r][c] == '1':
-                    dfs(r, c)
+                    bfs(r, c)
                     res += 1
 
         return res
