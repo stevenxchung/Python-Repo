@@ -42,39 +42,24 @@ class Node:
 
 
 class Solution:
-    def test(self, grid: List[List[int]]) -> int:
-        ROWS, COLS = len(grid), len(grid[0])
-        seen = set()
-        coord = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-
-        def bfs(r, c):
-            q = [(r, c)]
-            while q:
-                r1, c1 = q.pop(0)
-                seen.add((r1, c1))
-                for dr, dc in coord:
-                    r2, c2 = r1 + dr, c1 + dc
-                    if (
-                        r2 < 0
-                        or c2 < 0
-                        or r2 >= ROWS
-                        or c2 >= COLS
-                        or (r2, c2) in seen
-                        or grid[r2][c2] == '0'
-                    ):
-                        continue
-                    q.append((r2, c2))
-
+    def test(self, node: 'Node') -> 'Node':
+        if not node:
             return
 
-        res = 0
-        for r in range(ROWS):
-            for c in range(COLS):
-                if (r, c) not in seen and grid[r][c] == '1':
-                    bfs(r, c)
-                    res += 1
+        node_map = {}  # Old to new node
 
-        return res
+        def dfs(node):
+            if node in node_map:
+                return node_map[node]
+
+            node_new = Node(node.val)
+            node_map[node] = node_new
+            for nei in node.neighbors:
+                node_new.neighbors.append(dfs(nei))
+
+            return node_new
+
+        return dfs(node)
 
     def reference():
         return
@@ -101,20 +86,13 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        [
-            ['1', '1', '1', '1', '0'],
-            ['1', '1', '0', '1', '0'],
-            ['1', '1', '0', '0', '0'],
-            ['0', '0', '0', '0', '0'],
-        ],
-        [
-            ['1', '1', '0', '0', '0'],
-            ['1', '1', '0', '0', '0'],
-            ['0', '0', '1', '0', '0'],
-            ['0', '0', '0', '1', '1'],
-        ],
-        # Additional
-        [['1']],
-    ]
+    node_1 = Node(1)
+    node_2 = Node(2)
+    node_3 = Node(3)
+    node_4 = Node(4)
+    node_1.neighbors = [node_2, node_4]
+    node_2.neighbors = [node_1, node_3]
+    node_3.neighbors = [node_2, node_4]
+    node_4.neighbors = [node_1, node_3]
+    test_cases = [node_1, Node(1), None]
     test.quantify(test_cases)
