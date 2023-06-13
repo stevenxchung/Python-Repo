@@ -46,20 +46,19 @@ class Solution:
         if not node:
             return
 
-        node_map = {}  # Old to new node
+        node_new = Node(node.val)
+        node_map = {node: node_new}
+        q = [node]
 
-        def dfs(node):
-            if node in node_map:
-                return node_map[node]
+        while q:
+            old = q.pop(0)
+            for nei in old.neighbors:
+                if nei not in node_map:
+                    q.append(nei)
+                    node_map[nei] = Node(nei.val)
+                node_map[old].neighbors.append(node_map[nei])
 
-            node_new = Node(node.val)
-            node_map[node] = node_new
-            for nei in node.neighbors:
-                node_new.neighbors.append(dfs(nei))
-
-            return node_new
-
-        return dfs(node)
+        return node_map[node]
 
     def reference():
         return
