@@ -100,10 +100,10 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(*self.test(*case), sep='\n')
+                    print(*self.fullJustify(*case), sep='\n')
                     print('\n')
                 else:
-                    self.test(*case)
+                    self.fullJustify(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         ref_start = time()
