@@ -1,4 +1,5 @@
 from collections import Counter, defaultdict, deque
+import copy
 import heapq
 from math import ceil, inf, sqrt
 import math
@@ -42,25 +43,39 @@ class Node:
 
 
 class Solution:
-    def test(self, node: 'Node') -> 'Node':
-        if not node:
-            return
+    def test(self, grid: List[List[int]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        seen = set()
 
-        node_new = Node(node.val)
-        node_map = {node: node_new}
-        q = [node]
+        def dfs(r, c):
+            if (
+                r < 0
+                or c < 0
+                or r >= ROWS
+                or c >= COLS
+                or (r, c) in seen
+                or grid[r][c] == 0
+            ):
+                return 0
 
-        while q:
-            old = q.pop(0)
-            for nei in old.neighbors:
-                if nei not in node_map:
-                    q.append(nei)
-                    node_map[nei] = Node(nei.val)
-                node_map[old].neighbors.append(node_map[nei])
+            seen.add((r, c))
+            return (
+                1
+                + dfs(r + 1, c)
+                + dfs(r - 1, c)
+                + dfs(r, c + 1)
+                + dfs(r, c - 1)
+            )
 
-        return node_map[node]
+        res = 0
+        for r in range(ROWS):
+            for c in range(COLS):
+                if (r, c) not in seen and grid[r][c] == 1:
+                    res = max(res, dfs(r, c))
 
-    def reference():
+        return res
+
+    def reference(self):
         return
 
     def quantify(self, test_cases, runs=50000):
@@ -85,13 +100,17 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    node_1 = Node(1)
-    node_2 = Node(2)
-    node_3 = Node(3)
-    node_4 = Node(4)
-    node_1.neighbors = [node_2, node_4]
-    node_2.neighbors = [node_1, node_3]
-    node_3.neighbors = [node_2, node_4]
-    node_4.neighbors = [node_1, node_3]
-    test_cases = [node_1, Node(1), None]
+    test_cases = [
+        [
+            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+            [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+        ],
+        [[0, 0, 0, 0, 0, 0, 0, 0]],
+    ]
     test.quantify(test_cases)
