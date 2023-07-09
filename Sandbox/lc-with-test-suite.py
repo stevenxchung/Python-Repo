@@ -45,33 +45,35 @@ class Node:
 class Solution:
     def test(self, grid: List[List[int]]) -> int:
         ROWS, COLS = len(grid), len(grid[0])
+        choices = [(1, 0), (-1, 0), (0, 1), (0, -1)]
         seen = set()
 
-        def dfs(r, c):
-            if (
-                r < 0
-                or c < 0
-                or r >= ROWS
-                or c >= COLS
-                or (r, c) in seen
-                or grid[r][c] == 0
-            ):
-                return 0
-
-            seen.add((r, c))
-            return (
-                1
-                + dfs(r + 1, c)
-                + dfs(r - 1, c)
-                + dfs(r, c + 1)
-                + dfs(r, c - 1)
-            )
+        def bfs(r, c):
+            area = 0
+            q = [(r, c)]
+            while q:
+                r1, c1 = q.pop(0)
+                seen.add((r1, c1))
+                area += 1
+                for dr, dc in choices:
+                    r2, c2 = r1 + dr, c1 + dc
+                    if (
+                        r2 < 0
+                        or c2 < 0
+                        or r2 >= ROWS
+                        or c2 >= COLS
+                        or (r2, c2) in seen
+                        or grid[r2][c2] == 0
+                    ):
+                        continue
+                    q.append((r2, c2))
+            return area
 
         res = 0
         for r in range(ROWS):
             for c in range(COLS):
                 if (r, c) not in seen and grid[r][c] == 1:
-                    res = max(res, dfs(r, c))
+                    res = max(res, bfs(r, c))
 
         return res
 
