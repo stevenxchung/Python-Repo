@@ -31,7 +31,7 @@ class Node:
     def __init__(self, val=0, neighbors=None):
         '''Graph node'''
         self.val = val
-        self.neighbors = neighbors if neighbors != None else []
+        self.neighbors = neighbors if neighbors is not None else []
 
 
 # class Node:
@@ -43,39 +43,29 @@ class Node:
 
 
 class Solution:
-    def test(self, grid: List[List[int]]) -> int:
-        ROWS, COLS = len(grid), len(grid[0])
-        choices = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+    def test(self, n: int, edges: List[List[int]]) -> bool:
+        ''' '''
+        if n <= 0:
+            return True
+
         seen = set()
+        adj = {i: [] for i in range(n)}
+        for a, b in edges:
+            adj[a].append(b)
 
-        def bfs(r, c):
-            area = 0
-            q = [(r, c)]
-            while q:
-                r1, c1 = q.pop(0)
-                seen.add((r1, c1))
-                area += 1
-                for dr, dc in choices:
-                    r2, c2 = r1 + dr, c1 + dc
-                    if (
-                        r2 < 0
-                        or c2 < 0
-                        or r2 >= ROWS
-                        or c2 >= COLS
-                        or (r2, c2) in seen
-                        or grid[r2][c2] == 0
-                    ):
-                        continue
-                    q.append((r2, c2))
-            return area
+        def dfs(node):
+            if node in seen:
+                # Cycle detected
+                return False
 
-        res = 0
-        for r in range(ROWS):
-            for c in range(COLS):
-                if (r, c) not in seen and grid[r][c] == 1:
-                    res = max(res, bfs(r, c))
+            seen.add(node)
+            for nei in adj[node]:
+                if not dfs(nei):
+                    return False
 
-        return res
+            return True
+
+        return dfs(0) and len(seen) == n
 
     def reference(self):
         return
@@ -85,9 +75,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}')
 
         # ref_start = time()
@@ -103,16 +93,11 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        [
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-            [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
-            [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-        ],
-        [[0, 0, 0, 0, 0, 0, 0, 0]],
+        (0, [[0, 1], [0, 2], [0, 3], [1, 4]]),
+        # Additional
+        (0, []),
+        (5, [[0, 1], [0, 2], [0, 3], [1, 4], [0, 4]]),
+        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4]]),
+        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4], [0, 4]]),
     ]
     test.quantify(test_cases)
