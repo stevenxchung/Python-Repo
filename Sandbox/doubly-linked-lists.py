@@ -1,6 +1,7 @@
 '''
 First, implement a doubly linked list with add(), remove(), and print() methods
-Second, implement LRU Cache problem (very popular leet code problem) which utilizes the get(key) and put(key, value) methods
+Second, implement LRU Cache problem (very popular leet code problem) which
+utilizes the get(key) and put(key, value) methods
 '''
 
 # Test (LRU Cache Problem)
@@ -25,11 +26,11 @@ class DNode:
 
 
 class DLList:
-    def __init__(self, size=None, head=None, tail=None):
+    def __init__(self, capacity=None, head=None, tail=None):
         self.head = head
         self.tail = tail
         self.cache = {}
-        self.size = size
+        self.capacity = capacity
 
     def addToFront(self, val, key):
         node = DNode(val, key)
@@ -73,7 +74,10 @@ class DLList:
                     self.tail = currentNode.prev
                 # Somewhere in the middle
                 else:
-                    currentNode.prev.next, currentNode.next.prev = currentNode.next, currentNode.prev
+                    currentNode.prev.next, currentNode.next.prev = (
+                        currentNode.next,
+                        currentNode.prev,
+                    )
             currentNode = currentNode.next
 
     def get(self, key):
@@ -90,7 +94,7 @@ class DLList:
         return key
 
     def put(self, key, val):
-        if len(self.cache) == self.size:
+        if len(self.cache) == self.capacity:
             self.removeAtIndex(self.tail.key)
             self.addToFront(val, key)
         else:
@@ -123,11 +127,11 @@ class DLList:
 dll = DLList(2)
 dll.put(1, 1)
 dll.put(2, 2)
-dll.get(1)       # returns 1
-dll.put(3, 3)    # evicts key 2
-dll.get(2)       # returns -1 (not found)
-dll.put(4, 4)    # evicts key 1
-dll.get(1)       # returns -1 (not found)
-dll.get(3)       # returns 3
-dll.get(4)       # returns 4
+dll.get(1)  # returns 1
+dll.put(3, 3)  # evicts key 2
+dll.get(2)  # returns -1 (not found)
+dll.put(4, 4)  # evicts key 1
+dll.get(1)  # returns -1 (not found)
+dll.get(3)  # returns 3
+dll.get(4)  # returns 4
 # dll.printList()
