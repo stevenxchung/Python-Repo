@@ -20,25 +20,40 @@ class Node:
 
 class Solution:
     def __init__(self, debug=False):
-        self.table = defaultdict(list)  # {key: (timestamp, value)}
         self.debug = debug
+        self.table = {}  # {key, List[Tuple[time, value]]}
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self.table[key].append((timestamp, value))
+        if key in self.table:
+            self.table[key].append((timestamp, value))
+        else:
+            self.table[key] = [(timestamp, value)]
 
     def get(self, key: str, timestamp: int) -> str:
-        res, arr = '', self.table.get(key, [])
-        l, r = 0, len(arr) - 1
-        while l <= r:
-            mid = (l + r) // 2
-            if timestamp >= arr[mid][0]:
-                res = arr[mid][-1]
-                l = mid + 1
-            else:
-                r = mid - 1
+        # NOTE: timestamps are strictly increasing
+        res = ''
 
+        if key not in self.table:
+            return res
+
+        tup = self.table[key]
+        l, r = 0, len(tup) - 1
+        while l < r:
+            m = (l + r) // 2
+            if timestamp < tup[m][0]:
+                r = m - 1
+            elif timestamp > tup[m][0]:
+                l = m + 1
+            else:
+                res = tup[m][-1]
+                if self.debug:
+                    print(res)
+                return res
+
+        res = tup[r][-1]
         if self.debug:
             print(res)
+        # Return the last saved value
         return res
 
 
@@ -57,4 +72,4 @@ if __name__ == '__main__':
     test.get('foo', 4)
     # Return 'bar2'
     test.get('foo', 5)
-    print(f'Runtime for our solution: {time() - sol_start}')
+    print(f'Runtime for our solution: {time() - sol_start}\n')
