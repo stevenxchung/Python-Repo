@@ -2,7 +2,6 @@ from collections import Counter, defaultdict, deque
 import copy
 import heapq
 from math import ceil, inf, sqrt
-import math
 import re
 from time import time
 from typing import List, Optional, Tuple
@@ -43,29 +42,21 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int, edges: List[List[int]]) -> bool:
-        ''' '''
-        if n <= 0:
-            return True
+    def test(self, points: List[List[int]], k: int) -> List[List[int]]:
+        '''
+        - Use heap to store distance and points
+        - Loop k times to add closest points to result
+        '''
+        heap = []
+        for x, y in points:
+            dist = sqrt(x**2 + y**2)
+            heapq.heappush(heap, (dist, [x, y]))
 
-        seen = set()
-        adj = {i: [] for i in range(n)}
-        for a, b in edges:
-            adj[a].append(b)
+        res = []
+        for _ in range(k):
+            res.append(heapq.heappop(heap)[-1])
 
-        def dfs(node):
-            if node in seen:
-                # Cycle detected
-                return False
-
-            seen.add(node)
-            for nei in adj[node]:
-                if not dfs(nei):
-                    return False
-
-            return True
-
-        return dfs(0) and len(seen) == n
+        return res
 
     def reference(self):
         return
@@ -93,11 +84,9 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        (0, [[0, 1], [0, 2], [0, 3], [1, 4]]),
+        ([[1, 3], [-2, 2]], 1),
+        ([[3, 3], [5, -1], [-2, 4]], 2),
         # Additional
-        (0, []),
-        (5, [[0, 1], [0, 2], [0, 3], [1, 4], [0, 4]]),
-        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4]]),
-        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4], [0, 4]]),
+        ([[1, 3], [-2, 2], [2, -2]], 2),
     ]
     test.quantify(test_cases)
