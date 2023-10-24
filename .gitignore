@@ -2,8 +2,9 @@
 .idea
 
 # Extras
+*sandbox.py
 *lc-cache.py
-*testing-stuff.py
+*.sql
 *.txt
 *.csv
 *.pyc
