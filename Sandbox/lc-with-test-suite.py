@@ -42,19 +42,19 @@ class Node:
 
 
 class Solution:
-    def test(self, points: List[List[int]], k: int) -> List[List[int]]:
+    def test(self, nums: List[int], k: int) -> int:
         '''
-        - Use heap to store distance and points
-        - Loop k times to add closest points to result
+        - Use heap to store elements
+        - Loop k times, adding top of heap to result
         '''
-        heap = []
-        for x, y in points:
-            dist = sqrt(x**2 + y**2)
-            heapq.heappush(heap, (dist, [x, y]))
+        # Use negative since heapq uses a min-heap implementation
+        heap = [-n for n in nums]
+        heapq.heapify(heap)
 
-        res = []
+        res = None
         for _ in range(k):
-            res.append(heapq.heappop(heap)[-1])
+            # Revert back to original value
+            res = -heapq.heappop(heap)
 
         return res
 
@@ -84,9 +84,9 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ([[1, 3], [-2, 2]], 1),
-        ([[3, 3], [5, -1], [-2, 4]], 2),
+        ([3, 2, 1, 5, 6, 4], 2),
+        ([3, 2, 3, 1, 2, 4, 5, 5, 6], 4),
         # Additional
-        ([[1, 3], [-2, 2], [2, -2]], 2),
+        ([-1, -1], 2),
     ]
     test.quantify(test_cases)
