@@ -42,21 +42,36 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int], k: int) -> int:
+    def test(self, tasks: List[str], n: int) -> int:
         '''
-        - Use heap to store elements
-        - Loop k times, adding top of heap to result
+        - Use hashmap to count tasks
+        - Use count to represent the task in max-heap
+        - Loop and add to time as long as heap or queue is not empty
+        - Pop tasks off heap and add to queue with cooldown time
+        - Add tasks from queue to heap once cooldown expires
         '''
-        # Use negative since heapq uses a min-heap implementation
-        heap = [-n for n in nums]
+        freq_map = Counter(tasks)
+        heap = [-count for count in freq_map.values()]
         heapq.heapify(heap)
 
-        res = None
-        for _ in range(k):
-            # Revert back to original value
-            res = -heapq.heappop(heap)
+        t = 0
+        q = deque()
+        while heap or q:
+            t += 1
+            if not heap:
+                # Out of tasks, get latest time from top
+                _, t = q[0]
+            else:
+                # Reduce count for the specific task (max-heap)
+                count = heapq.heappop(heap) + 1
+                if count != 0:
+                    q.append([count, t + n])
 
-        return res
+            if q and q[0][-1] == t:
+                # Add back task to heap once cooldown is over
+                heapq.heappush(heap, q.popleft()[0])
+
+        return t
 
     def reference(self):
         return
@@ -84,9 +99,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ([3, 2, 1, 5, 6, 4], 2),
-        ([3, 2, 3, 1, 2, 4, 5, 5, 6], 4),
-        # Additional
-        ([-1, -1], 2),
+        (['A', 'A', 'A', 'B', 'B', 'B'], 2),
+        (['A', 'A', 'A', 'B', 'B', 'B'], 0),
+        (['A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G'], 2),
     ]
     test.quantify(test_cases)
