@@ -21,55 +21,62 @@ class Node:
 class Solution:
     def __init__(self, debug=False):
         self.debug = debug
-        self.table = {}  # {key, List[Tuple[time, value]]}
+        self.follow_map = defaultdict(set)  # { user_id: Set[user_id] }
+        # Tweets are treated as timestamps where t + 1 should be shown before t
+        self.tweet_map = defaultdict(list)  # { user_id: List[tweet] }
 
-    def set(self, key: str, value: str, timestamp: int) -> None:
-        if key in self.table:
-            self.table[key].append((timestamp, value))
-        else:
-            self.table[key] = [(timestamp, value)]
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        self.tweet_map[userId].append(tweetId)
 
-    def get(self, key: str, timestamp: int) -> str:
-        # NOTE: timestamps are strictly increasing
-        res = ''
+    def getNewsFeed(self, userId: int) -> List[int]:
+        feed = []
+        # Add tweets from user's feed
+        for t in self.tweet_map[userId]:
+            # Negative value since we are using max-heap
+            feed.append(-t)
 
-        if key not in self.table:
-            return res
+        # Add tweets from followees
+        for followee_id in self.follow_map[userId]:
+            for t in self.tweet_map[followee_id]:
+                # Negative value since we are using max-heap
+                feed.append(-t)
 
-        tup = self.table[key]
-        l, r = 0, len(tup) - 1
-        while l < r:
-            m = (l + r) // 2
-            if timestamp < tup[m][0]:
-                r = m - 1
-            elif timestamp > tup[m][0]:
-                l = m + 1
-            else:
-                res = tup[m][-1]
-                if self.debug:
-                    print(res)
-                return res
+        # Transform feed in to heap where most recent tweets are shown first
+        heapq.heapify(feed)
 
-        res = tup[r][-1]
+        top_ten_tweets = []
+        for t in feed:
+            if len(top_ten_tweets) == 10:
+                break
+            # Reverse the negative value from max-heap
+            top_ten_tweets.append(-t)
+
         if self.debug:
-            print(res)
-        # Return the last saved value
-        return res
+            print(f'Most recent tweets for user={userId}: {top_ten_tweets}')
+        return top_ten_tweets
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        self.follow_map[followerId].add(followeeId)
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        self.follow_map[followerId].remove(followeeId)
 
 
 if __name__ == '__main__':
     test = Solution(debug=True)
     sol_start = time()
-    # Store the key 'foo' and value 'bar' along with timestamp = 1.
-    test.set('foo', 'bar', 1)
-    # Return 'bar'
-    test.get('foo', 1)
-    # Return 'bar', since there is no value corresponding to 'foo' at timestamp 3 and timestamp 2, then the only value is at timestamp 1 is 'bar'.
-    test.get('foo', 3)
-    # Store the key 'foo' and value 'bar2' along with timestamp = 4.
-    test.set('foo', 'bar2', 4)
-    # Return 'bar2'
-    test.get('foo', 4)
-    # Return 'bar2'
-    test.get('foo', 5)
+    # User 1 posts a new tweet(id = 5)
+    test.postTweet(1, 5)
+    # User 1's news feed should return a list with 1 tweet id -> [5]. return [5]
+    test.getNewsFeed(1)
+    # User 1 follows user 2
+    test.follow(1, 2)
+    # User 2 posts a new tweet(id=6)
+    test.postTweet(2, 6)
+    # User 1's news feed should return a list with 2 tweet ids -> [6, 5]. Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5
+    test.getNewsFeed(1)
+    # User 1 unfollows user 2
+    test.unfollow(1, 2)
+    # User 1's news feed should return a list with 1 tweet id -> [5], since user 1 is no longer following user 2
+    test.getNewsFeed(1)
     print(f'Runtime for our solution: {time() - sol_start}\n')
