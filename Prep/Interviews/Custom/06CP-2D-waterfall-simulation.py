@@ -72,7 +72,7 @@ class Solution:
                     )
                 else:
                     self.waterfall_simulation(*case)
-        print(f'Runtime for our solution: {time() - sol_start}')
+        print(f'Runtime for our solution: {time() - sol_start}\n')
 
 
 if __name__ == '__main__':

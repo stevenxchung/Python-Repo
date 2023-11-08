@@ -50,7 +50,7 @@ class Solution:
                     print(self.portfolio_values(case))
                 else:
                     self.portfolio_values(case)
-        print(f'Runtime for our solution: {time() - sol_start}')
+        print(f'Runtime for our solution: {time() - sol_start}\n')
 
 
 if __name__ == '__main__':

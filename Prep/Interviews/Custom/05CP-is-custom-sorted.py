@@ -50,7 +50,7 @@ class Solution:
                     print(self.is_custom_sorted(*case))
                 else:
                     self.is_custom_sorted(*case)
-        print(f'Runtime for our solution: {time() - sol_start}')
+        print(f'Runtime for our solution: {time() - sol_start}\n')
 
 
 if __name__ == '__main__':
