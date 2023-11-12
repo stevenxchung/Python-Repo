@@ -1,4 +1,10 @@
-# Merge two sorted linked lists (from leet code)
+'''
+You are given the heads of two sorted linked lists list1 and list2.
+
+Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Return the head of the merged linked list.
+'''
 
 
 class Node:
@@ -26,10 +32,9 @@ class LinkedList:
                 break
             # Traverse through linked list
             currentNode = currentNode.nextNode
-    
+
     # Merge two sorted lists together
     def mergeTwoSorted(self, l1, l2):
-        currentNode = self.head
         while l1.head and l2.head:
             if l1.head.value <= l2.head.value:
                 self.addNode(l1.head.value)
@@ -38,8 +43,9 @@ class LinkedList:
                 self.addNode(l2.head.value)
                 l2.head = l2.head.nextNode
         # Need to account for the last node because either l1.head or l2.head is None at this point so while loop is broken
-        self.addNode(l1.head.value) if l1.head.value is not None else self.addNode(
-            l2.head.value)
+        self.addNode(
+            l1.head.value
+        ) if l1.head.value is not None else self.addNode(l2.head.value)
 
     def printLinkedList(self):
         currentNode = self.head

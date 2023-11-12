@@ -1,5 +1,5 @@
 '''
-Convert the Fibonacci function from recursive to iterative
+Convert the Fibonacci function from recursive to iterative.
 '''
 
 

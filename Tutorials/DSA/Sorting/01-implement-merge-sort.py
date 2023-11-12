@@ -1,5 +1,5 @@
 '''
-Given an array of random numbers use merge sort to sort array from least to greatest
+Given an array of random numbers use merge sort to sort array from least to greatest.
 '''
 
 

@@ -1,5 +1,7 @@
 '''
-Given n sorted linked list, create one sorted linked list
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
 '''
 
 
@@ -8,8 +10,7 @@ class Node:
         self.data = data
         self.next = next
 
-    # Recursive helper function
-    def mergeSorted(self, first, second):
+    def _mergeSorted(self, first, second):
         result = None
         # Base case if first or second node is None
         if first is None:
@@ -20,10 +21,10 @@ class Node:
         # Current result is one of the nodes and the next node will be the return value of the recursive function
         if first.data <= second.data:
             result = first
-            result.next = self.mergeSorted(first.next, second)
+            result.next = self._mergeSorted(first.next, second)
         else:
             result = second
-            result.next = self.mergeSorted(first, second.next)
+            result.next = self._mergeSorted(first, second.next)
 
         return result
 
@@ -32,11 +33,11 @@ class Node:
         while lastIndex != 0:
             i = 0
             j = lastIndex
-            while (i < j):
-                lists[i] = self.mergeSorted(lists[i], lists[j])
+            while i < j:
+                lists[i] = self._mergeSorted(lists[i], lists[j])
                 i += 1
                 j -= 1
-                
+
                 # Set j to lastIndex if i >= j, this prevents missing arrays which should be merged
                 if i >= j:
                     j = lastIndex
@@ -56,13 +57,13 @@ class LinkedList:
         self.head = head
 
     # Adds to the beginning of the list
-    def unshift(self, data):
+    def _unshift(self, data):
         node = Node(data)
         node.next = self.head
         self.head = node
 
     # Adds to the end of the list
-    def append(self, data):
+    def _append(self, data):
         node = Node(data)
         if self.head is None:
             self.head = node
@@ -76,20 +77,19 @@ class LinkedList:
     # Merge two list which are already sorted
     def mergeTwoSorted(self, ll1, ll2):
         # Reuse append method
-        current = self.head
         while ll1.head and ll2.head:
             if ll1.head.data <= ll2.head.data:
-                self.append(ll1.head.data)
+                self._append(ll1.head.data)
                 ll1.head = ll1.head.next
             elif ll1.head.data >= ll2.head.data:
-                self.append(ll2.head.data)
+                self._append(ll2.head.data)
                 ll2.head = ll2.head.next
 
         if ll1.head:
-            self.append(ll1.head.data)
+            self._append(ll1.head.data)
             ll1.head = ll1.head.next
         else:
-            self.append(ll2.head.data)
+            self._append(ll2.head.data)
             ll2.head = ll2.head.next
 
     def printLinkedList(self):
@@ -98,6 +98,7 @@ class LinkedList:
             print(current.data, '->', end=' ')
             current = current.next
         print('None')
+
 
 # # Build lists
 # l1 = LinkedList()

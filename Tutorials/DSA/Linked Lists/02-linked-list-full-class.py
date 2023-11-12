@@ -1,19 +1,20 @@
-# Two simple ways to code linked lists in python
-# This goes over the full class for linked lists
+'''
+Two simple ways to code linked lists in python part 2.
+'''
 
 
-class linkedListNode:
+class LinkedListNode:
     def __init__(self, value, nextNode=None):
         self.value = value
         self.nextNode = nextNode
 
 
-class linkedList:
+class LinkedList:
     def __init__(self, head=None):
         self.head = head
 
     def insert(self, value):
-        node = linkedListNode(value)
+        node = LinkedListNode(value)
         if self.head is None:
             self.head = node
             return
@@ -33,7 +34,7 @@ class linkedList:
         print("None")
 
 
-ll = linkedList()
+ll = LinkedList()
 ll.printLinkedList()
 ll.insert(5)
 ll.printLinkedList()

@@ -1,4 +1,6 @@
-# Build a linked list and print it from scratch
+'''
+Build a linked list and print it from scratch.
+'''
 
 
 class Node:

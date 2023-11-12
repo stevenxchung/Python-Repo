@@ -1,5 +1,5 @@
 '''
-Given a binary search tree is a binary tree where all values to the right are bigger than the values to the left: implement a binary search tree
+Given a binary search tree is a binary tree where all values to the right are bigger than the values to the left, implement a binary search tree.
 '''
 
 
@@ -45,7 +45,6 @@ class Node:
 
 
 class ArraySolution:
-    # Traversing a binary search tree using arrays
     def binarySearch(self, arr, low, high, x):
         # Add edge cases
         if x > arr[high] or x < arr[low]:
@@ -77,10 +76,16 @@ node3 = Node(3, node6, node7)
 head = Node(1, node2, node3)
 head.printTreeBFS()  # 1, 2, 3, 4, 5, 6, 7
 searchKey = 2
-print('Searching node...', head.search(head, searchKey).val if head.search(
-    head, searchKey) else head.search(head, searchKey))
+print(
+    'Searching node...',
+    head.search(head, searchKey).val
+    if head.search(head, searchKey)
+    else head.search(head, searchKey),
+)
 
 # Test binary search for arrays
 arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-print('Searching target...', ArraySolution(
-).binarySearch(arr, 0, len(arr) - 1, 10))
+print(
+    'Searching target...',
+    ArraySolution().binarySearch(arr, 0, len(arr) - 1, 10),
+)
