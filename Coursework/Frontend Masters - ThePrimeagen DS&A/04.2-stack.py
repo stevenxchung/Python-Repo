@@ -62,12 +62,6 @@ class Solution:
         res = self.nums[0] if len(self.nums) > 0 else None
         return res
 
-    def test(self, nums: List[int]) -> List[int]:
-        return self.bubble_sort(nums)
-
-    def reference(self, nums: List[int]) -> List[int]:
-        return self.test_sort(nums)
-
 
 if __name__ == '__main__':
     test = Solution(debug=True)
