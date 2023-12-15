@@ -3,13 +3,17 @@ Given an integer array nums, return the greatest common divisor of the smallest 
 
 The greatest common divisor of two numbers is the largest positive integer that evenly divides both numbers.
 '''
+from math import gcd
 from time import time
 from typing import List
 
 
 class Solution:
     def findGCD(self, nums: List[int]) -> int:
-        return
+        smallest = min(nums)
+        largest = max(nums)
+
+        return gcd(smallest, largest)
 
     def reference(self, nums: List[int]) -> int:
         a, b = min(nums), max(nums)
