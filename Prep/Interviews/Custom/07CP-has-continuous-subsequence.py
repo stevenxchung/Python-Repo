@@ -36,44 +36,44 @@ class Solution:
         return total == target
 
     def gpt_solution(self, nums: List[int], target: int) -> bool:
-        # set up a variable to track the sum of the subarray
+        # Set up a variable to track the sum of the subarray
         subarray_sum = 0
 
-        # loop through the array and add each element to the subarray sum
+        # Loop through the array and add each element to the subarray sum
         for num in nums:
             subarray_sum += num
 
-            # if the sum is equal to the target, return true
+            # If the sum is equal to the target, return True
             if subarray_sum == target:
                 return True
 
-            # if the sum is greater than the target, reset it to 0 and start over
+            # If the sum is greater than the target, reset it to 0 and start over
             elif subarray_sum > target:
                 subarray_sum = 0
 
-        # if no increasing subarray sums to the target, return false
+        # If no increasing subarray sums to the target, return False
         return False
 
     def reference(self, nums: List[int], target: int) -> bool:
-        # set up a variable to track the sum of the subarray
+        # Set up a variable to track the sum of the subarray
         subarray_sum = 0
         l, r = 0, 0
 
-        # loop through the array and add each element to the subarray sum
+        # Loop through the array and add each element to the subarray sum
         while r < len(nums):
             subarray_sum += nums[r]
             r += 1
 
-            # if the sum is equal to the target, return true
+            # If the sum is equal to the target, return True
             if subarray_sum == target:
                 return True
 
-            # if the sum is greater than the target, reset it to 0 and start over
+            # If the sum is greater than the target, reset it to 0 and start over
             while subarray_sum > target:
                 subarray_sum -= nums[l]
                 l += 1
 
-        # if no increasing subarray sums to the target, return false
+        # If no increasing subarray sums to the target, return False
         return subarray_sum == target
 
     def quantify(self, test_cases, runs=50000):
