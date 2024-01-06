@@ -21,62 +21,81 @@ class Node:
 class Solution:
     def __init__(self, debug=False):
         self.debug = debug
-        self.follow_map = defaultdict(set)  # { user_id: Set[user_id] }
-        # Tweets are treated as timestamps where t + 1 should be shown before t
-        self.tweet_map = defaultdict(list)  # { user_id: List[tweet] }
+        self.root = TrieNode()
 
-    def postTweet(self, userId: int, tweetId: int) -> None:
-        self.tweet_map[userId].append(tweetId)
+    def addWord(self, word: str) -> None:
+        node = self.root
+        for c in word:
+            if c not in node.children:
+                node.children[c] = TrieNode()
+            node = node.children[c]
+        node.is_end = True
 
-    def getNewsFeed(self, userId: int) -> List[int]:
-        feed = []
-        # Add tweets from user's feed
-        for t in self.tweet_map[userId]:
-            # Negative value since we are using max-heap
-            feed.append(-t)
+    def search(self, word: str) -> bool:
+        '''
+        - Loop through each char in input string
+        - Find chars by traversing through child maps
+        - If '.' is encountered, can select any char in map
+        '''
 
-        # Add tweets from followees
-        for followee_id in self.follow_map[userId]:
-            for t in self.tweet_map[followee_id]:
-                # Negative value since we are using max-heap
-                feed.append(-t)
+        def dfs(i, node):
+            if i == len(word):
+                return node.is_end
+            elif word[i] == '.':
+                for child in node.children.values():
+                    if dfs(i + 1, child):
+                        return True
 
-        # Transform feed in to heap where most recent tweets are shown first
-        heapq.heapify(feed)
+            if word[i] not in node.children:
+                return False
+            node = node.children[word[i]]
 
-        top_ten_tweets = []
-        for t in feed:
-            if len(top_ten_tweets) == 10:
-                break
-            # Reverse the negative value from max-heap
-            top_ten_tweets.append(-t)
+            return dfs(i + 1, node)
 
+        res = dfs(0, self.root)
         if self.debug:
-            print(f'Most recent tweets for user={userId}: {top_ten_tweets}')
-        return top_ten_tweets
-
-    def follow(self, followerId: int, followeeId: int) -> None:
-        self.follow_map[followerId].add(followeeId)
-
-    def unfollow(self, followerId: int, followeeId: int) -> None:
-        self.follow_map[followerId].remove(followeeId)
+            return print(f'word={word} : {res}')
+        return res
 
 
 if __name__ == '__main__':
     test = Solution(debug=True)
     sol_start = time()
-    # User 1 posts a new tweet(id = 5)
-    test.postTweet(1, 5)
-    # User 1's news feed should return a list with 1 tweet id -> [5]. return [5]
-    test.getNewsFeed(1)
-    # User 1 follows user 2
-    test.follow(1, 2)
-    # User 2 posts a new tweet(id=6)
-    test.postTweet(2, 6)
-    # User 1's news feed should return a list with 2 tweet ids -> [6, 5]. Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5
-    test.getNewsFeed(1)
-    # User 1 unfollows user 2
-    test.unfollow(1, 2)
-    # User 1's news feed should return a list with 1 tweet id -> [5], since user 1 is no longer following user 2
-    test.getNewsFeed(1)
+    test.addWord('bad')
+    test.addWord('dad')
+    test.addWord('mad')
+    test.search('pad')  # return False
+    test.search('bad')  # return True
+    test.search('.ad')  # return True
+    test.search('b..')  # return True
+
+    # Additional
+    print('\nAdditional testing...')
+    test = Solution(debug=True)
+    test.addWord('a')
+    test.addWord('a')
+    # true, true, false, true, false, false
+    test.search('.')
+    test.search('a')
+    test.search('aa')
+    test.search('a')
+    test.search('.a')
+    test.search('a.')
+
+    test.addWord('at')
+    test.addWord('and')
+    test.addWord('an')
+    test.addWord('add')
+    # true, false
+    test.search('a')
+    test.search('.at')
+
+    test.addWord('bat')
+    # true, true, false, false, true, true
+    test.search('.at')
+    test.search('an.')
+    test.search('a.d.')
+    test.search('b.')
+    test.search('a.d')
+    test.search('.')
     print(f'Runtime for our solution: {time() - sol_start}\n')
