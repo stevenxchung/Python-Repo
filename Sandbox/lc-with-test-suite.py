@@ -42,36 +42,27 @@ class Node:
 
 
 class Solution:
-    def test(self, tasks: List[str], n: int) -> int:
+    def test(self, s: str) -> bool:
         '''
-        - Use hashmap to count tasks
-        - Use count to represent the task in max-heap
-        - Loop and add to time as long as heap or queue is not empty
-        - Pop tasks off heap and add to queue with cooldown time
-        - Add tasks from queue to heap once cooldown expires
+        - Two pointers at ends of input
+        - Move left and right pointers inwards until crossing
+        - Move left or right pointer inwards n times for each non-alphanumeric
+        - Lowercase input string
         '''
-        freq_map = Counter(tasks)
-        heap = [-count for count in freq_map.values()]
-        heapq.heapify(heap)
+        s = s.lower()
+        l, r = 0, len(s) - 1
+        while l < r:
+            while l < r and not s[l].isalnum():
+                l += 1
+            while l < r and not s[r].isalnum():
+                r -= 1
+            if s[l] != s[r]:
+                return False
 
-        t = 0
-        q = deque()
-        while heap or q:
-            t += 1
-            if not heap:
-                # Out of tasks, get latest time from top
-                _, t = q[0]
-            else:
-                # Reduce count for the specific task (max-heap)
-                count = heapq.heappop(heap) + 1
-                if count != 0:
-                    q.append([count, t + n])
+            l += 1
+            r -= 1
 
-            if q and q[0][-1] == t:
-                # Add back task to heap once cooldown is over
-                heapq.heappush(heap, q.popleft()[0])
-
-        return t
+        return True
 
     def reference(self):
         return
@@ -81,26 +72,22 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
         # for i in range(0, runs):
         #     for case in test_cases:
         #         if i == 0:
-        #             print(self.reference(*case))
+        #             print(self.reference(case))
         #         else:
-        #             self.reference(*case)
+        #             self.reference(case)
         # print(f'Runtime for reference: {time() - ref_start}')
 
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        (['A', 'A', 'A', 'B', 'B', 'B'], 2),
-        (['A', 'A', 'A', 'B', 'B', 'B'], 0),
-        (['A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G'], 2),
-    ]
+    test_cases = ['A man, a plan, a canal: Panama', 'race a car', ' ']
     test.quantify(test_cases)
