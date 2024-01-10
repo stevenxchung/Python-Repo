@@ -1,3 +1,4 @@
+# LC w/ Test Suite
 from collections import Counter, defaultdict, deque
 import copy
 import heapq
@@ -42,36 +43,21 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int]) -> List[List[int]]:
+    def test(self, height: List[int]) -> int:
         '''
-        - Sort input to guarantee order
-        - Two pointers at ends and one pointer after left
-        - Move pointers based on if total == 0
-        - Move pointer if current value is same as previous
+        - Two pointers moving inwards
+        - Move pointer if height is lesser
+        - Track max area with each iteration
         '''
-        res = []
-        if len(nums) < 3:
-            return res
-
-        nums.sort()
-        for i in range(len(nums) - 2):
-            if i > 0 and nums[i] == nums[i - 1]:
-                # Skip duplicates
-                continue
-
-            l, r = i + 1, len(nums) - 1
-            while l < r:
-                a, b, c = nums[i], nums[l], nums[r]
-                total = a + b + c
-                if total == 0:
-                    res.append([a, b, c])
-                    l += 1
-                    while nums[l] == nums[l - 1] and l < r:
-                        l += 1
-                elif total > 0:
-                    r -= 1
-                else:
-                    l += 1
+        res = 0
+        l, r = 0, len(height) - 1
+        while l < r:
+            area = min(height[l], height[r]) * (r - l)
+            res = max(res, area)
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
 
         return res
 
@@ -100,13 +86,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        [-1, 0, 1, 2, -1, -4],
-        [0, 1, 1],
-        [0, 0, 0],
-        # Additional
-        [],
-        [0],
-        [0, 0, 0, 0],
-    ]
+    test_cases = [[1, 8, 6, 2, 5, 4, 8, 3, 7], [1, 1]]
     test.quantify(test_cases)
