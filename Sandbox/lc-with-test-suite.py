@@ -43,21 +43,18 @@ class Node:
 
 
 class Solution:
-    def test(self, height: List[int]) -> int:
+    def test(self, prices: List[int]) -> int:
         '''
-        - Two pointers moving inwards
-        - Move pointer if height is lesser
-        - Track max area with each iteration
+        - Sliding window
+        - Left pointer is reset to right each time profit <= 0
         '''
         res = 0
-        l, r = 0, len(height) - 1
-        while l < r:
-            area = min(height[l], height[r]) * (r - l)
-            res = max(res, area)
-            if height[l] < height[r]:
-                l += 1
-            else:
-                r -= 1
+        l = 0
+        for r in range(1, len(prices)):
+            profit = prices[r] - prices[l]
+            res = max(res, profit)
+            if profit <= 0:
+                l = r
 
         return res
 
@@ -86,5 +83,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [[1, 8, 6, 2, 5, 4, 8, 3, 7], [1, 1]]
+    test_cases = [[7, 1, 5, 3, 6, 4], [7, 6, 4, 3, 1]]
     test.quantify(test_cases)
