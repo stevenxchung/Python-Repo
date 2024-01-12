@@ -43,26 +43,31 @@ class Node:
 
 
 class Solution:
-    def test(self, s: str) -> int:
+    def test(self, s: str, k: int) -> int:
         '''
         - Sliding window w/ two pointers
-        - Use set to track characters
-        - Expand right on each iteration
-        - Shrink left and reduce count when duplicate characters are found
+        - Hashmap to track count
+        - Replacement char count = substr - longest char count
+        - Shrink window when k > replacement char count
         '''
-        seen = set()
-        l = 0
-        longest, curr = 0, 0
-        for r in range(len(s)):
-            while s[r] in seen:
-                seen.remove(s[l])
-                l += 1
-                curr -= 1
-            seen.add(s[r])
-            curr += 1
-            longest = max(longest, curr)
+        count_map = defaultdict(int)
+        longest = 0
+        res = 0
 
-        return longest
+        l = 0
+        for r in range(len(s)):
+            count_map[s[r]] += 1
+            # Next character could be the longest
+            longest = max(longest, count_map[s[r]])
+
+            if k < (len(s[l : r + 1])) - longest:
+                # Shrink window if replacements exceeds limit
+                count_map[s[l]] -= 1
+                l += 1
+
+            res = max(res, (len(s[l : r + 1])))
+
+        return res
 
     def reference(self):
         return
@@ -72,9 +77,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -89,5 +94,14 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = ['abcabcbb', 'bbbbb', 'pwwkew']
+    test_cases = [
+        ('ABAB', 2),
+        ('AABABBA', 1),
+        # Additional
+        ('AAABAAABAAAB', 1),
+        ('BBAABBAABBAA', 2),
+        ('AAAABAAAABAA', 3),
+        ('XXYYZZXXYYZZ', 4),
+        ('AAABBCAAABBC', 5),
+    ]
     test.quantify(test_cases)
