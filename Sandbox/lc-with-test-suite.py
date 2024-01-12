@@ -43,20 +43,26 @@ class Node:
 
 
 class Solution:
-    def test(self, prices: List[int]) -> int:
+    def test(self, s: str) -> int:
         '''
-        - Sliding window
-        - Left pointer is reset to right each time profit <= 0
+        - Sliding window w/ two pointers
+        - Use set to track characters
+        - Expand right on each iteration
+        - Shrink left and reduce count when duplicate characters are found
         '''
-        res = 0
+        seen = set()
         l = 0
-        for r in range(1, len(prices)):
-            profit = prices[r] - prices[l]
-            res = max(res, profit)
-            if profit <= 0:
-                l = r
+        longest, curr = 0, 0
+        for r in range(len(s)):
+            while s[r] in seen:
+                seen.remove(s[l])
+                l += 1
+                curr -= 1
+            seen.add(s[r])
+            curr += 1
+            longest = max(longest, curr)
 
-        return res
+        return longest
 
     def reference(self):
         return
@@ -83,5 +89,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [[7, 1, 5, 3, 6, 4], [7, 6, 4, 3, 1]]
+    test_cases = ['abcabcbb', 'bbbbb', 'pwwkew']
     test.quantify(test_cases)
