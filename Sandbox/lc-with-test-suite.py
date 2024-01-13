@@ -43,31 +43,30 @@ class Node:
 
 
 class Solution:
-    def test(self, s: str, k: int) -> int:
+    def test(self, s1: str, s2: str) -> bool:
         '''
-        - Sliding window w/ two pointers
-        - Hashmap to track count
-        - Replacement char count = substr - longest char count
-        - Shrink window when k > replacement char count
+        - Sliding window of length s1
+        - Build hashmap for s1 and s2 substring
+        - Compare s1 and s2 hashmap to determine outcome
         '''
-        count_map = defaultdict(int)
-        longest = 0
-        res = 0
+        s1_map, curr_map = defaultdict(int), defaultdict(int)
+        for c in s1:
+            s1_map[c] += 1
 
         l = 0
-        for r in range(len(s)):
-            count_map[s[r]] += 1
-            # Next character could be the longest
-            longest = max(longest, count_map[s[r]])
+        for r in range(len(s2)):
+            curr = s2[l : r + 1]
+            curr_map[s2[r]] += 1
+            if s1_map == curr_map:
+                return True
 
-            if k < (len(s[l : r + 1])) - longest:
-                # Shrink window if replacements exceeds limit
-                count_map[s[l]] -= 1
+            if len(curr) == len(s1):
+                curr_map[s2[l]] -= 1
+                if curr_map[s2[l]] == 0:
+                    del curr_map[s2[l]]
                 l += 1
 
-            res = max(res, (len(s[l : r + 1])))
-
-        return res
+        return False
 
     def reference(self):
         return
@@ -95,13 +94,10 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ('ABAB', 2),
-        ('AABABBA', 1),
+        ('ab', 'eidbaooo'),
+        ('ab', 'eidboaoo'),
         # Additional
-        ('AAABAAABAAAB', 1),
-        ('BBAABBAABBAA', 2),
-        ('AAAABAAAABAA', 3),
-        ('XXYYZZXXYYZZ', 4),
-        ('AAABBCAAABBC', 5),
+        ('hello', 'ooolleoooleh'),
+        ('adc', 'dcda'),
     ]
     test.quantify(test_cases)
