@@ -43,30 +43,47 @@ class Node:
 
 
 class Solution:
-    def test(self, s1: str, s2: str) -> bool:
+    def test(self, heights: List[List[int]]) -> List[List[int]]:
         '''
-        - Sliding window of length s1
-        - Build hashmap for s1 and s2 substring
-        - Compare s1 and s2 hashmap to determine outcome
+        - BFS or DFS traversal row-wise then column-wise
+        - Start at first row/column and last row/column
+        - Find elements supporting west to east flow
+        - Find elements supporting north to south flow
+        - Intersection of lists provides elements supporting both flows
         '''
-        s1_map, curr_map = defaultdict(int), defaultdict(int)
-        for c in s1:
-            s1_map[c] += 1
+        ROWS, COLS = len(heights), len(heights[0])
+        pac, atl = set(), set()
 
-        l = 0
-        for r in range(len(s2)):
-            curr = s2[l : r + 1]
-            curr_map[s2[r]] += 1
-            if s1_map == curr_map:
-                return True
+        def dfs(r, c, seen, prev_h):
+            if (
+                r < 0
+                or c < 0
+                or r >= ROWS
+                or c >= COLS
+                or (r, c) in seen
+                # Reversed since we are starting at sea level
+                or heights[r][c] < prev_h
+            ):
+                return
 
-            if len(curr) == len(s1):
-                curr_map[s2[l]] -= 1
-                if curr_map[s2[l]] == 0:
-                    del curr_map[s2[l]]
-                l += 1
+            seen.add((r, c))
 
-        return False
+            dfs(r + 1, c, seen, heights[r][c])
+            dfs(r - 1, c, seen, heights[r][c])
+            dfs(r, c + 1, seen, heights[r][c])
+            dfs(r, c - 1, seen, heights[r][c])
+
+            return
+
+        for r in range(ROWS):
+            dfs(r, 0, pac, heights[r][0])
+            dfs(r, COLS - 1, atl, heights[r][COLS - 1])
+
+        for c in range(COLS):
+            dfs(0, c, pac, heights[0][c])
+            dfs(ROWS - 1, c, atl, heights[ROWS - 1][c])
+
+        return list(pac & atl)
 
     def reference(self):
         return
@@ -76,9 +93,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -94,10 +111,14 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ('ab', 'eidbaooo'),
-        ('ab', 'eidboaoo'),
-        # Additional
-        ('hello', 'ooolleoooleh'),
-        ('adc', 'dcda'),
+        [
+            [1, 2, 2, 3, 5],
+            [3, 2, 3, 4, 4],
+            [2, 4, 5, 3, 1],
+            [6, 7, 1, 4, 5],
+            [5, 1, 1, 2, 4],
+        ],
+        [[2, 1], [1, 2]],
+        [[1]],
     ]
     test.quantify(test_cases)
