@@ -43,47 +43,55 @@ class Node:
 
 
 class Solution:
-    def test(self, heights: List[List[int]]) -> List[List[int]]:
+    def test(self, board: List[List[str]]) -> None:
         '''
-        - BFS or DFS traversal row-wise then column-wise
-        - Start at first row/column and last row/column
-        - Find elements supporting west to east flow
-        - Find elements supporting north to south flow
-        - Intersection of lists provides elements supporting both flows
+        - Flip all 'O's connected to edges into '~'
+        - BFS/DFS starting from (r + 1, c + 1) until (len(board) - 1, len(board[0]) - 1)
+        - Flip all 'O's on path to 'X's
+        - Flip back '~' to 'O's
         '''
-        ROWS, COLS = len(heights), len(heights[0])
-        pac, atl = set(), set()
+        clone = board[:]
+        ROWS, COLS = len(board), len(board[0])
 
-        def dfs(r, c, seen, prev_h):
+        def dfs(r, c, have, want):
             if (
                 r < 0
                 or c < 0
                 or r >= ROWS
                 or c >= COLS
-                or (r, c) in seen
-                # Reversed since we are starting at sea level
-                or heights[r][c] < prev_h
+                # Element already set
+                or clone[r][c] == want
+                # Element is not the one we care about
+                or clone[r][c] != have
             ):
                 return
 
-            seen.add((r, c))
+            clone[r][c] = want
 
-            dfs(r + 1, c, seen, heights[r][c])
-            dfs(r - 1, c, seen, heights[r][c])
-            dfs(r, c + 1, seen, heights[r][c])
-            dfs(r, c - 1, seen, heights[r][c])
+            dfs(r + 1, c, have, want)
+            dfs(r - 1, c, have, want)
+            dfs(r, c + 1, have, want)
+            dfs(r, c - 1, have, want)
 
             return
 
-        for r in range(ROWS):
-            dfs(r, 0, pac, heights[r][0])
-            dfs(r, COLS - 1, atl, heights[r][COLS - 1])
+        def handle_edges(have, want):
+            for r in range(ROWS):
+                dfs(r, 0, have, want)
+                dfs(r, COLS - 1, have, want)
+            for c in range(COLS):
+                dfs(0, c, have, want)
+                dfs(ROWS - 1, c, have, want)
 
-        for c in range(COLS):
-            dfs(0, c, pac, heights[0][c])
-            dfs(ROWS - 1, c, atl, heights[ROWS - 1][c])
+        handle_edges('O', '~')
 
-        return list(pac & atl)
+        for r in range(1, ROWS - 1):
+            for c in range(1, COLS - 1):
+                dfs(r, c, 'O', 'X')
+
+        handle_edges('~', 'O')
+
+        return clone
 
     def reference(self):
         return
@@ -112,13 +120,17 @@ if __name__ == '__main__':
     test = Solution()
     test_cases = [
         [
-            [1, 2, 2, 3, 5],
-            [3, 2, 3, 4, 4],
-            [2, 4, 5, 3, 1],
-            [6, 7, 1, 4, 5],
-            [5, 1, 1, 2, 4],
+            ['X', 'X', 'X', 'X'],
+            ['X', 'O', 'O', 'X'],
+            ['X', 'X', 'O', 'X'],
+            ['X', 'O', 'X', 'X'],
         ],
-        [[2, 1], [1, 2]],
-        [[1]],
+        [['X']],
+        [
+            ['O', 'O', 'X', 'O'],
+            ['O', 'X', 'O', 'X'],
+            ['O', 'O', 'X', 'O'],
+            ['O', 'O', 'O', 'O'],
+        ],
     ]
     test.quantify(test_cases)
