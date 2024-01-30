@@ -43,55 +43,51 @@ class Node:
 
 
 class Solution:
-    def test(self, board: List[List[str]]) -> None:
+    def test(self, grid: List[List[int]]) -> int:
         '''
-        - Flip all 'O's connected to edges into '~'
-        - BFS/DFS starting from (r + 1, c + 1) until (len(board) - 1, len(board[0]) - 1)
-        - Flip all 'O's on path to 'X's
-        - Flip back '~' to 'O's
+        - Multi-source BFS starting w/ rotten oranges
+        - Run until all oranges are rotten or queue is empty
         '''
-        clone = board[:]
-        ROWS, COLS = len(board), len(board[0])
+        ROWS, COLS = len(grid), len(grid[0])
 
-        def dfs(r, c, have, want):
-            if (
-                r < 0
-                or c < 0
-                or r >= ROWS
-                or c >= COLS
-                # Element already set
-                or clone[r][c] == want
-                # Element is not the one we care about
-                or clone[r][c] != have
-            ):
-                return
-
-            clone[r][c] = want
-
-            dfs(r + 1, c, have, want)
-            dfs(r - 1, c, have, want)
-            dfs(r, c + 1, have, want)
-            dfs(r, c - 1, have, want)
-
-            return
-
-        def handle_edges(have, want):
-            for r in range(ROWS):
-                dfs(r, 0, have, want)
-                dfs(r, COLS - 1, have, want)
+        q = deque([])
+        seen = set()
+        fresh = 0
+        for r in range(ROWS):
             for c in range(COLS):
-                dfs(0, c, have, want)
-                dfs(ROWS - 1, c, have, want)
+                if grid[r][c] == 1:
+                    fresh += 1
+                elif grid[r][c] == 2:
+                    q.append((r, c))
+                    seen.add((r, c))
 
-        handle_edges('O', '~')
+        moves = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        t = 0
+        while fresh > 0 and q:
+            # Multi-source BFS
+            for _ in range(len(q)):
+                r1, c1 = q.popleft()
+                if fresh == 0:
+                    return t
 
-        for r in range(1, ROWS - 1):
-            for c in range(1, COLS - 1):
-                dfs(r, c, 'O', 'X')
+                for dr, dc in moves:
+                    r2, c2 = r1 + dr, c1 + dc
+                    if (
+                        r2 < 0
+                        or c2 < 0
+                        or r2 >= ROWS
+                        or c2 >= COLS
+                        or (r2, c2) in seen
+                        or grid[r2][c2] != 1
+                    ):
+                        continue
+                    q.append((r2, c2))
+                    seen.add((r2, c2))
+                    fresh -= 1
+            # Add to time after each big iteration
+            t += 1
 
-        handle_edges('~', 'O')
-
-        return clone
+        return -1 if fresh > 0 else t
 
     def reference(self):
         return
@@ -119,18 +115,8 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        [
-            ['X', 'X', 'X', 'X'],
-            ['X', 'O', 'O', 'X'],
-            ['X', 'X', 'O', 'X'],
-            ['X', 'O', 'X', 'X'],
-        ],
-        [['X']],
-        [
-            ['O', 'O', 'X', 'O'],
-            ['O', 'X', 'O', 'X'],
-            ['O', 'O', 'X', 'O'],
-            ['O', 'O', 'O', 'O'],
-        ],
+        [[2, 1, 1], [1, 1, 0], [0, 1, 1]],
+        [[2, 1, 1], [0, 1, 1], [1, 0, 1]],
+        [[0, 2]],
     ]
     test.quantify(test_cases)
