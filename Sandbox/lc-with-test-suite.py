@@ -43,39 +43,37 @@ class Node:
 
 
 class Solution:
-    def test(self, rooms: List[List[int]]) -> List[List[int]]:
+    def test(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         '''
-        - Multi-source BFS starting from known gates
-        - Mark distance from each gate until queue is empty
+        - Build adjacency list of courses
+        - DFS traverse through list until first course is found
+        - If same course is found on path, then courses cannot be finished
         '''
-        clone = rooms[:]
-        ROWS, COLS = len(clone), len(clone[0])
-        moves = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        adj = {i: [] for i in range(numCourses)}
+        for a, b in prerequisites:
+            adj[a].append(b)
 
-        q = deque()
-        for r in range(ROWS):
-            for c in range(COLS):
-                if clone[r][c] == 0:
-                    q.append((0, r, c))
+        seen = set()
 
-        ignore = {-1, 0}
-        while q:
-            dist, r1, c1 = q.popleft()
-            for dr, dc in moves:
-                r2, c2 = r1 + dr, c1 + dc
-                if (
-                    r2 < 0
-                    or c2 < 0
-                    or r2 >= ROWS
-                    or c2 >= COLS
-                    or clone[r2][c2] in ignore
-                    or clone[r2][c2] != inf
-                ):
-                    continue
-                q.append((dist + 1, r2, c2))
-                clone[r2][c2] = dist + 1
+        def dfs(c):
+            if c in seen:
+                return False
+            if adj[c] == []:
+                return True
 
-        return clone
+            seen.add(c)
+            for pre in adj[c]:
+                if not dfs(pre):
+                    return False
+            seen.remove(c)
+
+            return True
+
+        for c in range(numCourses):
+            if not dfs(c):
+                return False
+
+        return True
 
     def reference(self):
         return
@@ -85,9 +83,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -103,11 +101,10 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        [
-            [inf, -1, 0, inf],
-            [inf, inf, inf, -1],
-            [inf, -1, inf, -1],
-            [0, -1, inf, inf],
-        ]
+        (2, [[1, 0]]),
+        (2, [[1, 0], [0, 1]]),
+        # Additional
+        (5, [[0, 1], [0, 2], [1, 3], [1, 4], [3, 4]]),
+        (3, [[0, 1], [1, 2], [2, 0]]),
     ]
     test.quantify(test_cases)
