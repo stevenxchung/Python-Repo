@@ -43,51 +43,39 @@ class Node:
 
 
 class Solution:
-    def test(self, grid: List[List[int]]) -> int:
+    def test(self, rooms: List[List[int]]) -> List[List[int]]:
         '''
-        - Multi-source BFS starting w/ rotten oranges
-        - Run until all oranges are rotten or queue is empty
+        - Multi-source BFS starting from known gates
+        - Mark distance from each gate until queue is empty
         '''
-        ROWS, COLS = len(grid), len(grid[0])
+        clone = rooms[:]
+        ROWS, COLS = len(clone), len(clone[0])
+        moves = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-        q = deque([])
-        seen = set()
-        fresh = 0
+        q = deque()
         for r in range(ROWS):
             for c in range(COLS):
-                if grid[r][c] == 1:
-                    fresh += 1
-                elif grid[r][c] == 2:
-                    q.append((r, c))
-                    seen.add((r, c))
+                if clone[r][c] == 0:
+                    q.append((0, r, c))
 
-        moves = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-        t = 0
-        while fresh > 0 and q:
-            # Multi-source BFS
-            for _ in range(len(q)):
-                r1, c1 = q.popleft()
-                if fresh == 0:
-                    return t
+        ignore = {-1, 0}
+        while q:
+            dist, r1, c1 = q.popleft()
+            for dr, dc in moves:
+                r2, c2 = r1 + dr, c1 + dc
+                if (
+                    r2 < 0
+                    or c2 < 0
+                    or r2 >= ROWS
+                    or c2 >= COLS
+                    or clone[r2][c2] in ignore
+                    or clone[r2][c2] != inf
+                ):
+                    continue
+                q.append((dist + 1, r2, c2))
+                clone[r2][c2] = dist + 1
 
-                for dr, dc in moves:
-                    r2, c2 = r1 + dr, c1 + dc
-                    if (
-                        r2 < 0
-                        or c2 < 0
-                        or r2 >= ROWS
-                        or c2 >= COLS
-                        or (r2, c2) in seen
-                        or grid[r2][c2] != 1
-                    ):
-                        continue
-                    q.append((r2, c2))
-                    seen.add((r2, c2))
-                    fresh -= 1
-            # Add to time after each big iteration
-            t += 1
-
-        return -1 if fresh > 0 else t
+        return clone
 
     def reference(self):
         return
@@ -115,8 +103,11 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        [[2, 1, 1], [1, 1, 0], [0, 1, 1]],
-        [[2, 1, 1], [0, 1, 1], [1, 0, 1]],
-        [[0, 2]],
+        [
+            [inf, -1, 0, inf],
+            [inf, inf, inf, -1],
+            [inf, -1, inf, -1],
+            [0, -1, inf, inf],
+        ]
     ]
     test.quantify(test_cases)
