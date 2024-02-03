@@ -43,38 +43,42 @@ class Node:
 
 
 class Solution:
-    def test(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+    def test(
+        self, numCourses: int, prerequisites: List[List[int]]
+    ) -> List[int]:
         '''
-        - Build adjacency list of prerequisite to courses
-        - Track number of required courses for each course
-        - Load queue with initial required courses
-        - BFS traverse all courses and add to result
-        - Only add courses to queue if all prerequisites met
+        - Build adjacency list of course to prerequisites
+        - DFS through prerequisites and add to result
+        - Use two sets to track cycles and prevent duplicates
         '''
         adj = {i: [] for i in range(numCourses)}
-        required = [0] * numCourses
         for c, pre in prerequisites:
-            adj[pre].append(c)
-            required[c] += 1
+            adj[c].append(pre)
 
-        q = deque()
+        res = []
+        seen, cycle = set(), set()
+
+        def dfs(c):
+            if c in cycle:
+                return False
+            if c in seen:
+                return True
+
+            cycle.add(c)
+            for pre in adj[c]:
+                if not dfs(pre):
+                    return False
+            cycle.remove(c)
+            seen.add(c)
+            res.append(c)
+
+            return True
+
         for i in range(numCourses):
-            # Start with first required courses
-            if required[i] == 0:
-                q.append(i)
+            if not dfs(i):
+                return []
 
-        taken = []
-        while q:
-            pre = q.popleft()
-            taken.append(pre)
-            for c in adj[pre]:
-                required[c] -= 1
-                if required[c] == 0:
-                    # Only add to queue if all prerequisites taken
-                    q.append(c)
-
-        # If all courses were taken, length should match up
-        return len(taken) == numCourses
+        return res
 
     def reference(self):
         return
@@ -103,7 +107,8 @@ if __name__ == '__main__':
     test = Solution()
     test_cases = [
         (2, [[1, 0]]),
-        (2, [[1, 0], [0, 1]]),
+        (4, [[1, 0], [2, 0], [3, 1], [3, 2]]),
+        (1, []),
         # Additional
         (5, [[0, 1], [0, 2], [1, 3], [1, 4], [3, 4]]),
         (3, [[0, 1], [1, 2], [2, 0]]),
