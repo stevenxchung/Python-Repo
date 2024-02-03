@@ -45,35 +45,36 @@ class Node:
 class Solution:
     def test(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         '''
-        - Build adjacency list of courses
-        - DFS traverse through list until first course is found
-        - If same course is found on path, then courses cannot be finished
+        - Build adjacency list of prerequisite to courses
+        - Track number of required courses for each course
+        - Load queue with initial required courses
+        - BFS traverse all courses and add to result
+        - Only add courses to queue if all prerequisites met
         '''
         adj = {i: [] for i in range(numCourses)}
-        for a, b in prerequisites:
-            adj[a].append(b)
+        required = [0] * numCourses
+        for c, pre in prerequisites:
+            adj[pre].append(c)
+            required[c] += 1
 
-        seen = set()
+        q = deque()
+        for i in range(numCourses):
+            # Start with first required courses
+            if required[i] == 0:
+                q.append(i)
 
-        def dfs(c):
-            if c in seen:
-                return False
-            if adj[c] == []:
-                return True
+        taken = []
+        while q:
+            pre = q.popleft()
+            taken.append(pre)
+            for c in adj[pre]:
+                required[c] -= 1
+                if required[c] == 0:
+                    # Only add to queue if all prerequisites taken
+                    q.append(c)
 
-            seen.add(c)
-            for pre in adj[c]:
-                if not dfs(pre):
-                    return False
-            seen.remove(c)
-
-            return True
-
-        for c in range(numCourses):
-            if not dfs(c):
-                return False
-
-        return True
+        # If all courses were taken, length should match up
+        return len(taken) == numCourses
 
     def reference(self):
         return
@@ -106,5 +107,6 @@ if __name__ == '__main__':
         # Additional
         (5, [[0, 1], [0, 2], [1, 3], [1, 4], [3, 4]]),
         (3, [[0, 1], [1, 2], [2, 0]]),
+        (3, [[0, 1], [0, 2], [1, 2], [2, 1]]),
     ]
     test.quantify(test_cases)
