@@ -47,38 +47,36 @@ class Solution:
         self, numCourses: int, prerequisites: List[List[int]]
     ) -> List[int]:
         '''
-        - Build adjacency list of course to prerequisites
-        - DFS through prerequisites and add to result
-        - Use two sets to track cycles and prevent duplicates
+        - Build adjacency list of prerequisite to courses
+        - Track number of required courses for each course
+        - Load queue with initial required courses
+        - BFS traverse all courses and add to result
+        - Only add courses to queue if all prerequisites met
+        - Compare courses taken with total courses to determine output
         '''
+        required = [0] * numCourses
         adj = {i: [] for i in range(numCourses)}
         for c, pre in prerequisites:
-            adj[c].append(pre)
+            adj[pre].append(c)
+            required[c] += 1
+
+        q = deque()
+        for i in range(numCourses):
+            # Start with first required courses
+            if required[i] == 0:
+                q.append(i)
 
         res = []
-        seen, cycle = set(), set()
-
-        def dfs(c):
-            if c in cycle:
-                return False
-            if c in seen:
-                return True
-
-            cycle.add(c)
-            for pre in adj[c]:
-                if not dfs(pre):
-                    return False
-            cycle.remove(c)
-            seen.add(c)
+        while q:
+            c = q.popleft()
             res.append(c)
+            for c_next in adj[c]:
+                required[c_next] -= 1
+                if required[c_next] == 0:
+                    # Only add to queue when all prerequisites taken
+                    q.append(c_next)
 
-            return True
-
-        for i in range(numCourses):
-            if not dfs(i):
-                return []
-
-        return res
+        return res if len(res) == numCourses else []
 
     def reference(self):
         return
