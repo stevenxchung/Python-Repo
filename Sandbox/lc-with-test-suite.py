@@ -43,40 +43,38 @@ class Node:
 
 
 class Solution:
-    def test(
-        self, numCourses: int, prerequisites: List[List[int]]
-    ) -> List[int]:
+    def test(self, edges: List[List[int]]) -> List[int]:
         '''
-        - Build adjacency list of prerequisite to courses
-        - Track number of required courses for each course
-        - Load queue with initial required courses
-        - BFS traverse all courses and add to result
-        - Only add courses to queue if all prerequisites met
-        - Compare courses taken with total courses to determine output
+        - Use union-find to join nodes
+        - If a node is already joined (same parent), return input
         '''
-        required = [0] * numCourses
-        adj = {i: [] for i in range(numCourses)}
-        for c, pre in prerequisites:
-            adj[pre].append(c)
-            required[c] += 1
+        rank = [1] * (len(edges) + 1)
+        parent = [i for i in range(len(edges) + 1)]
 
-        q = deque()
-        for i in range(numCourses):
-            # Start with first required courses
-            if required[i] == 0:
-                q.append(i)
+        def find(n):
+            p = parent[n]
+            while p != parent[p]:
+                parent[p] = parent[parent[p]]
+                p = parent[p]
+            return p
 
-        res = []
-        while q:
-            c = q.popleft()
-            res.append(c)
-            for c_next in adj[c]:
-                required[c_next] -= 1
-                if required[c_next] == 0:
-                    # Only add to queue when all prerequisites taken
-                    q.append(c_next)
+        def union(n1, n2):
+            p1, p2 = find(n1), find(n2)
 
-        return res if len(res) == numCourses else []
+            if p1 == p2:
+                return False
+            elif rank[p1] > rank[p2]:
+                parent[p2] = p1
+                rank[p1] += rank[p2]
+            else:
+                parent[p1] = p2
+                rank[p2] += rank[p1]
+
+            return True
+
+        for a, b in edges:
+            if not union(a, b):
+                return [a, b]
 
     def reference(self):
         return
@@ -86,9 +84,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -104,12 +102,9 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        (2, [[1, 0]]),
-        (4, [[1, 0], [2, 0], [3, 1], [3, 2]]),
-        (1, []),
+        [[1, 2], [1, 3], [2, 3]],
+        [[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]],
         # Additional
-        (5, [[0, 1], [0, 2], [1, 3], [1, 4], [3, 4]]),
-        (3, [[0, 1], [1, 2], [2, 0]]),
-        (3, [[0, 1], [0, 2], [1, 2], [2, 1]]),
+        [[1, 4], [3, 4], [1, 3], [1, 2], [4, 5]],  # [1, 3]
     ]
     test.quantify(test_cases)
