@@ -43,13 +43,13 @@ class Node:
 
 
 class Solution:
-    def test(self, edges: List[List[int]]) -> List[int]:
+    def test(self, n: int, edges: List[List[int]]) -> int:
         '''
-        - Use union-find to join nodes
-        - If a node is already joined (same parent), return input
+        - Union-find to track number of connections
+        - Connected components = nodes - edges
         '''
-        rank = [1] * (len(edges) + 1)
-        parent = [i for i in range(len(edges) + 1)]
+        rank = [1] * n
+        parent = [i for i in range(n)]
 
         def find(n):
             p = parent[n]
@@ -64,17 +64,20 @@ class Solution:
             if p1 == p2:
                 return False
             elif rank[p1] > rank[p2]:
-                parent[p2] = p1
                 rank[p1] += rank[p2]
+                parent[p2] = p1
             else:
-                parent[p1] = p2
                 rank[p2] += rank[p1]
+                parent[p1] = p2
 
             return True
 
+        connections = 0
         for a, b in edges:
-            if not union(a, b):
-                return [a, b]
+            if union(a, b):
+                connections += 1
+
+        return n - connections
 
     def reference(self):
         return
@@ -84,9 +87,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -101,10 +104,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        [[1, 2], [1, 3], [2, 3]],
-        [[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]],
-        # Additional
-        [[1, 4], [3, 4], [1, 3], [1, 2], [4, 5]],  # [1, 3]
-    ]
+    test_cases = [(5, [[0, 1], [1, 2], [3, 4]])]
     test.quantify(test_cases)
