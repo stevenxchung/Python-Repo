@@ -43,34 +43,20 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int, edges: List[List[int]]) -> bool:
+    def test(self, nums: List[int], target: int) -> int:
         '''
-        - Build adjacency list with source and target nodes
-        - DFS traverse graph from root to leaf nodes
-        - A valid tree has only one connected component
-        - Check that visited nodes matches number of nodes
+        - Binary search starting from ends
+        - Return index if found or -1 otherwise
         '''
-        if len(edges) == 0:
-            return True
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = l + (r - l) // 2
+            if target <= nums[m]:
+                r = m
+            else:
+                l = m + 1
 
-        adj = {i: [] for i in range(n)}
-        for a, b in edges:
-            adj[a].append(b)
-
-        seen = set()
-
-        def dfs(node):
-            if node in seen:
-                return False
-
-            seen.add(node)
-            for nei in adj[node]:
-                if not dfs(nei):
-                    return False
-
-            return True
-
-        return dfs(0) and len(seen) == n
+        return l if nums[l] == target else -1
 
     def reference(self):
         return
@@ -97,12 +83,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        (5, [[0, 1], [0, 2], [0, 3], [1, 4]]),
-        # Additional
-        (0, []),
-        (5, [[0, 1], [0, 2], [0, 3], [1, 4], [0, 4]]),
-        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4]]),
-        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4], [0, 4]]),
-    ]
+    test_cases = [([-1, 0, 3, 5, 9, 12], 9), ([-1, 0, 3, 5, 9, 12], 2)]
     test.quantify(test_cases)
