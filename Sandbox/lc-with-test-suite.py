@@ -43,41 +43,34 @@ class Node:
 
 
 class Solution:
-    def test(self, n: int, edges: List[List[int]]) -> int:
+    def test(self, n: int, edges: List[List[int]]) -> bool:
         '''
-        - Union-find to track number of connections
-        - Connected components = nodes - edges
+        - Build adjacency list with source and target nodes
+        - DFS traverse graph from root to leaf nodes
+        - A valid tree has only one connected component
+        - Check that visited nodes matches number of nodes
         '''
-        rank = [1] * n
-        parent = [i for i in range(n)]
+        if len(edges) == 0:
+            return True
 
-        def find(n):
-            p = parent[n]
-            while p != parent[p]:
-                parent[p] = parent[parent[p]]
-                p = parent[p]
-            return p
+        adj = {i: [] for i in range(n)}
+        for a, b in edges:
+            adj[a].append(b)
 
-        def union(n1, n2):
-            p1, p2 = find(n1), find(n2)
+        seen = set()
 
-            if p1 == p2:
+        def dfs(node):
+            if node in seen:
                 return False
-            elif rank[p1] > rank[p2]:
-                rank[p1] += rank[p2]
-                parent[p2] = p1
-            else:
-                rank[p2] += rank[p1]
-                parent[p1] = p2
+
+            seen.add(node)
+            for nei in adj[node]:
+                if not dfs(nei):
+                    return False
 
             return True
 
-        connections = 0
-        for a, b in edges:
-            if union(a, b):
-                connections += 1
-
-        return n - connections
+        return dfs(0) and len(seen) == n
 
     def reference(self):
         return
@@ -104,5 +97,12 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [(5, [[0, 1], [1, 2], [3, 4]])]
+    test_cases = [
+        (5, [[0, 1], [0, 2], [0, 3], [1, 4]]),
+        # Additional
+        (0, []),
+        (5, [[0, 1], [0, 2], [0, 3], [1, 4], [0, 4]]),
+        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4]]),
+        (7, [[0, 1], [0, 2], [3, 5], [5, 6], [1, 4], [0, 4]]),
+    ]
     test.quantify(test_cases)
