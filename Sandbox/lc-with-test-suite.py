@@ -43,20 +43,27 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int], target: int) -> int:
+    def test(self, matrix: List[List[int]], target: int) -> bool:
         '''
-        - Binary search starting from ends
-        - Return index if found or -1 otherwise
+        - Binary search which row then column
         '''
-        l, r = 0, len(nums) - 1
+        t, b = 0, len(matrix) - 1
+        while t < b:
+            m = t + (b - t) // 2
+            if target <= matrix[m][-1]:
+                b = m
+            else:
+                t = m + 1
+
+        l, r = 0, len(matrix[0]) - 1
         while l < r:
             m = l + (r - l) // 2
-            if target <= nums[m]:
+            if target <= matrix[b][m]:
                 r = m
             else:
                 l = m + 1
 
-        return l if nums[l] == target else -1
+        return matrix[t][l] == target
 
     def reference(self):
         return
@@ -83,5 +90,12 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [([-1, 0, 3, 5, 9, 12], 9), ([-1, 0, 3, 5, 9, 12], 2)]
+    test_cases = [
+        ([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 3),
+        ([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 13),
+        # Additional
+        ([[1], [3]], 1),
+        ([[1], [3], [5]], 3),
+        ([[1], [3]], 3),
+    ]
     test.quantify(test_cases)
