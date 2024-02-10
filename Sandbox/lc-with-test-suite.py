@@ -1,9 +1,10 @@
 # LC w/ Test Suite
-from collections import Counter, defaultdict, deque
 import copy
 import heapq
-from math import ceil, inf, sqrt
+import math
 import re
+from collections import Counter, defaultdict, deque
+from math import ceil, inf, sqrt
 from time import time
 from typing import List, Optional, Tuple
 
@@ -43,27 +44,26 @@ class Node:
 
 
 class Solution:
-    def test(self, matrix: List[List[int]], target: int) -> bool:
+    def test(self, piles: List[int], h: int) -> int:
         '''
-        - Binary search which row then column
+        - Initialize k range from 0 to max(piles)
+        - Find rounded up time to eat each pile
+        - Binary search and recompute condition
         '''
-        t, b = 0, len(matrix) - 1
-        while t < b:
-            m = t + (b - t) // 2
-            if target <= matrix[m][-1]:
-                b = m
-            else:
-                t = m + 1
-
-        l, r = 0, len(matrix[0]) - 1
+        l, r = 0, max(piles)
         while l < r:
             m = l + (r - l) // 2
-            if target <= matrix[b][m]:
+            t = 0
+            for p in piles:
+                t += math.ceil(p / m)
+            if t <= h:
+                # Eat less
                 r = m
             else:
+                # Eat more
                 l = m + 1
 
-        return matrix[t][l] == target
+        return l
 
     def reference(self):
         return
@@ -91,11 +91,10 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 3),
-        ([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 13),
+        ([3, 6, 7, 11], 8),
+        ([30, 11, 23, 4, 20], 5),
+        ([30, 11, 23, 4, 20], 6),
         # Additional
-        ([[1], [3]], 1),
-        ([[1], [3], [5]], 3),
-        ([[1], [3]], 3),
+        ([312884470], 312884469),
     ]
     test.quantify(test_cases)
