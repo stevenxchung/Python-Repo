@@ -1,10 +1,9 @@
 # LC w/ Test Suite
+from collections import Counter, defaultdict, deque
 import copy
 import heapq
-import math
-import re
-from collections import Counter, defaultdict, deque
 from math import ceil, inf, sqrt
+import re
 from time import time
 from typing import List, Optional, Tuple
 
@@ -44,26 +43,23 @@ class Node:
 
 
 class Solution:
-    def test(self, piles: List[int], h: int) -> int:
+    def test(self, nums: List[int]) -> int:
         '''
-        - Initialize k range from 0 to max(piles)
-        - Find rounded up time to eat each pile
-        - Binary search and recompute condition
+        - Given array is sorted and nums are unique
+        - Compare nums[m] and nums[r]
+        - Binary search remaining segment
         '''
-        l, r = 0, max(piles)
+        l, r = 0, len(nums) - 1
         while l < r:
             m = l + (r - l) // 2
-            t = 0
-            for p in piles:
-                t += math.ceil(p / m)
-            if t <= h:
-                # Eat less
+            if nums[m] < nums[r]:
+                # Min could be at m
                 r = m
             else:
-                # Eat more
+                # Min must be to the right of m
                 l = m + 1
 
-        return l
+        return nums[l]
 
     def reference(self):
         return
@@ -73,9 +69,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -91,10 +87,10 @@ class Solution:
 if __name__ == '__main__':
     test = Solution()
     test_cases = [
-        ([3, 6, 7, 11], 8),
-        ([30, 11, 23, 4, 20], 5),
-        ([30, 11, 23, 4, 20], 6),
+        [3, 4, 5, 1, 2],
+        [4, 5, 6, 7, 0, 1, 2],
+        [11, 13, 15, 17],
         # Additional
-        ([312884470], 312884469),
+        [4, 5, 1, 2, 3],
     ]
     test.quantify(test_cases)
