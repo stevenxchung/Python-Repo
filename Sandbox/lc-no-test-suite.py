@@ -20,82 +20,64 @@ class Node:
 
 class Solution:
     def __init__(self, debug=False):
+        '''
+        - Store hashmap of key to list of (time, value) tuples
+        - Retrieve based on key and timestamp
+        - To speed up retrieval, use binary search on timestamp
+        '''
         self.debug = debug
-        self.root = TrieNode()
+        self.table = defaultdict(list)
 
-    def addWord(self, word: str) -> None:
-        node = self.root
-        for c in word:
-            if c not in node.children:
-                node.children[c] = TrieNode()
-            node = node.children[c]
-        node.is_end = True
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.table[key].append((timestamp, value))
 
-    def search(self, word: str) -> bool:
-        '''
-        - Loop through each char in input string
-        - Find chars by traversing through child maps
-        - If '.' is encountered, can select any char in map
-        '''
+    def get(self, key: str, timestamp: int) -> str:
+        res = ''
+        if key not in self.table:
+            if self.debug:
+                print(f'get({key, timestamp}): {res}')
+            return res
 
-        def dfs(i, node):
-            if i == len(word):
-                return node.is_end
-            elif word[i] == '.':
-                for child in node.children.values():
-                    if dfs(i + 1, child):
-                        return True
+        arr = self.table[key]
+        l, r = 0, len(arr) - 1
+        while l <= r:
+            m = l + (r - l) // 2
+            if arr[m][0] <= timestamp:
+                res = arr[m][-1]
+                l = m + 1
+            else:
+                r = m - 1
 
-            if word[i] not in node.children:
-                return False
-            node = node.children[word[i]]
-
-            return dfs(i + 1, node)
-
-        res = dfs(0, self.root)
         if self.debug:
-            return print(f'word={word} : {res}')
+            print(f'get({key, timestamp}): {res}')
         return res
 
 
 if __name__ == '__main__':
     test = Solution(debug=True)
     sol_start = time()
-    test.addWord('bad')
-    test.addWord('dad')
-    test.addWord('mad')
-    test.search('pad')  # return False
-    test.search('bad')  # return True
-    test.search('.ad')  # return True
-    test.search('b..')  # return True
+    # Store the key 'foo' and value 'bar' along with timestamp = 1.
+    test.set('foo', 'bar', 1)
+    # Return 'bar'
+    test.get('foo', 1)
+    # Return 'bar', since there is no value corresponding to 'foo' at timestamp 3 and timestamp 2, then the only value is at timestamp 1 is 'bar'.
+    test.get('foo', 3)
+    # Store the key 'foo' and value 'bar2' along with timestamp = 4.
+    test.set('foo', 'bar2', 4)
+    # Return 'bar2'
+    test.get('foo', 4)
+    # Return 'bar2'
+    test.get('foo', 5)
 
-    # Additional
     print('\nAdditional testing...')
-    test = Solution(debug=True)
-    test.addWord('a')
-    test.addWord('a')
-    # true, true, false, true, false, false
-    test.search('.')
-    test.search('a')
-    test.search('aa')
-    test.search('a')
-    test.search('.a')
-    test.search('a.')
-
-    test.addWord('at')
-    test.addWord('and')
-    test.addWord('an')
-    test.addWord('add')
-    # true, false
-    test.search('a')
-    test.search('.at')
-
-    test.addWord('bat')
-    # true, true, false, false, true, true
-    test.search('.at')
-    test.search('an.')
-    test.search('a.d.')
-    test.search('b.')
-    test.search('a.d')
-    test.search('.')
+    test.set('foo', 'bar3', 7)
+    test.get('yeet', 5)  # Return ""
+    test.get('foo', 1)  # Return 'bar'
+    test.get('foo', 2)  # Return 'bar'
+    test.get('foo', 3)  # Return 'bar'
+    test.get('foo', 4)  # Return 'bar2'
+    test.get('foo', 5)  # Return 'bar2'
+    test.get('foo', 6)  # Return 'bar2'
+    test.get('foo', 7)  # Return 'bar3'
+    test.get('foo', 8)  # Return 'bar3'
     print(f'Runtime for our solution: {time() - sol_start}\n')
