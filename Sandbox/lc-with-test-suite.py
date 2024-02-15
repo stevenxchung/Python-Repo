@@ -43,29 +43,25 @@ class Node:
 
 
 class Solution:
-    def test(self, nums: List[int], target: int) -> int:
+    def test(self, s: str) -> bool:
         '''
-        - Given sorted array of distinct values
-        - Compare nums[l] to nums[r] to check for rotation
-        - Binary search depending on which section target
+        - Lowercase input string
+        - Two pointers moving inwards from both ends
+        - Skip over non-alphanumeric characters
         '''
-        l, r = 0, len(nums) - 1
+        s = s.lower()
+        l, r = 0, len(s) - 1
         while l < r:
-            m = l + (r - l) // 2
-            if nums[l] <= nums[m]:
-                # Left sorted
-                if nums[l] <= target <= nums[m]:
-                    r = m
-                else:
-                    l = m + 1
-            else:
-                # Right sorted
-                if nums[m] < target <= nums[r]:
-                    l = m + 1
-                else:
-                    r = m
+            while l < r and not s[l].isalnum():
+                l += 1
+            while l < r and not s[r].isalnum():
+                r -= 1
+            if s[l] != s[r]:
+                return False
+            l += 1
+            r -= 1
 
-        return l if nums[l] == target else -1
+        return True
 
     def reference(self):
         return
@@ -75,9 +71,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(*case))
+                    print(self.test(case))
                 else:
-                    self.test(*case)
+                    self.test(case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -92,13 +88,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = [
-        ([4, 5, 6, 7, 0, 1, 2], 0),
-        ([4, 5, 6, 7, 0, 1, 2], 3),
-        ([1], 0),
-        # Additional
-        ([3, 1], 3),
-        ([5, 1, 3], 3),
-        ([5, 1, 3], 1),
-    ]
+    test_cases = ['A man, a plan, a canal: Panama', 'race a car', ' ']
     test.quantify(test_cases)
