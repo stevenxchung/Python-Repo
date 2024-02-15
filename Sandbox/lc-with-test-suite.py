@@ -43,25 +43,20 @@ class Node:
 
 
 class Solution:
-    def test(self, s: str) -> bool:
+    def test(self, numbers: List[int], target: int) -> List[int]:
         '''
-        - Lowercase input string
-        - Two pointers moving inwards from both ends
-        - Skip over non-alphanumeric characters
+        - Two pointers moving inward from ends
+        - Return index + 1 for both numbers
         '''
-        s = s.lower()
-        l, r = 0, len(s) - 1
+        l, r = 0, len(numbers) - 1
         while l < r:
-            while l < r and not s[l].isalnum():
+            total = numbers[l] + numbers[r]
+            if total == target:
+                return [l + 1, r + 1]
+            elif total < target:
                 l += 1
-            while l < r and not s[r].isalnum():
+            else:
                 r -= 1
-            if s[l] != s[r]:
-                return False
-            l += 1
-            r -= 1
-
-        return True
 
     def reference(self):
         return
@@ -71,9 +66,9 @@ class Solution:
         for i in range(runs):
             for case in test_cases:
                 if i == 0:
-                    print(self.test(case))
+                    print(self.test(*case))
                 else:
-                    self.test(case)
+                    self.test(*case)
         print(f'Runtime for our solution: {time() - sol_start}\n')
 
         # ref_start = time()
@@ -88,5 +83,5 @@ class Solution:
 
 if __name__ == '__main__':
     test = Solution()
-    test_cases = ['A man, a plan, a canal: Panama', 'race a car', ' ']
+    test_cases = [([2, 7, 11, 15], 9), ([2, 3, 4], 6), ([-1, 0], -1)]
     test.quantify(test_cases)
