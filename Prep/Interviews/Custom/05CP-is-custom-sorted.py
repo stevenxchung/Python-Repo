@@ -1,5 +1,5 @@
 '''
-Write a function that returns whether a list of strings is sorted given a specific alphabet.
+Determine whether a list of strings is sorted given a specific alphabet.
 
 Input:
     words = ['cat', 'bat', 'tab']
@@ -7,6 +7,7 @@ Input:
 
 Output: true
 '''
+
 from time import time
 
 
