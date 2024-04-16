@@ -1,11 +1,12 @@
 '''
-Write a function that prints n iterations of a 2D waterfall simulation. Some constraints include:
+Print n iterations of a 2D waterfall simulation. Some constraints include:
 - Lowercase letters are particles of water
 - ' ' are empty spaces
 - Any other character is an obstacle
 - Water moves downward but randomly left or right if obstacle (if possible)
 - Particles may only move one space during an iteration
 '''
+
 import json
 import random
 from time import time
