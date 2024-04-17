@@ -1,6 +1,7 @@
 '''
-Write a function that determines whether or not an array contains a subarray with continuous (nums[i] <= nums[i + 1]) subsequence (length == 1 counts if matches target) that sums to the target value.
+Determine whether or not an array contains a subarray with continuous (nums[i] <= nums[i + 1]) subsequence (length == 1 counts if matches target) that sums to the target value.
 '''
+
 from time import time
 from typing import List
 
