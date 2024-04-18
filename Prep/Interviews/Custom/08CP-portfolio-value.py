@@ -1,8 +1,9 @@
 '''
-Write a function that determines the daily portfolio value across M stocks given an input:
+Determine the daily portfolio value across M stocks given an input:
 - List of M stocks (rows) N prices over time (columns)
 - Not all stocks have a price change on each day
 '''
+
 from time import time
 from typing import List, Tuple
 
