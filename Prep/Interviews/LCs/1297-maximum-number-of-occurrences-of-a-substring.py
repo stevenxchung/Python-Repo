@@ -4,9 +4,9 @@ Given a string s, return the maximum number of occurrences of any substring unde
 - The number of unique characters in the substring must be less than or equal to maxLetters.
 - The substring size must be between minSize and maxSize inclusive.
 '''
-from collections import defaultdict
+
 from time import time
-from typing import List
+from typing import Counter
 
 
 class Solution:
@@ -14,37 +14,23 @@ class Solution:
         self, s: str, maxLetters: int, minSize: int, maxSize: int
     ) -> int:
         '''
-        - Variable sliding window based on constraints
-        - Hashmap of 0-26 unicode key and frequency
+        - Count map {substr: count} to track max substring occurrences
+        - Add to count when substring is <= maxLetters
         '''
-        freq_map = defaultdict(int)
-        for size in range(minSize, maxSize + 1):
-            l = 0
-            for r in range(size - 1, len(s)):
-                arr = [0] * 26
-                unique_chars = set()
-                substr = s[l : r + 1]
-                for c in substr:
-                    unique_chars.add(c)
-                    arr[ord(c) - ord('a')] += 1
+        count = Counter()
 
-                if len(unique_chars) > maxLetters:
-                    # Characters must be unique up to maxLetters
-                    continue
+        for i in range(len(s) - minSize + 1):
+            t = s[i : i + minSize]
+            if len(set(t)) <= maxLetters:
+                count[t] += 1
 
-                # Generate unicode key
-                k = "".join(map(str, arr))
-                freq_map[k] += 1
-                # Slide window right
-                l += 1
-
-        res = max(freq_map.values())
-        return res
+        return max(count.values()) if count else 0
 
     def reference(
         self, s: str, maxLetters: int, minSize: int, maxSize: int
     ) -> int:
-        return
+        count = Counter(s[i : i + minSize] for i in range(len(s) - minSize + 1))
+        return max([count[w] for w in count if len(set(w)) <= maxLetters] + [0])
 
     def quantify(self, test_cases, runs=50000):
         sol_start = time()
