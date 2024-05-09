@@ -7,6 +7,7 @@ You are given an array of strings votes which is the votes of all voters in the 
 
 Return a string of all teams sorted by the ranking system.
 '''
+
 from collections import defaultdict
 from time import time
 from typing import List
