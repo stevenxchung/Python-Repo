@@ -1,8 +1,10 @@
-from concurrent.futures import ThreadPoolExecutor
 import asyncio
-from decimal import Decimal
 import random
+import threading
 import time
+
+from concurrent.futures import ThreadPoolExecutor
+from decimal import Decimal
 
 
 class Solution:
@@ -35,10 +37,18 @@ class Solution:
                 pool, func, *args
             )
 
-    async def test(self, n: int) -> str:
+    def test(self, n: int) -> str:
         # Calls but gathers aggregated results from coroutine
-        tasks = [self.to_thread(self.fetch_data, i) for i in range(n)]
-        self.res = await asyncio.gather(*tasks)
+        # tasks = [self.to_thread(self.fetch_data, i) for i in range(n)]
+        # self.res = await asyncio.gather(*tasks)
+        threads = []
+        for i in range(n):
+            thread = threading.Thread(target=self.fetch_data, args=(i,))
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
 
         if self.debug:
             print(self.res)
@@ -48,11 +58,11 @@ class Solution:
     def reference(self, case):
         self.print_numbers(case)
 
-    async def quantify(self, test_cases, runs=1):
+    def quantify(self, test_cases, runs=1):
         sol_start = time.time()
         for i in range(runs):
             for case in test_cases:
-                res = await self.test(case)
+                res = self.test(case)
                 if i == 0:
                     print(res)
                 else:
@@ -73,7 +83,8 @@ if __name__ == '__main__':
     test = Solution(debug=False)
     test_cases = [10, 9, 8, 7, 6]
     # Classic way (Python ~3.6) of handling async fetch
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(test.quantify(test_cases))
-    loop.close()
+    # loop = asyncio.new_event_loop()
+    # asyncio.set_event_loop(loop)
+    # loop.run_until_complete(test.quantify(test_cases))
+    # loop.close()
+    test.quantify(test_cases)
