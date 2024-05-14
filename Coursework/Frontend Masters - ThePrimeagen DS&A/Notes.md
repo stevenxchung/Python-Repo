@@ -79,14 +79,14 @@ Since a recursive function may be complex, to simplify we may think of a recursi
 
 **Quick sort**:
 
-- A recursive divide-and-conquer algorithm that works by selecting a "pivot" element from the array and partitioning the other elements into two sub-arrays according to whether they are less than or greater than the pivot
+- A recursive divide-and-conquer algorithm that works by selecting a "pivot" element from the array and partitioning the other elements into two subarrays according to whether they are less than or greater than the pivot
 - It has an average runtime of O(n\*log(n)) but can degrade to O(n^2) if pivot choice is consistently poor
 - Is faster in practice for small to medium-sized datasets and has lower memory usage
 
 **Merge sort**:
 
 - A divide-and-conquer algorithm that divides the array into two halves, sorts each half separately, and then merges the sorted halves
-- It guarantees a worst-case runtime of O(n\*log(n)) but takes more memory for merging sub-arrays
+- It guarantees a worst-case runtime of O(n\*log(n)) but takes more memory for merging subarrays
 - Is more consistent in terms of performance and is a good choice when memory usage is not a concern and stability is desired
 
 ## 7. Doubly Linked List
