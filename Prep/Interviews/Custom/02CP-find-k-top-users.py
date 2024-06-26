@@ -1,6 +1,4 @@
 '''
-*Custom problem
-
 Find the top K active users from AWS service log.
 
 Log sample:
@@ -12,6 +10,7 @@ ID | Activity
 
 Top two users would yield user 0001 with 4 service calls and user 0002 with 2 service calls.
 '''
+
 from time import time
 from typing import Dict, List
 
