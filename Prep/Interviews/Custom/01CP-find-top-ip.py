@@ -1,6 +1,4 @@
 '''
-*Custom problem
-
 Given a log with ip addresses and user info find the IP address(es) which access the site most often.
 '''
 
