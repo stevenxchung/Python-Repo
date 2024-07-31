@@ -14,7 +14,7 @@ class Solution:
     def maxConnect(self, grid):
         currentColor = ''
         #  Check for initial edge case
-        if grid == [] or grid == None:
+        if grid == [] or grid is None:
             return None
 
         for i in range(0, len(grid)):
@@ -35,7 +35,13 @@ class Solution:
 
     def runDFS(self, grid, i, j, currentColor):
 
-        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
+        if (
+            i < 0
+            or i >= len(grid)
+            or j < 0
+            or j >= len(grid[i])
+            or grid[i][j] != currentColor
+        ):
             return
 
         # Increment max
@@ -49,7 +55,7 @@ class Solution:
         self.runDFS(grid, i, j - 1, currentColor)
 
     def recursiveDFS(self, grid, i, j, currentColor):
-        outOfBounds = (i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i]))
+        outOfBounds = i < 0 or i >= len(grid) or j < 0 or j >= len(grid[i])
         iStack = []
         jStack = []
         iStack.append(i)
@@ -108,10 +114,6 @@ class Solution:
             counter += 1
 
 
-inputGrid = [
-    ['g', 'g', 'b'],
-    ['r', 'g', 'r'],
-    ['b', 'g', 'g']
-]
+inputGrid = [['g', 'g', 'b'], ['r', 'g', 'r'], ['b', 'g', 'g']]
 sol = Solution()
 print(sol.maxConnect(inputGrid))
