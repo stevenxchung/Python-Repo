@@ -15,7 +15,7 @@ class Solution:
     def maxConnect(self, grid):
         currentColor = ''
         #  Check for initial edge case
-        if grid == [] or grid == None:
+        if grid == [] or grid is None:
             return None
 
         for i in range(0, len(grid)):
@@ -27,10 +27,14 @@ class Solution:
                     self.runDFS(grid, i, j, currentColor)
 
                     if currentColor not in self.maxStore:
-                        self.maxStore[currentColor] = self.colorStore[currentColor]
+                        self.maxStore[currentColor] = self.colorStore[
+                            currentColor
+                        ]
                     else:
                         self.maxStore[currentColor] = max(
-                            self.maxStore[currentColor], self.colorStore[currentColor])
+                            self.maxStore[currentColor],
+                            self.colorStore[currentColor],
+                        )
 
                     # Reset color store for next round of connected colors
                     self.colorStore = {}
@@ -41,8 +45,13 @@ class Solution:
 
     def runDFS(self, grid, i, j, currentColor):
 
-        if i < 0 or i >= len(
-                grid) or j < 0 or j >= len(grid[i]) or grid[i][j] != currentColor:
+        if (
+            i < 0
+            or i >= len(grid)
+            or j < 0
+            or j >= len(grid[i])
+            or grid[i][j] != currentColor
+        ):
             return
 
         if currentColor not in self.colorStore:
@@ -60,10 +69,6 @@ class Solution:
         self.runDFS(grid, i, j - 1, currentColor)
 
 
-inputGrid = [
-    ['g', 'g', 'b'],
-    ['r', 'r', 'r'],
-    ['r', 'g', 'b']
-]
+inputGrid = [['g', 'g', 'b'], ['r', 'r', 'r'], ['r', 'g', 'b']]
 sol = Solution()
 print(sol.maxConnect(inputGrid))
