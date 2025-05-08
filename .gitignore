@@ -1,7 +1,9 @@
 .vscode
 .idea
+.venv
 
 # Extras
+hacks*
 *sandbox.py
 *lc-cache.py
 *.sql
