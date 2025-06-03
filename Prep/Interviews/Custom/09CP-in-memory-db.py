@@ -240,7 +240,6 @@ test.delete(4, 'A', 'C', 6)
 test.get(5, 'A', 'C')
 test.get(6, 'A', 'B')
 
-
 print('\nTesting Part 2...')
 test = InMemoryDB(debug=True)
 test.set(0, 'A', 'B', 4)
