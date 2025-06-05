@@ -1,5 +1,5 @@
 '''
-Determine whether or not an array contains a subarray with continuous (nums[i] <= nums[i + 1]) subsequence (length == 1 counts if matches target) that sums to the target value.
+Determine whether or not an array contains a subarray with continuous increasing subsequence (nums[i] <= nums[i + 1]) that sums to the target value. Note that length == 1 counts if matches target.
 '''
 
 from time import time
@@ -8,74 +8,54 @@ from typing import List
 
 class Solution:
     def has_valid_subsequence(self, nums: List[int], target: int) -> bool:
-        if not nums:
+        n = len(nums)
+        if n == 0:
             return False
 
-        l, r, total = 0, 0, nums[0]
-        while l < len(nums) and r < len(nums):
+        l = 0  # Left end of window
+        r = 0  # Right end of window
+        total = nums[0]  # Sum of the window [l, r]
+
+        while l < n and r < n:
+            # Check if any endpoint, or the window sum, matches the target
             if nums[l] == target or nums[r] == target or total == target:
-                # Target can be at either index or match total
                 return True
 
-            if r + 1 < len(nums):
+            # Try to grow the window rightward when valid
+            if r + 1 < n:
                 if nums[r + 1] < nums[r] and l < r + 1:
-                    # If next number is less than current, move left index
+                    # Next element breaks non-decreasing property, so shrink from left
                     total -= nums[l]
                     l += 1
                 else:
-                    # Move right index if possible
+                    # Expand to the right, add element to sum
                     r += 1
                     total += nums[r]
             elif l != r:
-                # Next right index is out-of-bounds so try moving left index
+                # Can't expand right; shrink window from left
                 total -= nums[l]
                 l += 1
             else:
-                # No more valid moves left
+                # Window can't move further
                 break
 
         return total == target
 
-    def gpt_solution(self, nums: List[int], target: int) -> bool:
-        # Set up a variable to track the sum of the subarray
-        subarray_sum = 0
-
-        # Loop through the array and add each element to the subarray sum
-        for num in nums:
-            subarray_sum += num
-
-            # If the sum is equal to the target, return True
-            if subarray_sum == target:
-                return True
-
-            # If the sum is greater than the target, reset it to 0 and start over
-            elif subarray_sum > target:
-                subarray_sum = 0
-
-        # If no increasing subarray sums to the target, return False
-        return False
-
     def reference(self, nums: List[int], target: int) -> bool:
-        # Set up a variable to track the sum of the subarray
-        subarray_sum = 0
-        l, r = 0, 0
-
-        # Loop through the array and add each element to the subarray sum
-        while r < len(nums):
-            subarray_sum += nums[r]
-            r += 1
-
-            # If the sum is equal to the target, return True
-            if subarray_sum == target:
+        n = len(nums)
+        for start in range(n):
+            current_sum = nums[start]
+            if current_sum == target:
                 return True
 
-            # If the sum is greater than the target, reset it to 0 and start over
-            while subarray_sum > target:
-                subarray_sum -= nums[l]
-                l += 1
+            for end in range(start + 1, n):
+                if nums[end] < nums[end - 1]:
+                    break  # Not non-decreasing anymore
+                current_sum += nums[end]
+                if current_sum == target:
+                    return True
 
-        # If no increasing subarray sums to the target, return False
-        return subarray_sum == target
+        return False
 
     def quantify(self, test_cases, runs=50000):
         sol_start = time()
