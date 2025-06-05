@@ -11,7 +11,7 @@ def shuffle(deck, num_cards):
 def deal(
     deck, num_cards, no_more_cards
 ):  # Deal top card of deck; remove that card from the deck
-    if no_more_cards == False:
+    if no_more_cards:
         print(deck[0])  # Deal first card
         deck = deck[
             1:num_cards
