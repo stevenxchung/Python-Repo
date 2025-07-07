@@ -29,7 +29,7 @@ class TrieNode:
 
 class Node:
     def __init__(self, val=0, neighbors=None):
-        '''Graph node'''
+        """Graph node"""
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 
@@ -45,16 +45,16 @@ class Node:
 class Solution:
     def test(self, adj_matrix: List[List[int]]) -> List[int]:
         ROWS, COLS = len(adj_matrix), len(adj_matrix[0])
-        adj = {i: [] for i in range(len(adj_matrix))}
+        adj_list = {i: [] for i in range(len(adj_matrix))}
         for r in range(ROWS):
             for c in range(COLS):
                 if adj_matrix[r][c] > 0:
-                    adj[r].append(c)
+                    adj_list[r].append(c)
 
         res = [0]
         seen = set()
         seen.add(0)
-        q = deque(adj[0])
+        q = deque(adj_list[0])
 
         while q:
             node = q.popleft()
@@ -62,7 +62,7 @@ class Solution:
                 continue
             res.append(node)
             seen.add(node)
-            for nei in adj[node]:
+            for nei in adj_list[node]:
                 if nei in seen:
                     continue
                 q.append(nei)
@@ -80,7 +80,7 @@ class Solution:
                     print(self.test(case))
                 else:
                     self.test(case)
-        print(f'Runtime for our solution: {time() - sol_start}\n')
+        print(f"Runtime for our solution: {time() - sol_start}\n")
 
         # ref_start = time()
         # for i in range(0, runs):
@@ -92,7 +92,7 @@ class Solution:
         # print(f'Runtime for reference: {time() - ref_start}')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test = Solution()
     test_cases = [
         [

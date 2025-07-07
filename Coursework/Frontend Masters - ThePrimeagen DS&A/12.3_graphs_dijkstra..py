@@ -29,7 +29,7 @@ class TrieNode:
 
 class Node:
     def __init__(self, val=0, neighbors=None):
-        '''Graph node'''
+        """Graph node"""
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 
@@ -43,12 +43,10 @@ class Node:
 
 
 class Solution:
-    def test(
-        self, adj_list: List[List[int]], start: int, end: int
-    ) -> List[int]:
-        adj = defaultdict(list)
+    def test(self, adj_list: List[List[int]], start: int, end: int) -> List[int]:
+        adj_list = defaultdict(list)
         for s, e, w in adj_list:
-            adj[s].append((w, e))
+            adj_list[s].append((w, e))
 
         seen = set()
         q = [(0, start, [start])]
@@ -58,7 +56,7 @@ class Solution:
             if node == end:
                 return path
             seen.add(node)
-            for w2, nei in adj[node]:
+            for w2, nei in adj_list[node]:
                 if nei in seen:
                     continue
                 heapq.heappush(q, (w1 + w2, nei, path + [nei]))
@@ -76,7 +74,7 @@ class Solution:
                     print(self.test(*case))
                 else:
                     self.test(*case)
-        print(f'Runtime for our solution: {time() - sol_start}\n')
+        print(f"Runtime for our solution: {time() - sol_start}\n")
 
         # ref_start = time()
         # for i in range(0, runs):
@@ -88,7 +86,7 @@ class Solution:
         # print(f'Runtime for reference: {time() - ref_start}')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test = Solution()
     test_cases = [
         (

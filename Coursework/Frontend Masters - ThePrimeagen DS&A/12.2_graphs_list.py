@@ -29,7 +29,7 @@ class TrieNode:
 
 class Node:
     def __init__(self, val=0, neighbors=None):
-        '''Graph node'''
+        """Graph node"""
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 
@@ -44,19 +44,19 @@ class Node:
 
 class Solution:
     def test(self, adj_list: List[List[int]]) -> List[int]:
-        adj = defaultdict(list)
+        adj_list = defaultdict(list)
         for a, b in adj_list:
-            adj[a].append(b)
+            adj_list[a].append(b)
 
         res = [0]
         seen = set()
         seen.add(0)
 
         def dfs(curr):
-            if curr not in adj or adj[curr] == []:
+            if curr not in adj_list or adj_list[curr] == []:
                 return
 
-            for nei in adj[curr]:
+            for nei in adj_list[curr]:
                 if nei not in seen:
                     res.append(nei)
                     seen.add(nei)
@@ -78,7 +78,7 @@ class Solution:
                     print(self.test(case))
                 else:
                     self.test(case)
-        print(f'Runtime for our solution: {time() - sol_start}\n')
+        print(f"Runtime for our solution: {time() - sol_start}\n")
 
         # ref_start = time()
         # for i in range(0, runs):
@@ -90,7 +90,7 @@ class Solution:
         # print(f'Runtime for reference: {time() - ref_start}')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test = Solution()
     test_cases = [
         [
